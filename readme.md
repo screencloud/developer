@@ -1,1 +1,1 @@
-# Develop Apps on ScreenClouds
+# Develop Apps on ScreenCloud
