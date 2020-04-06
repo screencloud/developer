@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
-import Helmet from 'react-helmet';
+import { Layout, Link } from '$components';
 import { graphql } from 'gatsby';
 import MDXRenderer from 'gatsby-plugin-mdx/mdx-renderer';
-
-import { Layout, Link } from '$components';
-import NextPrevious from '../components/NextPrevious';
+import React, { Component } from 'react';
+import Helmet from 'react-helmet';
 import config from '../../config';
+import NextPrevious from '../components/NextPrevious';
 import { Edit, StyledHeading, StyledMainWrapper } from '../components/styles/Docs';
 
 const forcedNavOrder = config.sidebar.forcedNavOrder;
@@ -66,9 +65,9 @@ export default class MDXRuntimeTest extends Component {
       });
 
     // meta tags
-    const metaTitle = mdx.frontmatter.metaTitle;
+    const metaTitle = mdx.frontmatter.metaTitle || config.gatsby.title;
 
-    const metaDescription = mdx.frontmatter.metaDescription;
+    const metaDescription = mdx.frontmatter.metaDescription || config.gatsby.description;
 
     let canonicalUrl = config.gatsby.siteUrl;
 
