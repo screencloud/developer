@@ -26,7 +26,7 @@ jobs:
 
       - name: Build Gatsby
         working-directory: ./docs
-        run: /
+        run: |
           npm ci
           npm run build
 
