@@ -1,7 +1,7 @@
 const config = {
   gatsby: {
-    pathPrefix: '/',
-    siteUrl: 'https://hasura.io',
+    pathPrefix: '/develop',
+    siteUrl: 'http://screencloud.github.io/',
     gaTrackingId: null,
     trailingSlash: false,
   },
