@@ -24,8 +24,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: npm ci
-      - run: npm run build
+      - name: Build Gatsby
+        working-directory: ./docs
+        run: /
+          npm ci
+          npm run build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
