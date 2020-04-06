@@ -51,17 +51,17 @@ const config = {
       "<a href='https://hasura.io/learn/'>graphql </a><div class='greenCircle'></div><a href='https://hasura.io/learn/graphql/react/introduction/'>react</a>",
   },
   siteMetadata: {
-    title: 'Gatsby Gitbook Boilerplate | Hasura',
-    description: 'Documentation built with mdx. Powering hasura.io/learn ',
+    title: 'Developer | ScreenCloud',
+    description: 'Develop your own Digital Signage apps easily with ScreenCloud.',
     ogImage: null,
-    docsLocation: 'https://github.com/hasura/gatsby-gitbook-boilerplate/tree/master/content',
-    favicon: 'https://graphql-engine-cdn.hasura.io/img/hasura_icon_black.svg',
+    docsLocation: 'https://github.com/screencloud/develop/tree/master/docs/content',
+    favicon: 'https://screen.cloud/static/img/favicon.png',
   },
   pwa: {
     enabled: false, // disabling this will also remove the existing service worker.
     manifest: {
-      name: 'Gatsby Gitbook Starter',
-      short_name: 'GitbookStarter',
+      name: 'Develop on ScreenCloud',
+      short_name: 'DevelopOnScreenCloud',
       start_url: '/',
       background_color: '#6b37bf',
       theme_color: '#6b37bf',
