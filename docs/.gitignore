@@ -1,4 +1,11 @@
-**/node_modules/
+public
+.cache
+node_modules
+*DS_Store
+*.env
+
+.idea/
+
 
 # Created by https://www.gitignore.io/api/node,macos,windows
 # Edit at https://www.gitignore.io/?templates=node,macos,windows
