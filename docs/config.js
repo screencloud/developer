@@ -1,6 +1,6 @@
 const config = {
   gatsby: {
-    pathPrefix: '/develop',
+    pathPrefix: '/developer',
     siteUrl: 'http://screencloud.github.io/',
     gaTrackingId: null,
     trailingSlash: false,
@@ -54,7 +54,7 @@ const config = {
     title: 'Developer | ScreenCloud',
     description: 'Develop your own Digital Signage apps easily with ScreenCloud.',
     ogImage: null,
-    docsLocation: 'https://github.com/screencloud/develop/tree/master/docs/content',
+    docsLocation: 'https://github.com/screencloud/developer/tree/master/docs/content',
     favicon: 'https://screen.cloud/static/img/favicon.png',
   },
   pwa: {
