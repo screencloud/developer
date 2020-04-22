@@ -1,0 +1,32 @@
+{
+  "name": "@screencloud/apps-js-sdk",
+  "version": "1.0.0",
+  "description": "Vanilla JavaScript SDK for building ScreenCloud apps",
+  "keywords": [
+    "screencloud",
+    "apps",
+    "javascript",
+    "typescript"
+  ],
+  "author": "Michael Martin <michael@problogdesign.com>",
+  "homepage": "https://screencloud.github.io/developer/",
+  "license": "ISC",
+  "main": "lib/apps-js-sdk.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/screencloud/developer.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/screencloud/developer/issues"
+  }
+}
