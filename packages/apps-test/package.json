@@ -1,0 +1,33 @@
+{
+  "name": "@screencloud/apps-test",
+  "version": "1.1.2",
+  "description": "Sample package, to be deleted",
+  "keywords": [
+    "apps",
+    "sdk"
+  ],
+  "author": "Michael Martin <michael@screencloud.io>",
+  "homepage": "https://github.com/screencloud/developer",
+  "license": "ISC",
+  "main": "lib/apps-test.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/screencloud/developer.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/screencloud/developer/issues"
+  },
+  "publishConfig": {
+    "access": "restricted"
+  }
+}
