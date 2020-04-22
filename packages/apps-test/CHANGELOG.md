@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/screencloud/developer/compare/apps-test@1.1.0...apps-test@1.1.1) (2020-04-22)
+
+
+### Bug Fixes
+
+* **docs:** minor bug fix ([6f15609](https://github.com/screencloud/developer/commit/6f15609a04668a0068f86db03200e74ba8da4fb4))
+
+
+
+
+
 # [1.1.0](https://github.com/screencloud/developer/compare/apps-test@1.0.1...apps-test@1.1.0) (2020-04-22)
 
 
