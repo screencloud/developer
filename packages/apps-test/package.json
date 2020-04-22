@@ -26,5 +26,8 @@
   },
   "bugs": {
     "url": "https://github.com/screencloud/developer/issues"
+  },
+  "publishConfig": {
+    "access": "restricted"
   }
 }
