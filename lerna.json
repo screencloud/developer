@@ -1,4 +1,10 @@
 {
   "packages": ["packages/*"],
-  "version": "independent"
+  "version": "independent",
+  "ignoreChanges": [
+    "packages/*/dist/**",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/test/**"
+  ]
 }
