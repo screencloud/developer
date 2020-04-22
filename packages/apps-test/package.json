@@ -6,7 +6,7 @@
     "apps",
     "sdk"
   ],
-  "author": "Michael Martin <michael@problogdesign.com>",
+  "author": "Michael Martin <michael@screencloud.io>",
   "homepage": "https://github.com/screencloud/developer",
   "license": "ISC",
   "main": "lib/apps-test.js",
