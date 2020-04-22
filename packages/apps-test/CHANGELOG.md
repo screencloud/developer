@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/screencloud/developer/compare/apps-test@1.1.1...apps-test@1.1.2) (2020-04-22)
+
+
+### Performance Improvements
+
+* **docs:** a performance bump ([0322c28](https://github.com/screencloud/developer/commit/0322c289bf578cd3c278284c0ae544ec40d22151))
+
+
+
+
+
 ## [1.1.1](https://github.com/screencloud/developer/compare/apps-test@1.1.0...apps-test@1.1.1) (2020-04-22)
 
 
