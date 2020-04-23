@@ -1,4 +1,4 @@
-import { CONNECT_SUCCESS, INITIALIZE } from "./constants";
+import { CONNECT_SUCCESS, INITIALIZE, LOG_PREFIX } from "./constants";
 import { connectMessage, initializedMessage, PlayerMessage } from "./messages";
 import { InitializeMessagePayload, ScreenCloud } from "./types";
 import { parseMessage, sendMessage } from "./utils/postMessage";
@@ -17,11 +17,11 @@ let initializePayload: InitializeMessagePayload;
 const handleMessage = (message: PlayerMessage): void => {
   switch (message.type) {
     case CONNECT_SUCCESS:
-      console.log("Connected to parent player.");
+      console.log(LOG_PREFIX + "Connected to parent player.");
       break;
     case INITIALIZE:
       resolveInitialize(message.payload);
-      console.log("Initialized with data", message.payload);
+      console.log(LOG_PREFIX + "Initialized with data", message.payload);
       sendMessage(initializedMessage());
       break;
   }
@@ -33,7 +33,7 @@ const handleMessage = (message: PlayerMessage): void => {
 const onMessage = (event: MessageEvent) => {
   try {
     const message = parseMessage(event);
-    console.log(message);
+    console.log(LOG_PREFIX + "Received message", message);
 
     // Use the URL of the responding SUCCESS event as the target for future messages.
     if (message.type === CONNECT_SUCCESS) {
@@ -42,7 +42,7 @@ const onMessage = (event: MessageEvent) => {
 
     handleMessage(message);
   } catch (e) {
-    console.log(e);
+    console.log(LOG_PREFIX + e);
   }
 };
 

@@ -7,3 +7,5 @@ export const INITIALIZED = "initialized";
 
 // Message "type"s which prefix their string with ___
 export const LEGACY_PREFIXED_TYPES = [CONNECT, CONNECT_SUCCESS, DISCONNECT];
+
+export const LOG_PREFIX = "[Apps SDK] ";

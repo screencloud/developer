@@ -1,4 +1,4 @@
-import { LEGACY_PREFIXED_TYPES } from "../constants";
+import { LEGACY_PREFIXED_TYPES, LOG_PREFIX } from "../constants";
 import { AppMessage, PlayerMessage } from "../messages";
 
 // TODO - postMessage natively serializes elements. Why do we JSON.stringify everything?
@@ -12,7 +12,7 @@ export const sendMessage = (message: AppMessage): void => {
   const targetOrigin = "http://localhost:3010/"; // TODO - Replace with known URLs from build variables.
 
   if (!parent) {
-    console.warn("Could not send message.", message);
+    console.log(LOG_PREFIX + "Could not send message.", message);
     return;
   }
 
@@ -31,7 +31,7 @@ export const sendMessage = (message: AppMessage): void => {
     });
   }
 
-  console.log("Sending message", processedMessage);
+  console.log(LOG_PREFIX + "Sending message", message);
   parent.postMessage(processedMessage, targetOrigin);
 };
 
