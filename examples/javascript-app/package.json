@@ -12,6 +12,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/screencloud/developer.git"
+  },
   "devDependencies": {
     "@babel/core": "7.9.0",
     "@babel/plugin-transform-runtime": "^7.9.0",
