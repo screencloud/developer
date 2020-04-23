@@ -1,11 +1,14 @@
 import { CONNECT_SUCCESS, INITIALIZE } from "./constants";
 import { connectMessage, initializedMessage, PlayerMessage } from "./messages";
-import { InitializeMessagePayload } from "./types";
+import { InitializeMessagePayload, ScreenCloud } from "./types";
 import { parseMessage, sendMessage } from "./utils/postMessage";
 
-export const Greeter = (name: string): string => `Hello ${name}`;
-
-let parentOrigin = "";
+/**
+ * Stateful values. Private to this module.
+ */
+let parentOrigin = ""; // What URL should postMessages be sent to?
+let resolveInitialize: (value?: InitializeMessagePayload) => void;
+let rejectInitialize: (reason?: any) => void;
 let initializePayload: InitializeMessagePayload;
 
 /**
@@ -17,6 +20,8 @@ const handleMessage = (message: PlayerMessage): void => {
       console.log("Connected to parent player.");
       break;
     case INITIALIZE:
+      resolveInitialize(message.payload);
+      console.log("Initialized with data", message.payload);
       sendMessage(initializedMessage());
       break;
   }
@@ -41,10 +46,33 @@ const onMessage = (event: MessageEvent) => {
   }
 };
 
+const getSc = (): ScreenCloud => {
+  if (!initializePayload) {
+    throw "Tried to get SC object before app was initialized.";
+  }
+
+  return {
+    appId: initializePayload.appId,
+    appStarted: false,
+    config: initializePayload.config,
+    context: initializePayload.context,
+  };
+};
+
+const initialize = () => {
+  return new Promise<InitializeMessagePayload>((resolve, reject) => {
+    resolveInitialize = resolve;
+    rejectInitialize = reject;
+  });
+};
+
 /**
  * Start the app.
  */
-(() => {
+export const startApp = async (): Promise<ScreenCloud> => {
   window.addEventListener("message", onMessage, false);
   sendMessage(connectMessage());
-})();
+
+  initializePayload = await initialize();
+  return getSc();
+};
