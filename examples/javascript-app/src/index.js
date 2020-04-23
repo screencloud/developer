@@ -1,3 +1,4 @@
+import { Greeter } from "@screencloud/apps-js-sdk";
 import "./style.css";
 
 /**
@@ -38,7 +39,7 @@ async function updateQuote() {
     quoteElement.classList.remove("small-text");
   }
 
-  quoteElement.textContent = quoteText;
+  quoteElement.textContent = Greeter("Michael");
 }
 
 /**

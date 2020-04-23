@@ -35,5 +35,8 @@
     "webpack-cli": "3.3.11",
     "webpack-dev-server": "3.10.3"
   },
-  "browserslist": "> 0.25%, not dead"
+  "browserslist": "> 0.25%, not dead",
+  "dependencies": {
+    "@screencloud/apps-js-sdk": "^1.1.1"
+  }
 }
