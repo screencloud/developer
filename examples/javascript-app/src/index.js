@@ -1,4 +1,4 @@
-import { Greeter } from "@screencloud/apps-js-sdk";
+import { startApp } from "@screencloud/apps-js-sdk";
 import "./style.css";
 
 /**
@@ -39,14 +39,17 @@ async function updateQuote() {
     quoteElement.classList.remove("small-text");
   }
 
-  quoteElement.textContent = Greeter("Michael");
+  quoteElement.textContent = quoteText;
 }
 
 /**
  * Starts up the app.
  */
 async function start() {
-  setInterval(updateQuote, 10000);
+  const sc = await startApp();
+  const refreshTime = sc.config.delay * 1000 || 10000;
+
+  setInterval(updateQuote, refreshTime);
   updateQuote();
 }
 
