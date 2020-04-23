@@ -20,6 +20,11 @@ body {
   font-size: 4rem;
   max-width: 70%;
   text-align: center;
+  font-family: serif;
+}
+
+.small-text {
+  font-size: 3rem;
 }
 
 .logo {
