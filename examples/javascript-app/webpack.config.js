@@ -74,6 +74,7 @@ module.exports = {
   ],
 
   devServer: {
+    clientLogLevel: "silent",
     port: 8000,
   },
 };
