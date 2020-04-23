@@ -1,24 +1,50 @@
-import { ConnectMessage } from "./types";
-import { sendMessage } from "./utils/postMessage";
+import { CONNECT_SUCCESS, INITIALIZE } from "./constants";
+import { connectMessage, initializedMessage, PlayerMessage } from "./messages";
+import { InitializeMessagePayload } from "./types";
+import { parseMessage, sendMessage } from "./utils/postMessage";
 
 export const Greeter = (name: string): string => `Hello ${name}`;
 
-const onMessage = (event: MessageEvent): void => {
-  try {
-    const { origin, data } = event;
+let parentOrigin = "";
+let initializePayload: InitializeMessagePayload;
 
-    console.log(event);
-    console.log(data);
-  } catch (e) {
-    console.warn(e);
+/**
+ * Handle messages sent from the parent.
+ */
+const handleMessage = (message: PlayerMessage): void => {
+  switch (message.type) {
+    case CONNECT_SUCCESS:
+      console.log("Connected to parent player.");
+      break;
+    case INITIALIZE:
+      sendMessage(initializedMessage());
+      break;
   }
 };
 
-window.addEventListener("message", onMessage, false);
+/**
+ * PostMessage received. Parse it.
+ */
+const onMessage = (event: MessageEvent) => {
+  try {
+    const message = parseMessage(event);
+    console.log(message);
 
+    // Use the URL of the responding SUCCESS event as the target for future messages.
+    if (message.type === CONNECT_SUCCESS) {
+      parentOrigin = event.origin;
+    }
+
+    handleMessage(message);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+/**
+ * Start the app.
+ */
 (() => {
-  const connectMessage: ConnectMessage = {
-    type: "CONNECT",
-  };
-  sendMessage(connectMessage, "http://localhost:3010/");
+  window.addEventListener("message", onMessage, false);
+  sendMessage(connectMessage());
 })();

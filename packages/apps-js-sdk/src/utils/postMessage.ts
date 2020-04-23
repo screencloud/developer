@@ -1,4 +1,5 @@
-import { GenericMessage } from "../types";
+import { LEGACY_PREFIXED_TYPES } from "../constants";
+import { AppMessage, PlayerMessage } from "../messages";
 
 // TODO - postMessage natively serializes elements. Why do we JSON.stringify everything?
 // https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm
@@ -6,11 +7,10 @@ import { GenericMessage } from "../types";
 /**
  * Send a postMessage to the player.
  */
-export const sendMessage = (
-  message: GenericMessage,
-  targetOrigin: string
-): void => {
+export const sendMessage = (message: AppMessage): void => {
   const parent = window.parent || window.opener;
+  const targetOrigin = "http://localhost:3010/"; // TODO - Replace with known URLs from build variables.
+
   if (!parent) {
     console.warn("Could not send message.", message);
     return;
@@ -23,7 +23,7 @@ export const sendMessage = (
   //    The rest nest their data under a 2nd "data" key.
   let processedMessage;
 
-  if (["CONNECT", "CONNECT_SUCCESS", "DISCONNECT"].includes(type)) {
+  if (LEGACY_PREFIXED_TYPES.includes(type)) {
     processedMessage = `___${JSON.stringify(message)}`;
   } else {
     processedMessage = JSON.stringify({
@@ -33,4 +33,28 @@ export const sendMessage = (
 
   console.log("Sending message", processedMessage);
   parent.postMessage(processedMessage, targetOrigin);
+};
+
+/**
+ * Parse the string received from a parent into a typed Message.
+ */
+export const parseMessage = (event: MessageEvent): PlayerMessage => {
+  const { origin, data } = event;
+  if (origin === window.location.origin) {
+    throw `Origin of received message was invalid: ${origin}`;
+  }
+
+  // Only CONNECT, CONNECT_SUCCESS, DISCONNECT messages add this ___ thing.
+  // The rest nest their data under a 2nd "data" key.
+  // TODO - Remove this complexity.
+  try {
+    const parsed =
+      data.substr(0, 3) === "___"
+        ? JSON.parse(data.substring(3))
+        : JSON.parse(data).data;
+
+    return parsed as PlayerMessage;
+  } catch (e) {
+    throw e;
+  }
 };
