@@ -34,7 +34,7 @@ module.exports = {
             loader: "file-loader",
             options: {
               name: "[name].[ext]",
-              outputPath: "assets/images/",
+              outputPath: "images/",
             },
           },
         ],
@@ -45,7 +45,7 @@ module.exports = {
   resolve: {
     alias: {
       "@scss": path.resolve(__dirname, "../src/styles/scss"),
-      "@img": path.resolve(__dirname, "../src/assets/images"),
+      "@img": path.resolve(__dirname, "../src/images"),
       "@": path.resolve(__dirname, "../src"),
     },
     modules: ["node_modules", path.resolve(__dirname, "src")],
@@ -54,7 +54,6 @@ module.exports = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      title: "Webpack 4 Starter",
       template: "./src/index.html",
       inject: true,
       minify: {
@@ -67,10 +66,14 @@ module.exports = {
     }),
     new CopyWebpackPlugin([
       {
-        from: "./src/assets/images",
-        to: "assets/images",
+        from: "./src/images",
+        to: "images",
       },
     ]),
     new CleanWebpackPlugin(),
   ],
+
+  devServer: {
+    port: 8000,
+  },
 };

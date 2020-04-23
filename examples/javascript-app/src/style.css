@@ -1,3 +1,31 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body {
-  background: pink;
+  background: #2d313b;
+  color: #fff;
+  overflow: hidden;
+}
+
+.contents {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quote {
+  font-size: 4rem;
+}
+
+.logo {
+  position: fixed;
+  left: 50%;
+  bottom: 2rem;
+  transform: translateX(-50%);
+  width: 10vw;
+  height: auto;
+  min-width: 100px;
 }
