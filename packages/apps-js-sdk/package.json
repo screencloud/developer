@@ -11,7 +11,7 @@
   "author": "Michael Martin <michael@screencloud.io>",
   "homepage": "https://screencloud.github.io/developer/",
   "license": "ISC",
-  "main": "lib/apps-js-sdk.js",
+  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/screencloud/developer.git"
