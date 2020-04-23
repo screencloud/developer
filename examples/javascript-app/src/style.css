@@ -18,6 +18,8 @@ body {
 
 .quote {
   font-size: 4rem;
+  max-width: 70%;
+  text-align: center;
 }
 
 .logo {
