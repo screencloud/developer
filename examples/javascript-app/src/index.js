@@ -46,8 +46,14 @@ async function updateQuote() {
  * Starts up the app.
  */
 async function start() {
-  const sc = await startApp();
-  const refreshTime = sc.config.delay * 1000 || 10000;
+  const sc = await startApp({
+    testData: {
+      config: {
+        refreshTimeSeconds: 5,
+      },
+    },
+  });
+  const refreshTime = sc.config.refreshTimeSeconds * 1000 || 10000;
 
   setInterval(updateQuote, refreshTime);
   updateQuote();
