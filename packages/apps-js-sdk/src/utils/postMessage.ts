@@ -18,7 +18,7 @@ export const sendMessage = (message: AppMessage): void => {
 
   const { type } = message;
 
-  // Legacy compatibility:
+  // Backwards compatibility:
   //    CONNECT, CONNECT_SUCCESS, DISCONNECT messages add a ___ prefix.
   //    The rest nest their data under a 2nd "data" key.
   let processedMessage;
