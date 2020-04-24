@@ -1,9 +1,9 @@
-export interface ScreenCloud {
+export interface ScreenCloud<TAppConfig> {
   appStarted: boolean; // Is the app visible? (i.e. not preloading)
   context: AppContext;
   appId: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  config: { [prop: string]: any };
+  config: TAppConfig;
   //   emitFinished: Function;
   //   emitPreloaded: Function;
   //   emitConfigUpdateAvailable: Function;

@@ -5,7 +5,7 @@ import {
   SAMPLE_INITIALIZE_PAYLOAD,
 } from "./constants";
 import { connectMessage, initializedMessage, PlayerMessage } from "./messages";
-import { InitializeMessagePayload, ScreenCloud } from "./types";
+import { AppConfig, InitializeMessagePayload, ScreenCloud } from "./types";
 import { mergeInitializePayloads } from "./utils/objectUtils";
 import { parseMessage, sendMessage } from "./utils/postMessage";
 
@@ -60,7 +60,7 @@ const onMessage = (event: MessageEvent) => {
   }
 };
 
-const getSc = (): ScreenCloud => {
+const getSc = <TAppConfig = AppConfig>(): ScreenCloud<TAppConfig> => {
   if (!initializePayload) {
     throw "Tried to get SC object before app was initialized.";
   }
@@ -68,7 +68,7 @@ const getSc = (): ScreenCloud => {
   return {
     appId: initializePayload.appId,
     appStarted: false,
-    config: initializePayload.config,
+    config: initializePayload.config as TAppConfig, // TODO - Can remove casting if switching to an object.
     context: initializePayload.context,
   };
 };
@@ -100,12 +100,12 @@ const initialize = (testData?: Partial<InitializeMessagePayload>) => {
 /**
  * Start the app.
  */
-export const startApp = async <TConfig>(options?: {
+export const startApp = async <TAppConfig = AppConfig>(options?: {
   testData?: Partial<InitializeMessagePayload>; // Pass data in local development/testing, to initialize your app with. In particular; `testData.config`
-}): Promise<ScreenCloud> => {
+}): Promise<ScreenCloud<TAppConfig>> => {
   window.addEventListener("message", onMessage, false);
   sendMessage(connectMessage());
 
   initializePayload = await initialize(options?.testData);
-  return getSc();
+  return getSc<TAppConfig>();
 };
