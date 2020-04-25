@@ -59,7 +59,7 @@ async function start() {
   const sc = await startApp<AppConfig>({
     testData: {
       config: {
-        refreshTimeSeconds: 5,
+        refreshTimeSeconds: 10,
       },
     },
   });
