@@ -4,108 +4,166 @@ import {
   LOG_PREFIX,
   SAMPLE_INITIALIZE_PAYLOAD,
 } from "./constants";
-import { connectMessage, initializedMessage, PlayerMessage } from "./messages";
-import { AppConfig, InitializeMessagePayload, ScreenCloud } from "./types";
+import {
+  connectMessage,
+  initializedMessage,
+  InitializeMessage,
+  PlayerMessage,
+} from "./messages";
+import { AppConfig, InitializeMessagePayload } from "./types";
 import { mergeInitializePayloads } from "./utils/objectUtils";
 import { parseMessage, sendMessage } from "./utils/postMessage";
 
-/**
- * Stateful values. Private to this module.
- */
-let parentOrigin = ""; // What URL should postMessages be sent to?
-let resolveInitialize: (value?: InitializeMessagePayload) => void;
-let rejectInitialize: (reason?: any) => void;
-let initializePayload: InitializeMessagePayload;
+let sc: ScreenCloud;
 
 /**
- * Handle messages sent from the parent.
+ * The main interface between your app and the Player running it.
+ *
+ * Use this to interact with the app lifecycle, and get details about
+ * the user like their config and theme settings.
+ *
+ * See https://screencloud.github.io/developer/ for full descriptions.
+ *
+ * You should always use the methods available here, rather than going
+ * directly to the Player (where the API could change at any time).
  */
-const handleMessage = (message: PlayerMessage): void => {
-  switch (message.type) {
-    case CONNECT_SUCCESS:
-      console.log(LOG_PREFIX + "Connected to parent player.");
-      break;
-    case INITIALIZE:
-      if (initializePayload) {
-        console.warn(
-          LOG_PREFIX +
-            "It looks like you've deployed with your testData included. This is likely a bug. Data and config from the player are being ignored."
+class ScreenCloud<TAppConfig = AppConfig> {
+  private parentOrigin = ""; // What URL should postMessages be sent to?
+  private resolveInitialize?: (value?: InitializeMessagePayload) => void;
+  private rejectInitialize?: (reason?: any) => void; // Not used yet. In theory, could time out after x. Otherwise any issue here likely means a Player problem.
+  private initializePayload?: InitializeMessagePayload;
+
+  constructor() {
+    window.addEventListener("message", this.onMessage, false);
+    sendMessage(connectMessage());
+  }
+
+  /**
+   * Ensure we have the crucial Initialize payload before continuing.
+   *
+   * This is called automatically by startApp(), you do not ever need to call it manually.
+   *
+   * If testData given, then merge with a sample payload, then resolve Initialize manually below with that object.
+   * If the real initialize then comes later, warn user that they have shipped their test data to a real player.
+   */
+  initialize = async (testData?: Partial<InitializeMessagePayload>) => {
+    return new Promise<InitializeMessagePayload>((resolve, reject) => {
+      this.resolveInitialize = resolve;
+      this.rejectInitialize = reject;
+
+      if (testData) {
+        const payload = mergeInitializePayloads(
+          SAMPLE_INITIALIZE_PAYLOAD,
+          testData
         );
-      } else {
-        resolveInitialize(message.payload);
-        console.log(LOG_PREFIX + "Initialized with data", message.payload);
+
+        this.resolveInitialize(payload);
+      }
+    });
+  };
+
+  // public getConfig = (): TAppConfig => {
+  //   return this.initializePayload?.config;
+  // }
+
+  /**
+   * PostMessage received. Parse it.
+   */
+  private onMessage = (event: MessageEvent) => {
+    try {
+      const message = parseMessage(event);
+      console.log(LOG_PREFIX + "Received message", message);
+
+      // Use the URL of the responding SUCCESS event as the target for future messages.
+      if (message.type === CONNECT_SUCCESS) {
+        this.parentOrigin = event.origin;
       }
 
-      sendMessage(initializedMessage());
-      break;
-  }
-};
-
-/**
- * PostMessage received. Parse it.
- */
-const onMessage = (event: MessageEvent) => {
-  try {
-    const message = parseMessage(event);
-    console.log(LOG_PREFIX + "Received message", message);
-
-    // Use the URL of the responding SUCCESS event as the target for future messages.
-    if (message.type === CONNECT_SUCCESS) {
-      parentOrigin = event.origin;
+      this.handleMessage(message);
+    } catch (e) {
+      console.log(LOG_PREFIX + e);
     }
-
-    handleMessage(message);
-  } catch (e) {
-    console.log(LOG_PREFIX + e);
-  }
-};
-
-const getSc = <TAppConfig = AppConfig>(): ScreenCloud<TAppConfig> => {
-  if (!initializePayload) {
-    throw "Tried to get SC object before app was initialized.";
-  }
-
-  return {
-    appId: initializePayload.appId,
-    appStarted: false,
-    config: initializePayload.config as TAppConfig, // TODO - Can remove casting if switching to an object.
-    context: initializePayload.context,
   };
-};
 
-/**
- * Ensure we have the crucial INITIALIZE payload before continuing.
- *
- * If testData given, then merge with a sample payload, then resolve Initialize manually below with that object.
- * If the real initialize then comes later, warn user that they have shipped their test data to a real player.
- *
- * @return Promise, which will resolve when the async INITIALIZE payload has been received.
- */
-const initialize = (testData?: Partial<InitializeMessagePayload>) => {
-  return new Promise<InitializeMessagePayload>((resolve, reject) => {
-    resolveInitialize = resolve;
-    rejectInitialize = reject;
-
-    if (testData) {
-      const payload = mergeInitializePayloads(
-        SAMPLE_INITIALIZE_PAYLOAD,
-        testData
-      );
-
-      resolveInitialize(payload);
+  /**
+   * Handle messages sent from the parent.
+   */
+  private handleMessage = (message: PlayerMessage): void => {
+    switch (message.type) {
+      case CONNECT_SUCCESS:
+        console.log(LOG_PREFIX + "Connected to parent player.");
+        break;
+      case INITIALIZE:
+        this.handleInitialize(message);
+        break;
     }
-  });
-};
+  };
+
+  /**
+   * Store data passed from the Player on startup.
+   */
+  private handleInitialize = (message: InitializeMessage): void => {
+    if (this.initializePayload) {
+      console.warn(
+        LOG_PREFIX +
+          "It looks like you've deployed with your testData included. This is likely a bug. Data and config from the player are being ignored."
+      );
+      return;
+    }
+
+    if (!this.resolveInitialize) {
+      console.warn(
+        LOG_PREFIX + "Error: Received init payload before we were ready for it."
+      );
+      return;
+    }
+
+    this.resolveInitialize(message.payload);
+    console.log(LOG_PREFIX + "Initialized with data", message.payload);
+
+    sendMessage(initializedMessage());
+  };
+}
+
+// const getSc = <TAppConfig = AppConfig>(): ScreenCloud<TAppConfig> => {
+//   if (!initializePayload) {
+//     throw "Tried to get SC object before app was initialized.";
+//   }
+
+//   return {
+//     appId: initializePayload.appId,
+//     appStarted: false,
+//     config: initializePayload.config as TAppConfig, // TODO - Can remove casting if switching to an object.
+//     context: initializePayload.context,
+//   };
+// };
 
 /**
  * Start the app.
+ *
+ * This will resolve with the `sc` object only when we've received the Initialize data,
+ * i.e. when app is able to start loading.
  */
 export const startApp = async <TAppConfig = AppConfig>(options?: {
-  testData?: Partial<InitializeMessagePayload>; // Pass data in local development/testing, to initialize your app with. In particular; `testData.config`
+  testData?: Partial<InitializeMessagePayload>; // PIn local development/testing, you can pass the data to initialize your app with. In particular; `testData.config`
 }): Promise<ScreenCloud<TAppConfig>> => {
-  window.addEventListener("message", onMessage, false);
-  sendMessage(connectMessage());
+  sc = new ScreenCloud<TAppConfig>();
+  await sc.initialize(options?.testData);
+  return sc;
+};
 
-  initializePayload = await initialize(options?.testData);
-  return getSc<TAppConfig>();
+/**
+ * Get the SC instance.
+ */
+export const getScreenCloud = <TAppConfig = AppConfig>(): ScreenCloud<
+  TAppConfig
+> => {
+  if (!sc) {
+    console.warn(
+      LOG_PREFIX +
+        "Tried to fetch the SC object before app was initialized. Call startApp() first (which will also return the SC object)."
+    );
+  }
+
+  return sc;
 };
