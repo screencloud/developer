@@ -68,10 +68,17 @@ async function start() {
   }
 
   const sc = await connectScreenCloud<AppConfig>(testData);
-  const refreshTime = sc.getConfig().refreshTimeSeconds * 1000 || 10000;
+  const refreshTime = sc.getConfig().refreshTimeSeconds * 1000;
 
-  setInterval(updateQuote, refreshTime);
+  // Fetch our initial data immediately.
   updateQuote();
+
+  /**
+   * When app is started (i.e. visible on screen), start the timer to refresh quotes periodically.
+   */
+  sc.onAppStarted().then(() => {
+    setInterval(updateQuote, refreshTime);
+  });
 }
 
 // Kick off your app!
