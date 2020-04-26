@@ -7,9 +7,11 @@ import { AppMessage, PlayerMessage } from "../messages";
 /**
  * Send a postMessage to the player.
  */
-export const sendMessage = (message: AppMessage): void => {
+export const sendMessage = (
+  message: AppMessage,
+  targetOrigin: string
+): void => {
   const parent = window.parent || window.opener;
-  const targetOrigin = "http://localhost:3010/"; // TODO - Replace with known URLs from build variables.
 
   if (!parent) {
     console.log(LOG_PREFIX + "Could not send message.", message);
@@ -43,7 +45,7 @@ export const sendMessage = (message: AppMessage): void => {
 export const parseMessage = <T>(event: MessageEvent): PlayerMessage<T> => {
   const { origin, data } = event;
   if (origin === window.location.origin) {
-    throw `Origin of received message was invalid: ${origin}`;
+    throw `Ignoring messages sent by the same origin (e.g. devtools): ${origin}`;
   }
 
   // Only CONNECT, CONNECT_SUCCESS, DISCONNECT messages add this ___ thing.

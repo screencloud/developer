@@ -1,4 +1,5 @@
 import {
+  CONNECT,
   CONNECT_SUCCESS,
   INITIALIZE,
   LOG_PREFIX,
@@ -6,6 +7,7 @@ import {
   START,
 } from "./constants";
 import {
+  AppMessage,
   connectMessage,
   initializedMessage,
   InitializeMessage,
@@ -31,7 +33,7 @@ let sc: any; // Type will depend on user's given runtime config type, so need to
  * directly to the Player (where the API could change at any time).
  */
 class ScreenCloud<TConfig = AppConfig> {
-  private parentOrigin = ""; // What URL should postMessages be sent to?
+  private parentOrigin?: string;
   private resolveInitialize?: (
     value?: InitializeMessagePayload<TConfig>
   ) => void;
@@ -43,7 +45,7 @@ class ScreenCloud<TConfig = AppConfig> {
 
   constructor() {
     window.addEventListener("message", this.onMessage, false);
-    sendMessage(connectMessage());
+    this.sendMessage(connectMessage());
 
     this.onAppStartedPromise = new Promise<boolean>((resolve) => {
       this.resolveOnAppStarted = resolve;
@@ -104,6 +106,15 @@ class ScreenCloud<TConfig = AppConfig> {
   };
 
   /**
+   * When running outside of a player, e.g. local development,
+   * you can call this manually to "start" the app.
+   * i.e. to tell your app to switch from preloading to "visible on screen" mode
+   */
+  public start = (): void => {
+    this.handleStart();
+  };
+
+  /**
    * Get the data provided by a user in the app settings pages.
    */
   public getConfig = (): TConfig => {
@@ -149,6 +160,7 @@ class ScreenCloud<TConfig = AppConfig> {
 
       // Use the URL of the responding SUCCESS event as the target for future messages.
       if (message.type === CONNECT_SUCCESS) {
+        // TODO - Whitelist to localhosts, 127.0.0.1, screen.cloud etc.
         this.parentOrigin = event.origin;
       }
 
@@ -195,7 +207,7 @@ class ScreenCloud<TConfig = AppConfig> {
     }
 
     this.initializePayload = message.payload;
-    sendMessage(initializedMessage());
+    this.sendMessage(initializedMessage());
     console.log(LOG_PREFIX + "Initialized with data", message.payload);
     this.resolveInitialize(message.payload);
   };
@@ -211,7 +223,21 @@ class ScreenCloud<TConfig = AppConfig> {
     }
 
     console.log(LOG_PREFIX + "Starting app on screen.");
-    sendMessage(startedMessage());
+    this.sendMessage(startedMessage());
+  };
+
+  /**
+   * PostMessage to parent (player).
+   */
+  private sendMessage = (message: AppMessage): void => {
+    if (this.parentOrigin) {
+      sendMessage(message, this.parentOrigin);
+    } else {
+      // The initial CONNECT message can be sent to any origin.
+      if (message.type === CONNECT) {
+        sendMessage(message, "*");
+      }
+    }
   };
 }
 
@@ -220,12 +246,26 @@ class ScreenCloud<TConfig = AppConfig> {
  *
  * This will resolve with the `sc` object only when we've received the Initialize data,
  * i.e. when app is able to start loading.
+ *
+ * If you provide testData, we will assume you're running in development. Your test
+ * data will be merged with sample data, then used to initialize the app.
+ *
+ * We will also automatically "start" the app (So you won't be stuck on preloading).
+ *
+ * To develop preloading locally, do not provide testData here.
+ *
+ * Instead, manually call `sc.initialize(testData)` and then `sc.start()` when you choose.
  */
 export const connectScreenCloud = async <TConfig = AppConfig>(
   testData?: Partial<InitializeMessagePayload<TConfig>>
 ): Promise<ScreenCloud<TConfig>> => {
   sc = new ScreenCloud<TConfig>();
   await sc.connect(testData);
+
+  if (testData) {
+    sc.start();
+  }
+
   return sc as ScreenCloud<TConfig>;
 };
 
