@@ -3,6 +3,7 @@ import {
   INITIALIZE,
   LOG_PREFIX,
   SAMPLE_INITIALIZE_PAYLOAD,
+  START,
 } from "./constants";
 import {
   connectMessage,
@@ -10,6 +11,7 @@ import {
   InitializeMessage,
   initializeMessage,
   PlayerMessage,
+  startedMessage,
 } from "./messages";
 import { AppConfig, AppContext, InitializeMessagePayload } from "./types";
 import { mergeInitializePayloads } from "./utils/objectUtils";
@@ -36,20 +38,29 @@ class ScreenCloud<TConfig = AppConfig> {
   private rejectInitialize?: (reason?: any) => void; // Not used yet. In theory, could time out after x. Otherwise any issue here likely means a Player problem.
   private initializePayload?: InitializeMessagePayload<TConfig>;
 
+  private onAppStartedPromise: Promise<boolean>;
+  private resolveOnAppStarted?: (value: boolean) => void;
+
   constructor() {
     window.addEventListener("message", this.onMessage, false);
     sendMessage(connectMessage());
+
+    this.onAppStartedPromise = new Promise<boolean>((resolve) => {
+      this.resolveOnAppStarted = resolve;
+    });
   }
 
   /**
    * Ensure we have the crucial Initialize payload before continuing.
    *
-   * This is called automatically by startApp(), you do not ever need to call it manually.
+   * This is called automatically by connectScreenCloud(), you do not ever need to call it manually.
    *
    * If testData given, then merge with a sample payload, then resolve Initialize manually below with that object.
    * If the real initialize then comes later, warn user that they have shipped their test data to a real player.
    */
-  connect = async (testData?: Partial<InitializeMessagePayload<TConfig>>) => {
+  public connect = async (
+    testData?: Partial<InitializeMessagePayload<TConfig>>
+  ) => {
     return new Promise<InitializeMessagePayload<TConfig>>((resolve, reject) => {
       this.resolveInitialize = resolve;
       this.rejectInitialize = reject;
@@ -64,13 +75,18 @@ class ScreenCloud<TConfig = AppConfig> {
    * To develop and test your app outside of a Player, you can manually
    * call this method with the data the Player would normally provide.
    *
-   * Just call the connect() method as normal, then `sc.initialize(yourData)`
-   * afterwards.
+   * Just call the connect() method (without using its testData option),
+   * then `sc.initialize(yourData)` afterwards.
+   *
+   * This is useful in scenarios where you want to provide data from outside the
+   * app codebase, e.g. an e2e test.
    *
    * Be careful not to call this in production however, as it will overrule
    * any data later received from the real player.
    */
-  initialize = (payload?: Partial<InitializeMessagePayload<TConfig>>) => {
+  public initialize = (
+    payload?: Partial<InitializeMessagePayload<TConfig>>
+  ) => {
     if (!this.resolveInitialize) {
       console.warn(
         LOG_PREFIX +
@@ -114,6 +130,13 @@ class ScreenCloud<TConfig = AppConfig> {
   };
 
   /**
+   * Has the app started? i.e. is it visible on screen, or still preloading?
+   */
+  public onAppStarted = (): Promise<boolean> => {
+    return this.onAppStartedPromise;
+  };
+
+  /**
    * PostMessage received. Parse it.
    */
   private onMessage = (event: MessageEvent) => {
@@ -143,6 +166,9 @@ class ScreenCloud<TConfig = AppConfig> {
       case INITIALIZE:
         this.handleInitialize(message);
         break;
+      case START:
+        this.handleStart();
+        break;
     }
   };
 
@@ -169,6 +195,20 @@ class ScreenCloud<TConfig = AppConfig> {
     sendMessage(initializedMessage());
     console.log(LOG_PREFIX + "Initialized with data", message.payload);
     this.resolveInitialize(message.payload);
+  };
+
+  /**
+   * App is now on screen, update status to track this.
+   */
+  private handleStart = (): void => {
+    if (this.resolveOnAppStarted) {
+      this.resolveOnAppStarted(true);
+    } else {
+      console.warn(LOG_PREFIX + "Error: Could not resolve appStarted status.");
+    }
+
+    console.log(LOG_PREFIX + "Starting app on screen.");
+    sendMessage(startedMessage());
   };
 }
 

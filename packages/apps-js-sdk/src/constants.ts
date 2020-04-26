@@ -6,6 +6,8 @@ export const CONNECT_SUCCESS = "CONNECT_SUCCESS";
 export const DISCONNECT = "DISCONNECT"; // Deprecated.
 export const INITIALIZE = "initialize";
 export const INITIALIZED = "initialized";
+export const START = "start";
+export const STARTED = "started";
 
 // Message "type"s which prefix their string with ___
 export const LEGACY_PREFIXED_TYPES = [CONNECT, CONNECT_SUCCESS, DISCONNECT];
