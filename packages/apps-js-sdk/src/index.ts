@@ -11,7 +11,7 @@ import {
   initializeMessage,
   PlayerMessage,
 } from "./messages";
-import { AppConfig, InitializeMessagePayload } from "./types";
+import { AppConfig, AppContext, InitializeMessagePayload } from "./types";
 import { mergeInitializePayloads } from "./utils/objectUtils";
 import { parseMessage, sendMessage } from "./utils/postMessage";
 
@@ -98,6 +98,19 @@ class ScreenCloud<TConfig = AppConfig> {
       throw err;
     }
     return this.initializePayload?.config;
+  };
+
+  /**
+   * Get information about the environment the app is running it.
+   */
+  public getContext = (): AppContext => {
+    if (!this.initializePayload) {
+      const err =
+        "Error: Tried to getContext() before the app was initialized. Check that you waited for connectScreenCloud() to resolve before starting your app.";
+      console.warn(LOG_PREFIX + err);
+      throw err;
+    }
+    return this.initializePayload?.context;
   };
 
   /**
