@@ -1,4 +1,5 @@
 import { connectScreenCloud } from "@screencloud/apps-js-sdk";
+import { InitializeMessagePayload } from "@screencloud/apps-js-sdk/lib/types";
 import "./style.scss";
 
 interface JokeResponse {
@@ -56,8 +57,18 @@ async function updateQuote() {
  * Starts up the app.
  */
 async function start() {
-  const sc = await connectScreenCloud<AppConfig>();
-  const refreshTime = sc.config.refreshTimeSeconds * 1000 || 10000;
+  let testData: Partial<InitializeMessagePayload<AppConfig>>;
+
+  if (process.env.NODE_ENV === "development") {
+    testData = {
+      config: {
+        refreshTimeSeconds: 10,
+      },
+    };
+  }
+
+  const sc = await connectScreenCloud<AppConfig>(testData);
+  const refreshTime = sc.getConfig().refreshTimeSeconds * 1000 || 10000;
 
   setInterval(updateQuote, refreshTime);
   updateQuote();
