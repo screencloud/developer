@@ -41,3 +41,12 @@ export interface InitializeMessage<T> {
   type: "initialize";
   payload: InitializeMessagePayload<T>;
 }
+
+export const initializeMessage = <T>(
+  payload: InitializeMessagePayload<T>
+): InitializeMessage<T> => {
+  return {
+    type: "initialize",
+    payload,
+  };
+};

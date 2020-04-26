@@ -8,6 +8,7 @@ import {
   connectMessage,
   initializedMessage,
   InitializeMessage,
+  initializeMessage,
   PlayerMessage,
 } from "./messages";
 import { AppConfig, InitializeMessagePayload } from "./types";
@@ -52,6 +53,10 @@ class ScreenCloud<TConfig = AppConfig> {
     return new Promise<InitializeMessagePayload<TConfig>>((resolve, reject) => {
       this.resolveInitialize = resolve;
       this.rejectInitialize = reject;
+
+      if (testData) {
+        this.initialize(testData);
+      }
     });
   };
 
@@ -79,13 +84,19 @@ class ScreenCloud<TConfig = AppConfig> {
       payload || {}
     );
 
-    this.resolveInitialize(combinedPayload);
+    this.handleInitialize(initializeMessage(combinedPayload));
   };
 
   /**
-   * The data provided by a user in the app settings pages.
+   * Get the data provided by a user in the app settings pages.
    */
-  public getConfig = (): TConfig | undefined => {
+  public getConfig = (): TConfig => {
+    if (!this.initializePayload) {
+      const err =
+        "Error: Tried to getConfig() before the app was initialized. Check that you waited for connectScreenCloud() to resolve before starting your app.";
+      console.warn(LOG_PREFIX + err);
+      throw err;
+    }
     return this.initializePayload?.config;
   };
 
@@ -141,25 +152,12 @@ class ScreenCloud<TConfig = AppConfig> {
       return;
     }
 
-    this.resolveInitialize(message.payload);
-    console.log(LOG_PREFIX + "Initialized with data", message.payload);
-
+    this.initializePayload = message.payload;
     sendMessage(initializedMessage());
+    console.log(LOG_PREFIX + "Initialized with data", message.payload);
+    this.resolveInitialize(message.payload);
   };
 }
-
-// const getSc = <TConfig = AppConfig>(): ScreenCloud<TConfig> => {
-//   if (!initializePayload) {
-//     throw "Tried to get SC object before app was initialized.";
-//   }
-
-//   return {
-//     appId: initializePayload.appId,
-//     appStarted: false,
-//     config: initializePayload.config as TConfig, // TODO - Can remove casting if switching to an object.
-//     context: initializePayload.context,
-//   };
-// };
 
 /**
  * Kick off the app.
@@ -167,11 +165,11 @@ class ScreenCloud<TConfig = AppConfig> {
  * This will resolve with the `sc` object only when we've received the Initialize data,
  * i.e. when app is able to start loading.
  */
-export const connectScreenCloud = async <TConfig = AppConfig>(): Promise<
-  ScreenCloud<TConfig>
-> => {
+export const connectScreenCloud = async <TConfig = AppConfig>(
+  testData?: Partial<InitializeMessagePayload<TConfig>>
+): Promise<ScreenCloud<TConfig>> => {
   sc = new ScreenCloud<TConfig>();
-  await sc.connect();
+  await sc.connect(testData);
   return sc as ScreenCloud<TConfig>;
 };
 
