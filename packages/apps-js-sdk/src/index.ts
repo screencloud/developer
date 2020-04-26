@@ -142,7 +142,10 @@ class ScreenCloud<TConfig = AppConfig> {
   private onMessage = (event: MessageEvent) => {
     try {
       const message = parseMessage<TConfig>(event);
-      console.log(LOG_PREFIX + "Received message", message);
+
+      if (process.env.NODE_ENV === "development") {
+        console.log(LOG_PREFIX + "Received message", message);
+      }
 
       // Use the URL of the responding SUCCESS event as the target for future messages.
       if (message.type === CONNECT_SUCCESS) {

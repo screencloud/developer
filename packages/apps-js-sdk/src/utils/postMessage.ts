@@ -31,7 +31,9 @@ export const sendMessage = (message: AppMessage): void => {
     });
   }
 
-  console.log(LOG_PREFIX + "Sending message", message);
+  if (process.env.NODE_ENV === "development") {
+    console.log(LOG_PREFIX + "Sending message", message);
+  }
   parent.postMessage(processedMessage, targetOrigin);
 };
 
