@@ -38,7 +38,7 @@ export const sendMessage = (message: AppMessage): void => {
 /**
  * Parse the string received from a parent into a typed Message.
  */
-export const parseMessage = (event: MessageEvent): PlayerMessage => {
+export const parseMessage = <T>(event: MessageEvent): PlayerMessage<T> => {
   const { origin, data } = event;
   if (origin === window.location.origin) {
     throw `Origin of received message was invalid: ${origin}`;
@@ -53,7 +53,7 @@ export const parseMessage = (event: MessageEvent): PlayerMessage => {
         ? JSON.parse(data.substring(3))
         : JSON.parse(data).data;
 
-    return parsed as PlayerMessage;
+    return parsed as PlayerMessage<T>;
   } catch (e) {
     throw e;
   }

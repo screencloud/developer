@@ -1,4 +1,4 @@
-import { InitializeMessagePayload } from "./types";
+import { AppConfig, InitializeMessagePayload } from "./types";
 
 // Message Types
 export const CONNECT = "CONNECT";
@@ -14,7 +14,7 @@ export const LEGACY_PREFIXED_TYPES = [CONNECT, CONNECT_SUCCESS, DISCONNECT];
 export const LOG_PREFIX = "[Apps SDK] ";
 
 // Default INITIALIZE payload for local dev and testing.
-export const SAMPLE_INITIALIZE_PAYLOAD: InitializeMessagePayload = {
+export const SAMPLE_INITIALIZE_PAYLOAD: InitializeMessagePayload<AppConfig> = {
   appId: "test-app-111",
   appInstanceId: "test-instance-222",
   config: {

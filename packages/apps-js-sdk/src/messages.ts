@@ -9,7 +9,7 @@ export type AppMessage = ConnectMessage | InitializedMessage;
 /**
  * Messages created by the Player, and send to the app.
  */
-export type PlayerMessage = ConnectSuccessMessage | InitializeMessage;
+export type PlayerMessage<T> = ConnectSuccessMessage | InitializeMessage<T>;
 
 export interface ConnectMessage {
   type: typeof CONNECT;
@@ -37,7 +37,7 @@ export interface ConnectSuccessMessage {
   type: typeof CONNECT_SUCCESS;
 }
 
-export interface InitializeMessage {
+export interface InitializeMessage<T> {
   type: "initialize";
-  payload: InitializeMessagePayload;
+  payload: InitializeMessagePayload<T>;
 }

@@ -14,7 +14,7 @@ import { AppConfig, InitializeMessagePayload } from "./types";
 import { mergeInitializePayloads } from "./utils/objectUtils";
 import { parseMessage, sendMessage } from "./utils/postMessage";
 
-let sc: ScreenCloud;
+let sc: any; // Type will depend on user's given runtime config type, so need to store this reference as any.
 
 /**
  * The main interface between your app and the Player running it.
@@ -27,11 +27,13 @@ let sc: ScreenCloud;
  * You should always use the methods available here, rather than going
  * directly to the Player (where the API could change at any time).
  */
-class ScreenCloud<TAppConfig = AppConfig> {
+class ScreenCloud<TConfig = AppConfig> {
   private parentOrigin = ""; // What URL should postMessages be sent to?
-  private resolveInitialize?: (value?: InitializeMessagePayload) => void;
+  private resolveInitialize?: (
+    value?: InitializeMessagePayload<TConfig>
+  ) => void;
   private rejectInitialize?: (reason?: any) => void; // Not used yet. In theory, could time out after x. Otherwise any issue here likely means a Player problem.
-  private initializePayload?: InitializeMessagePayload;
+  private initializePayload?: InitializeMessagePayload<TConfig>;
 
   constructor() {
     window.addEventListener("message", this.onMessage, false);
@@ -46,32 +48,53 @@ class ScreenCloud<TAppConfig = AppConfig> {
    * If testData given, then merge with a sample payload, then resolve Initialize manually below with that object.
    * If the real initialize then comes later, warn user that they have shipped their test data to a real player.
    */
-  initialize = async (testData?: Partial<InitializeMessagePayload>) => {
-    return new Promise<InitializeMessagePayload>((resolve, reject) => {
+  connect = async (testData?: Partial<InitializeMessagePayload<TConfig>>) => {
+    return new Promise<InitializeMessagePayload<TConfig>>((resolve, reject) => {
       this.resolveInitialize = resolve;
       this.rejectInitialize = reject;
-
-      if (testData) {
-        const payload = mergeInitializePayloads(
-          SAMPLE_INITIALIZE_PAYLOAD,
-          testData
-        );
-
-        this.resolveInitialize(payload);
-      }
     });
   };
 
-  // public getConfig = (): TAppConfig => {
-  //   return this.initializePayload?.config;
-  // }
+  /**
+   * To develop and test your app outside of a Player, you can manually
+   * call this method with the data the Player would normally provide.
+   *
+   * Just call the connect() method as normal, then `sc.initialize(yourData)`
+   * afterwards.
+   *
+   * Be careful not to call this in production however, as it will overrule
+   * any data later received from the real player.
+   */
+  initialize = (payload?: Partial<InitializeMessagePayload<TConfig>>) => {
+    if (!this.resolveInitialize) {
+      console.warn(
+        LOG_PREFIX +
+          "Error: You must call connect() to connect to the player, before you initialize() with test data."
+      );
+      return;
+    }
+    const combinedPayload = mergeInitializePayloads<TConfig>(
+      // Casting as sample config can't know the user's config type ahead of time
+      SAMPLE_INITIALIZE_PAYLOAD as InitializeMessagePayload<TConfig>,
+      payload || {}
+    );
+
+    this.resolveInitialize(combinedPayload);
+  };
+
+  /**
+   * The data provided by a user in the app settings pages.
+   */
+  public getConfig = (): TConfig | undefined => {
+    return this.initializePayload?.config;
+  };
 
   /**
    * PostMessage received. Parse it.
    */
   private onMessage = (event: MessageEvent) => {
     try {
-      const message = parseMessage(event);
+      const message = parseMessage<TConfig>(event);
       console.log(LOG_PREFIX + "Received message", message);
 
       // Use the URL of the responding SUCCESS event as the target for future messages.
@@ -88,7 +111,7 @@ class ScreenCloud<TAppConfig = AppConfig> {
   /**
    * Handle messages sent from the parent.
    */
-  private handleMessage = (message: PlayerMessage): void => {
+  private handleMessage = (message: PlayerMessage<TConfig>): void => {
     switch (message.type) {
       case CONNECT_SUCCESS:
         console.log(LOG_PREFIX + "Connected to parent player.");
@@ -102,7 +125,7 @@ class ScreenCloud<TAppConfig = AppConfig> {
   /**
    * Store data passed from the Player on startup.
    */
-  private handleInitialize = (message: InitializeMessage): void => {
+  private handleInitialize = (message: InitializeMessage<TConfig>): void => {
     if (this.initializePayload) {
       console.warn(
         LOG_PREFIX +
@@ -125,7 +148,7 @@ class ScreenCloud<TAppConfig = AppConfig> {
   };
 }
 
-// const getSc = <TAppConfig = AppConfig>(): ScreenCloud<TAppConfig> => {
+// const getSc = <TConfig = AppConfig>(): ScreenCloud<TConfig> => {
 //   if (!initializePayload) {
 //     throw "Tried to get SC object before app was initialized.";
 //   }
@@ -133,31 +156,29 @@ class ScreenCloud<TAppConfig = AppConfig> {
 //   return {
 //     appId: initializePayload.appId,
 //     appStarted: false,
-//     config: initializePayload.config as TAppConfig, // TODO - Can remove casting if switching to an object.
+//     config: initializePayload.config as TConfig, // TODO - Can remove casting if switching to an object.
 //     context: initializePayload.context,
 //   };
 // };
 
 /**
- * Start the app.
+ * Kick off the app.
  *
  * This will resolve with the `sc` object only when we've received the Initialize data,
  * i.e. when app is able to start loading.
  */
-export const startApp = async <TAppConfig = AppConfig>(options?: {
-  testData?: Partial<InitializeMessagePayload>; // PIn local development/testing, you can pass the data to initialize your app with. In particular; `testData.config`
-}): Promise<ScreenCloud<TAppConfig>> => {
-  sc = new ScreenCloud<TAppConfig>();
-  await sc.initialize(options?.testData);
-  return sc;
+export const connectScreenCloud = async <TConfig = AppConfig>(): Promise<
+  ScreenCloud<TConfig>
+> => {
+  sc = new ScreenCloud<TConfig>();
+  await sc.connect();
+  return sc as ScreenCloud<TConfig>;
 };
 
 /**
  * Get the SC instance.
  */
-export const getScreenCloud = <TAppConfig = AppConfig>(): ScreenCloud<
-  TAppConfig
-> => {
+export const getScreenCloud = <TConfig = AppConfig>(): ScreenCloud<TConfig> => {
   if (!sc) {
     console.warn(
       LOG_PREFIX +
@@ -165,5 +186,5 @@ export const getScreenCloud = <TAppConfig = AppConfig>(): ScreenCloud<
     );
   }
 
-  return sc;
+  return sc as ScreenCloud<TConfig>;
 };
