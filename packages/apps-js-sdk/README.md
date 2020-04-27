@@ -1,11 +1,28 @@
-# `apps-js-sdk`
+# ScreenCloud Apps SDK
 
-> TODO: description
+Develop your own apps for ScreenCloud.
 
-## Usage
+Documentation and sample code published here: [https://screencloud.github.io/developer/](https://screencloud.github.io/developer/)
+
+## Quickstart
 
 ```
-const appsJsSdk = require('apps-js-sdk');
-
-// TODO: DEMONSTRATE API
+npm install @screencloud/apps-js-sdk
 ```
+
+or
+
+```
+yarn add @screencloud/apps-js-sdk
+```
+
+Then in your app:
+
+```javascript
+import { connectScreenCloud } from "@screencloud/apps-js-sdk";
+
+const sc = await connectScreenCloud();
+const appConfig = sc.getConfig();
+```
+
+For more, check out the [Getting Started guide](https://screencloud.github.io/developer/get-started)
