@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Link } from 'gatsby';
 import React from 'react';
 import { theme } from '../theme';
 import AnchorTag from './anchor';
@@ -36,6 +37,7 @@ export default {
   ),
   code: CodeBlock,
   a: AnchorTag,
+  Link,
   // TODO add `img`
   // TODO add `blockquote`
   // TODO add `ul`
