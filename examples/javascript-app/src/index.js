@@ -1,4 +1,4 @@
-import { startApp } from "@screencloud/apps-sdk";
+import { connectScreenCloud } from "@screencloud/apps-sdk";
 import "./style.css";
 
 /**
@@ -46,17 +46,28 @@ async function updateQuote() {
  * Starts up the app.
  */
 async function start() {
-  const sc = await startApp({
-    testData: {
-      config: {
-        refreshTimeSeconds: 5,
-      },
-    },
-  });
-  const refreshTime = sc.config.refreshTimeSeconds * 1000 || 10000;
+  let testData;
 
-  setInterval(updateQuote, refreshTime);
+  if (process.env.NODE_ENV === "development") {
+    testData = {
+      config: {
+        refreshTimeSeconds: 10,
+      },
+    };
+  }
+
+  const sc = await connectScreenCloud(testData);
+  const refreshTime = sc.getConfig().refreshTimeSeconds * 1000;
+
+  // Fetch our initial data immediately.
   updateQuote();
+
+  /**
+   * When app is started (i.e. visible on screen), start the timer to refresh quotes periodically.
+   */
+  sc.onAppStarted().then(() => {
+    setInterval(updateQuote, refreshTime);
+  });
 }
 
 // Kick off your app!
