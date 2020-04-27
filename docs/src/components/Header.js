@@ -29,7 +29,7 @@ const LoadableComponent = Loadable({
   loading: LoadingProvider,
 });
 
-function myFunction() {
+function toggleMobileSiteNavigation() {
   var x = document.getElementById('navbar');
 
   if (x.className === 'topnav') {
@@ -41,7 +41,6 @@ function myFunction() {
 
 const StyledBgDiv = styled('div')`
   height: 60px;
-  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
   background-color: #f8f8f8;
   position: relative;
   display: none;
@@ -78,7 +77,7 @@ const Header = ({ location }) => (
       );
 
       const facebookLink = (
-        <a href="https://www.facebook.com/ScreenCloudio/" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.facebook.com/ScreenCloudio" target="_blank" rel="noopener noreferrer">
           <FacebookSVG />
         </a>
       );
@@ -161,9 +160,9 @@ const Header = ({ location }) => (
           <StyledBgDiv>
             <div className={'navBarDefault removePadd'}>
               <span
-                onClick={myFunction}
+                onClick={toggleMobileSiteNavigation}
                 className={'navBarToggle'}
-                onKeyDown={myFunction}
+                onKeyDown={toggleMobileSiteNavigation}
                 role="button"
                 tabIndex={0}
               >

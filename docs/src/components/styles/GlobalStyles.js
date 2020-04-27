@@ -140,7 +140,6 @@ export const baseStyles = injectGlobal`
 
   .headerWrapper {
     border-bottom: 1px solid rgb(212, 218, 223);
-    box-shadow: rgba(116, 129, 141, 0.1) 0px 1px 1px 0px;
     display: flex;
     align-items: center;
   }
@@ -265,10 +264,6 @@ export const baseStyles = injectGlobal`
     border: 0;
     display: flex;
     align-items: center;
-    box-shadow: -1px 0px 4px 1px rgba(175, 158, 232, 0.4);
-    -webkit-box-shadow: -1px 0px 4px 1px rgba(175, 158, 232, 0.4);
-    -moz-box-shadow: -1px 0px 4px 1px rgba(175, 158, 232, 0.8);
-    -o-box-shadow: -1px 0px 4px 1px rgba(175, 158, 232, 0.4);
     z-index: 1;
     padding: 15px;
     position: relative;
@@ -372,7 +367,6 @@ export const baseStyles = injectGlobal`
   }
   /* Header section ends here */
   .sidebarTitle {
-    /* box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16); */
     background-color: #f8f8f8;
     padding: 18px 16px;
     font-family: 'Poppins';
