@@ -44,7 +44,7 @@ const config = {
       { text: 'Studio', link: 'https://auth.screencloud.com/login' },
       { text: 'ScreenCloud.com', link: 'https://screencloud.com' },
     ],
-    frontline: false,
+    frontline: true,
     ignoreIndex: true,
   },
   siteMetadata: {

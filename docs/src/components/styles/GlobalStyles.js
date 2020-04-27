@@ -411,7 +411,7 @@ export const baseStyles = injectGlobal`
   }
 
   .sideBarUL {
-    margin-top: 32px;
+    margin-top: 10px;
   }
 
   .sideBarUL li {
@@ -444,6 +444,7 @@ export const baseStyles = injectGlobal`
 
   .hideFrontLine .active > a {
     background-color: ${theme.colors.scYellowLight};
+    color: ${theme.colors.text}
   }
   .firstLevel ul li .collapser svg path {
     fill: ${theme.colors.text} !important;
@@ -462,7 +463,7 @@ export const baseStyles = injectGlobal`
   }
 
   .sideBarUL .item > a {
-    color: #1ED3C6;
+    color: #fff;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -470,6 +471,11 @@ export const baseStyles = injectGlobal`
     width: 100%;
     padding-right: 35px;
     padding-left: 15px;
+  }
+
+  .sideBarUL .item.active > a {
+    background-color: ${theme.colors.scYellowLight};
+    color: ${theme.colors.text}
   }
 
   .showFrontLine .item > a:hover {
@@ -500,7 +506,7 @@ export const baseStyles = injectGlobal`
     border-color: rgb(230, 236, 241) !important;
     border-style: solid none solid solid;
     border-width: 1px 0px 1px 1px;
-    background-color: #1ed3c6 !important;
+    background-color: ${theme.colors.scYellow} !important;
     color: #fff;
   }
 
@@ -743,7 +749,6 @@ export const baseStyles = injectGlobal`
       margin-top: 15px;
       position: relative;
       padding-bottom: 20px;
-      border-top: 1px solid #fff;
     }
     .headerTitle {
       padding-right: 50px;

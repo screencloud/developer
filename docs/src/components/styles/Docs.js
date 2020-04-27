@@ -58,9 +58,19 @@ export const StyledMainWrapper = styled.div`
     }
   }
 
-  a {
-    transition: color 0.15s;
-    color: ${theme.colors.link};
+  a:link {
+    transition: border-color 0.1s ease-in;
+    color: ${theme.colors.text};
+    border-bottom: 1px solid ${theme.colors.text};
+  }
+
+  a:visited {
+    color: ${theme.colors.scGrey};
+  }
+
+  a:hover,
+  a:active {
+    border-color: #fff;
   }
 
   code {
