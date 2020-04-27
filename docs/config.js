@@ -19,8 +19,13 @@ const config = {
   },
   sidebar: {
     forcedNavOrder: [
-      '/introduction', // add trailing slash if enabled above
-      '/codeblock',
+      '/overview',
+      '/get-started',
+      '/app-lifecycle',
+      '/preloading',
+      '/themes',
+      '/add-to-app-store',
+      '/example-codebases',
     ],
     collapsedNav: [
       '/codeblock', // add trailing slash if enabled above
@@ -29,11 +34,12 @@ const config = {
       { text: 'Studio', link: 'https://auth.screencloud.com/login' },
       { text: 'ScreenCloud.com', link: 'https://screencloud.com' },
     ],
-    frontline: true,
+    frontline: false,
     ignoreIndex: true,
   },
   siteMetadata: {
-    title: 'Developer | ScreenCloud',
+    title: 'Developer',
+    titleSuffix: ' | ScreenCloud',
     description: 'Develop your own Digital Signage apps easily with ScreenCloud.',
     ogImage: null,
     docsLocation: 'https://github.com/screencloud/developer/tree/master/docs/content',

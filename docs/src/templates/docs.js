@@ -65,9 +65,12 @@ export default class MDXRuntimeTest extends Component {
       });
 
     // meta tags
-    const metaTitle = mdx.frontmatter.metaTitle || config.gatsby.title;
+    console.log('mdx', mdx);
+    const metaTitle = `${mdx.frontmatter.metaTitle || mdx.fields.title}${
+      config.siteMetadata.titleSuffix
+    }`;
 
-    const metaDescription = mdx.frontmatter.metaDescription || config.gatsby.description;
+    const metaDescription = mdx.frontmatter.metaDescription || config.siteMetadata.description;
 
     let canonicalUrl = config.gatsby.siteUrl;
 
