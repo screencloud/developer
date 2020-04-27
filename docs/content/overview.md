@@ -24,4 +24,4 @@ Apps can be **Private** or **Public**. Private apps will only be available to yo
 
 Apps take **configuration** from the user. For example, to install the _Clock_ app a user would tell us which timezone they want to display. This config data is then given to the app when it runs on the Player so it knows what to show.
 
-All good so far? Then let's get started on your first app! (LINK)
+All good so far? Then let's get started on your first app!
