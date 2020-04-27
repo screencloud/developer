@@ -4,11 +4,13 @@ import React from 'react';
 import GitHubButton from 'react-github-btn';
 import Loadable from 'react-loadable';
 import config from '../../config.js';
+import FacebookSVG from '../images/facebook.inline.svg';
+import TwitterSVG from '../images/twitter.inline.svg';
 import Link from './link';
 import LoadingProvider from './mdxComponents/loading';
 import Sidebar from './sidebar';
 
-const help = require('./images/help.svg');
+const help = require('../images/help.svg');
 
 const isSearchEnabled = config.header.search && config.header.search.enabled ? true : false;
 
@@ -58,7 +60,6 @@ const Header = ({ location }) => (
           siteMetadata {
             githubUrl
             helpUrl
-            tweetText
             headerLinks {
               link
               text
@@ -68,19 +69,23 @@ const Header = ({ location }) => (
       }
     `}
     render={data => {
-      const logoImage = require('./images/screencloud.svg');
-
-      const twitterImage = require('./images/twitter.svg');
+      const logoImage = require('../images/screencloud.svg');
 
       const twitterLink = (
         <a href="https://twitter.com/screencloud" target="_blank" rel="noopener noreferrer">
-          <img src={twitterImage} alt={'Twitter'} />
+          <TwitterSVG />
+        </a>
+      );
+
+      const facebookLink = (
+        <a href="https://www.facebook.com/ScreenCloudio/" target="_blank" rel="noopener noreferrer">
+          <FacebookSVG />
         </a>
       );
 
       const {
         site: {
-          siteMetadata: { githubUrl, helpUrl, tweetText, headerLinks },
+          siteMetadata: { githubUrl, helpUrl, headerLinks },
         },
       } = data;
 
@@ -98,6 +103,7 @@ const Header = ({ location }) => (
             </div>
             <ul className="socialWrapper visibleMobileView">
               <li>{twitterLink}</li>
+              <li>{facebookLink}</li>
             </ul>
             {isSearchEnabled ? (
               <div className={'searchWrapper hiddenMobile navBarUL'}>
@@ -131,12 +137,11 @@ const Header = ({ location }) => (
                     </a>
                   </li>
                 ) : null}
-                {tweetText !== '' || githubUrl !== '' ? (
-                  <li className="divider hiddenMobile"></li>
-                ) : null}
+                {githubUrl !== '' ? <li className="divider hiddenMobile"></li> : null}
                 <li className={'hiddenMobile'}>
                   <ul className="socialWrapper">
                     <li>{twitterLink}</li>
+                    <li>{facebookLink}</li>
                   </ul>
                 </li>
                 {githubUrl !== '' ? (

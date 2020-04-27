@@ -48,6 +48,14 @@ const plugins = [
       anonymize: false,
     },
   },
+  {
+    resolve: 'gatsby-plugin-react-svg',
+    options: {
+      rule: {
+        include: /\.inline\.svg/,
+      },
+    },
+  },
 ];
 // check and add algolia
 if (
@@ -97,7 +105,6 @@ module.exports = {
     favicon: config.siteMetadata.favicon,
     githubUrl: config.header.githubUrl,
     helpUrl: config.header.helpUrl,
-    tweetText: config.header.tweetText,
     headerLinks: config.header.links,
     siteUrl: config.gatsby.siteUrl,
   },

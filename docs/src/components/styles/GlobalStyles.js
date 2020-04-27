@@ -337,7 +337,15 @@ export const baseStyles = injectGlobal`
     display: inline-block;
   }
   .socialWrapper li a {
-    display: contents;
+    box-sizing: content-box;
+    display: block;
+    padding: 4px 10px;
+    width: 24px;
+    height: 24px;
+  }
+  .socialWrapper svg {
+    width: 100%;
+    height: 100%
   }
   .socialWrapper svg path {
     fill: #fff;
@@ -738,7 +746,7 @@ export const baseStyles = injectGlobal`
     .socialWrapper {
       position: absolute;
       right: 10px;
-      top: 29px;
+      top: 19px;
     }
     .responsive {
       margin-top: 15px;

@@ -58,7 +58,6 @@ Open `config.js` for templating variables. Broadly configuration is available fo
   - `title` - The title that appears on the top left
   - `githubUrl` - The Github URL for the docs website
   - `helpUrl` - Help URL for pointing to resources
-  - `tweetText` - Tweet text
   - `links` - Links on the top right
   - `search` - Enable search and [configure Algolia](https://www.gatsbyjs.org/docs/adding-search-with-algolia/)
 
