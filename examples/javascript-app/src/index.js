@@ -1,4 +1,4 @@
-import { startApp } from "@screencloud/apps-js-sdk";
+import { startApp } from "@screencloud/apps-sdk";
 import "./style.css";
 
 /**

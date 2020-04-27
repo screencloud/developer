@@ -7,19 +7,19 @@ Documentation and sample code published here: [https://screencloud.github.io/dev
 ## Quickstart
 
 ```
-npm install @screencloud/apps-js-sdk
+npm install @screencloud/apps-sdk
 ```
 
 or
 
 ```
-yarn add @screencloud/apps-js-sdk
+yarn add @screencloud/apps-sdk
 ```
 
 Then in your app:
 
 ```javascript
-import { connectScreenCloud } from "@screencloud/apps-js-sdk";
+import { connectScreenCloud } from "@screencloud/apps-sdk";
 
 const sc = await connectScreenCloud();
 const appConfig = sc.getConfig();

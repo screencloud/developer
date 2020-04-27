@@ -1,5 +1,5 @@
-import { connectScreenCloud } from "@screencloud/apps-js-sdk";
-import { InitializeMessagePayload } from "@screencloud/apps-js-sdk/lib/types";
+import { connectScreenCloud } from "@screencloud/apps-sdk";
+import { InitializeMessagePayload } from "@screencloud/apps-sdk/lib/types";
 import "./style.scss";
 
 interface JokeResponse {
