@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { theme } from '../theme';
 
 export const Sidebar = styled('aside')`
   width: 100%;
@@ -12,7 +13,7 @@ export const Sidebar = styled('aside')`
   position: sticky;
   top: 0;
 
-  background: ${props => props.theme.colors.background};
+  background: ${theme.colors.background};
 
   .rightSideTitle {
     font-size: 10px;
@@ -24,7 +25,7 @@ export const Sidebar = styled('aside')`
     border-left: 1px solid #e6ecf1;
     border-left-color: rgb(230, 236, 241);
 
-    color: ${props => props.theme.colors.text};
+    color: ${theme.colors.text};
   }
 
   .rightSideBarUL {
@@ -43,7 +44,7 @@ export const Sidebar = styled('aside')`
     line-height: 1.5;
     padding: 7px 24px 7px 16px;
 
-    color: ${props => props.theme.colors.text};
+    color: ${theme.colors.text};
   }
 
   @media only screen and (max-width: 50rem) {
@@ -72,13 +73,13 @@ export const ListItem = styled(({ className, active, level, ...props }) => {
     position: relative;
 
     &:hover {
-      color: #1ed3c6 !important;
+      background: ${theme.colors.scYellowLighter};
     }
 
     ${props =>
       props.active &&
       `
-      color: #1ED3C6;
+      color: ${theme.colors.scYellow};
       border-color: rgb(230,236,241) !important;
       border-style: solid none solid solid;
       border-width: 1px 0px 1px 1px;

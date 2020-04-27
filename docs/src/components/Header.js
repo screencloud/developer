@@ -1,13 +1,12 @@
-import React from 'react';
 import styled from '@emotion/styled';
-import { StaticQuery, graphql } from 'gatsby';
+import { graphql, StaticQuery } from 'gatsby';
+import React from 'react';
 import GitHubButton from 'react-github-btn';
-import Link from './link';
 import Loadable from 'react-loadable';
-
 import config from '../../config.js';
+import Link from './link';
 import LoadingProvider from './mdxComponents/loading';
-import { DarkModeSwitch } from './DarkModeSwitch';
+import Sidebar from './sidebar';
 
 const help = require('./images/help.svg');
 
@@ -22,8 +21,6 @@ if (isSearchEnabled && config.header.search.indexName) {
     hitComp: `PageHit`,
   });
 }
-
-import Sidebar from './sidebar';
 
 const LoadableComponent = Loadable({
   loader: () => import('./search/index'),
@@ -46,27 +43,22 @@ const StyledBgDiv = styled('div')`
   background-color: #f8f8f8;
   position: relative;
   display: none;
-  background: ${props => (props.isDarkThemeActive ? '#001932' : undefined)};
+  background: #000000;
 
   @media (max-width: 767px) {
     display: block;
   }
 `;
 
-const Header = ({ location, isDarkThemeActive, toggleActiveTheme }) => (
+const Header = ({ location }) => (
   <StaticQuery
     query={graphql`
       query headerTitleQuery {
         site {
           siteMetadata {
-            headerTitle
             githubUrl
             helpUrl
             tweetText
-            logo {
-              link
-              image
-            }
             headerLinks {
               link
               text
@@ -76,37 +68,27 @@ const Header = ({ location, isDarkThemeActive, toggleActiveTheme }) => (
       }
     `}
     render={data => {
-      const logoImg = require('./images/logo.svg');
+      const logoImg = require('./images/screencloud.svg');
 
       const twitter = require('./images/twitter.svg');
 
-      const discordBrandsBlock = require('./images/discord-brands-block.svg');
-
-      const twitterBrandsBlock = require('./images/twitter-brands-block.svg');
-
       const {
         site: {
-          siteMetadata: { headerTitle, githubUrl, helpUrl, tweetText, logo, headerLinks },
+          siteMetadata: { githubUrl, helpUrl, tweetText, headerLinks },
         },
       } = data;
-
-      const finalLogoLink = logo.link !== '' ? logo.link : 'https://hasura.io/';
 
       return (
         <div className={'navBarWrapper'}>
           <nav className={'navBarDefault'}>
             <div className={'navBarHeader'}>
-              <Link to={finalLogoLink} className={'navBarBrand'}>
+              <Link to={'/'} className={'navBarBrand'}>
                 <img
                   className={'img-responsive displayInline'}
-                  src={logo.image !== '' ? logo.image : logoImg}
-                  alt={'logo'}
+                  src={logoImg}
+                  alt={'ScreenCloud Developer'}
                 />
               </Link>
-              <div
-                className={'headerTitle displayInline'}
-                dangerouslySetInnerHTML={{ __html: headerTitle }}
-              />
             </div>
             {config.header.social ? (
               <ul
@@ -181,16 +163,10 @@ const Header = ({ location, isDarkThemeActive, toggleActiveTheme }) => (
                     </GitHubButton>
                   </li>
                 ) : null}
-                <li>
-                  <DarkModeSwitch
-                    isDarkThemeActive={isDarkThemeActive}
-                    toggleActiveTheme={toggleActiveTheme}
-                  />
-                </li>
               </ul>
             </div>
           </nav>
-          <StyledBgDiv isDarkThemeActive={isDarkThemeActive}>
+          <StyledBgDiv>
             <div className={'navBarDefault removePadd'}>
               <span
                 onClick={myFunction}

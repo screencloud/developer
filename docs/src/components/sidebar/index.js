@@ -1,9 +1,9 @@
-import React from 'react';
-import Tree from './tree';
-import { StaticQuery, graphql } from 'gatsby';
 import styled from '@emotion/styled';
+import { graphql, StaticQuery } from 'gatsby';
+import React from 'react';
 import { ExternalLink } from 'react-feather';
 import config from '../../../config';
+import Tree from './tree';
 
 // eslint-disable-next-line no-unused-vars
 const ListItem = styled(({ className, active, level, ...props }) => {
@@ -26,13 +26,12 @@ const ListItem = styled(({ className, active, level, ...props }) => {
     position: relative;
 
     &:hover {
-      color: #1ed3c6 !important;
+      text-decoration: underline;
     }
 
     ${props =>
       props.active &&
       `
-      // color: #663399;
       border-color: rgb(230,236,241) !important;
       border-style: solid none solid solid;
       border-width: 1px 0px 1px 1px;
@@ -109,12 +108,7 @@ const SidebarLayout = ({ location }) => (
     render={({ allMdx }) => {
       return (
         <Sidebar>
-          {config.sidebar.title ? (
-            <div
-              className={'sidebarTitle hiddenMobile'}
-              dangerouslySetInnerHTML={{ __html: config.sidebar.title }}
-            />
-          ) : null}
+          <div className={'sidebarTitle hiddenMobile'}>Build an App</div>
           <ul className={'sideBarUL'}>
             <Tree edges={allMdx.edges} />
             {config.sidebar.links && config.sidebar.links.length > 0 && <Divider />}

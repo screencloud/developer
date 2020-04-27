@@ -1,27 +1,26 @@
-import React from 'react';
+import { Global } from '@emotion/core';
 import styled from '@emotion/styled';
 import { MDXProvider } from '@mdx-js/react';
-
-import ThemeProvider from './theme/themeProvider';
+import React from 'react';
+import Header from './Header';
 import mdxComponents from './mdxComponents';
+import RightSidebar from './RightSidebar/rightSidebar';
 import Sidebar from './sidebar';
-import RightSidebar from './rightSidebar';
-import config from '../../config.js';
+import { baseStyles } from './styles/GlobalStyles';
+import { theme } from './theme';
 
 const Wrapper = styled('div')`
   display: flex;
   justify-content: space-between;
-  background: ${({ theme }) => theme.colors.background};
+  background: ${theme.colors.background};
 
   .sideBarUL li a {
-    color: ${({ theme }) => theme.colors.text};
+    color: ${theme.colors.text};
   }
 
   .sideBarUL .item > a:hover {
-    background-color: #1ed3c6;
-    color: #fff !important;
-
-    /* background: #F8F8F8 */
+    background-color: ${theme.colors.scYellowLight};
+    color: #000 !important;
   }
 
   @media only screen and (max-width: 767px) {
@@ -34,10 +33,10 @@ const Content = styled('main')`
   flex-grow: 1;
   margin: 0px 88px;
   padding-top: 3rem;
-  background: ${({ theme }) => theme.colors.background};
+  background: ${theme.colors.background};
 
   table tr {
-    background: ${({ theme }) => theme.colors.background};
+    background: ${theme.colors.background};
   }
 
   @media only screen and (max-width: 1023px) {
@@ -63,18 +62,15 @@ const RightSideBarWidth = styled('div')`
 `;
 
 const Layout = ({ children, location }) => (
-  <ThemeProvider location={location}>
+  <>
+    <Global styles={baseStyles} />
+    <Header />
     <MDXProvider components={mdxComponents}>
       <Wrapper>
         <LeftSideBarWidth className={'hiddenMobile'}>
           <Sidebar location={location} />
         </LeftSideBarWidth>
-        {config.sidebar.title ? (
-          <div
-            className={'sidebarTitle sideBarShow'}
-            dangerouslySetInnerHTML={{ __html: config.sidebar.title }}
-          />
-        ) : null}
+        <div className={'sidebarTitle sideBarShow'}>Build an App</div>
         <Content>
           <MaxWidth>{children}</MaxWidth>
         </Content>
@@ -83,7 +79,7 @@ const Layout = ({ children, location }) => (
         </RightSideBarWidth>
       </Wrapper>
     </MDXProvider>
-  </ThemeProvider>
+  </>
 );
 
 export default Layout;
