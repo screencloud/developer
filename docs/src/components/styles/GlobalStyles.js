@@ -286,7 +286,7 @@ export const baseStyles = injectGlobal`
   }
 
   .navBarBrand img {
-    width: 120px;
+    width: 200px;
     margin-right: 6px;
     display: inline-block;
   }
@@ -385,14 +385,6 @@ export const baseStyles = injectGlobal`
 
   .sidebarTitle a {
     color: #001934;
-  }
-
-  .greenCircle {
-    width: 8px;
-    height: 8px;
-    background-color: #1cd3c6;
-    border-radius: 50%;
-    margin: 0 12px;
   }
 
   .headerNav {

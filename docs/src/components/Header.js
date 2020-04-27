@@ -56,14 +56,9 @@ const Header = ({ location }) => (
       query headerTitleQuery {
         site {
           siteMetadata {
-            headerTitle
             githubUrl
             helpUrl
             tweetText
-            logo {
-              link
-              image
-            }
             headerLinks {
               link
               text
@@ -73,33 +68,27 @@ const Header = ({ location }) => (
       }
     `}
     render={data => {
-      const logoImg = require('./images/logo.svg');
+      const logoImg = require('./images/screencloud.svg');
 
       const twitter = require('./images/twitter.svg');
 
       const {
         site: {
-          siteMetadata: { headerTitle, githubUrl, helpUrl, tweetText, logo, headerLinks },
+          siteMetadata: { githubUrl, helpUrl, tweetText, headerLinks },
         },
       } = data;
-
-      const finalLogoLink = logo.link !== '' ? logo.link : 'https://hasura.io/';
 
       return (
         <div className={'navBarWrapper'}>
           <nav className={'navBarDefault'}>
             <div className={'navBarHeader'}>
-              <Link to={finalLogoLink} className={'navBarBrand'}>
+              <Link to={'/'} className={'navBarBrand'}>
                 <img
                   className={'img-responsive displayInline'}
-                  src={logo.image !== '' ? logo.image : logoImg}
-                  alt={'logo'}
+                  src={logoImg}
+                  alt={'ScreenCloud Developer'}
                 />
               </Link>
-              <div
-                className={'headerTitle displayInline'}
-                dangerouslySetInnerHTML={{ __html: headerTitle }}
-              />
             </div>
             {config.header.social ? (
               <ul

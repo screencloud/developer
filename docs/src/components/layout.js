@@ -2,7 +2,6 @@ import { Global } from '@emotion/core';
 import styled from '@emotion/styled';
 import { MDXProvider } from '@mdx-js/react';
 import React from 'react';
-import config from '../../config.js';
 import Header from './Header';
 import mdxComponents from './mdxComponents';
 import RightSidebar from './rightSidebar';
@@ -73,12 +72,7 @@ const Layout = ({ children, location }) => (
         <LeftSideBarWidth className={'hiddenMobile'}>
           <Sidebar location={location} />
         </LeftSideBarWidth>
-        {config.sidebar.title ? (
-          <div
-            className={'sidebarTitle sideBarShow'}
-            dangerouslySetInnerHTML={{ __html: config.sidebar.title }}
-          />
-        ) : null}
+        <div className={'sidebarTitle sideBarShow'}>Build an App</div>
         <Content>
           <MaxWidth>{children}</MaxWidth>
         </Content>
