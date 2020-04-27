@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    // "allowSyntheticDefaultImports": true,
     "declaration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -8,14 +7,9 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
     "moduleResolution": "node",
-    // "noEmit": true,
     "outDir": "lib",
     "strict": true,
     "target": "es5"
-    // "allowJs": true,
-    // "isolatedModules": true,
-    // "resolveJsonModule": true,
-    // "skipLibCheck": true,
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/__tests__/*"]
