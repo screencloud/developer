@@ -1,4 +1,5 @@
 import { injectGlobal } from 'emotion';
+import { theme } from '../theme';
 
 export const baseStyles = injectGlobal`
   @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
@@ -76,7 +77,7 @@ export const baseStyles = injectGlobal`
     border-radius: 1px;
     margin: 0 auto;
     margin-top: 4px;
-    background-color: #001934;
+    background-color: ${theme.colors.scGreyDarker};
   }
   .navBarToggle .iconBar:first-child {
     margin-top: 0px;
@@ -257,7 +258,7 @@ export const baseStyles = injectGlobal`
     padding: 0 !important;
   }
   .navBarDefault {
-    background-color: #001934;
+    background-color: ${theme.colors.scGreyDarker};
     border-radius: 0;
     border-top: 0;
     margin-bottom: 0;
@@ -374,7 +375,7 @@ export const baseStyles = injectGlobal`
     font-family: 'Poppins';
     font-size: 18px;
     font-weight: 600;
-    color: #001934;
+    color: ${theme.colors.scGreyDarker};
     display: flex;
     align-items: center;
   }
@@ -384,7 +385,7 @@ export const baseStyles = injectGlobal`
   }
 
   .sidebarTitle a {
-    color: #001934;
+    color: ${theme.colors.scGreyDarker};
   }
 
   .headerNav {
@@ -442,11 +443,10 @@ export const baseStyles = injectGlobal`
   }
 
   .hideFrontLine .active > a {
-    background-color: #1ed3c6;
-    color: #fff !important;
+    background-color: ${theme.colors.scYellowLight};
   }
   .firstLevel ul li .collapser svg path {
-    fill: #fff !important;
+    fill: ${theme.colors.text} !important;
   }
   .active .collapser > svg > path {
     fill: #001933 !important;
@@ -726,13 +726,13 @@ export const baseStyles = injectGlobal`
 
   @media (max-width: 767px) {
     .formElement svg path {
-      fill: #001934;
+      fill: ${theme.colors.scGreyDarker};
     }
     .visibleMobileView {
       display: block !important;
     }
     .searchInput {
-      color: #001934;
+      color: ${theme.colors.scGreyDarker};
     }
     .socialWrapper {
       position: absolute;

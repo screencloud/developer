@@ -4,7 +4,7 @@ import { MDXProvider } from '@mdx-js/react';
 import React from 'react';
 import Header from './Header';
 import mdxComponents from './mdxComponents';
-import RightSidebar from './rightSidebar';
+import RightSidebar from './RightSidebar/rightSidebar';
 import Sidebar from './sidebar';
 import { baseStyles } from './styles/GlobalStyles';
 import { theme } from './theme';
@@ -19,10 +19,8 @@ const Wrapper = styled('div')`
   }
 
   .sideBarUL .item > a:hover {
-    background-color: #1ed3c6;
-    color: #fff !important;
-
-    /* background: #F8F8F8 */
+    background-color: ${theme.colors.scYellowLight};
+    color: #000 !important;
   }
 
   @media only screen and (max-width: 767px) {
