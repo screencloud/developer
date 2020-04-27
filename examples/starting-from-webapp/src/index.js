@@ -44,7 +44,7 @@ async function updateQuote() {
 /**
  * Starts up the app.
  */
-async function start() {
+function start() {
   const refreshTime = 10000;
 
   setInterval(updateQuote, refreshTime);
