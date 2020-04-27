@@ -68,9 +68,15 @@ const Header = ({ location }) => (
       }
     `}
     render={data => {
-      const logoImg = require('./images/screencloud.svg');
+      const logoImage = require('./images/screencloud.svg');
 
-      const twitter = require('./images/twitter.svg');
+      const twitterImage = require('./images/twitter.svg');
+
+      const twitterLink = (
+        <a href="https://twitter.com/screencloud" target="_blank" rel="noopener noreferrer">
+          <img src={twitterImage} alt={'Twitter'} />
+        </a>
+      );
 
       const {
         site: {
@@ -85,17 +91,14 @@ const Header = ({ location }) => (
               <Link to={'/'} className={'navBarBrand'}>
                 <img
                   className={'img-responsive displayInline'}
-                  src={logoImg}
+                  src={logoImage}
                   alt={'ScreenCloud Developer'}
                 />
               </Link>
             </div>
-            {config.header.social ? (
-              <ul
-                className="socialWrapper visibleMobileView"
-                dangerouslySetInnerHTML={{ __html: config.header.social }}
-              ></ul>
-            ) : null}
+            <ul className="socialWrapper visibleMobileView">
+              <li>{twitterLink}</li>
+            </ul>
             {isSearchEnabled ? (
               <div className={'searchWrapper hiddenMobile navBarUL'}>
                 <LoadableComponent collapse={true} indices={searchIndices} />
@@ -128,29 +131,14 @@ const Header = ({ location }) => (
                     </a>
                   </li>
                 ) : null}
-
-                {tweetText !== '' ? (
-                  <li>
-                    <a
-                      href={'https://twitter.com/intent/tweet?&text=' + tweetText}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <img className={'shareIcon'} src={twitter} alt={'Twitter'} />
-                    </a>
-                  </li>
-                ) : null}
                 {tweetText !== '' || githubUrl !== '' ? (
                   <li className="divider hiddenMobile"></li>
                 ) : null}
-                {config.header.social ? (
-                  <li className={'hiddenMobile'}>
-                    <ul
-                      className="socialWrapper"
-                      dangerouslySetInnerHTML={{ __html: config.header.social }}
-                    ></ul>
-                  </li>
-                ) : null}
+                <li className={'hiddenMobile'}>
+                  <ul className="socialWrapper">
+                    <li>{twitterLink}</li>
+                  </ul>
+                </li>
                 {githubUrl !== '' ? (
                   <li className={'githubBtn'}>
                     <GitHubButton
