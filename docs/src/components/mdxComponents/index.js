@@ -1,12 +1,12 @@
-import React from 'react';
 import styled from '@emotion/styled';
-
-import CodeBlock from './codeBlock';
+import React from 'react';
+import { theme } from '../theme';
 import AnchorTag from './anchor';
+import CodeBlock from './codeBlock';
 
 const StyledPre = styled('pre')`
   padding: 16px;
-  background: ${props => props.theme.colors.preFormattedText};
+  background: ${theme.colors.preFormattedText};
 `;
 
 export default {

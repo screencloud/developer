@@ -1,20 +1,22 @@
-import React from 'react';
+import { Global } from '@emotion/core';
 import styled from '@emotion/styled';
 import { MDXProvider } from '@mdx-js/react';
-
-import ThemeProvider from './theme/themeProvider';
-import mdxComponents from './mdxComponents';
-import Sidebar from './sidebar';
-import RightSidebar from './rightSidebar';
+import React from 'react';
 import config from '../../config.js';
+import Header from './Header';
+import mdxComponents from './mdxComponents';
+import RightSidebar from './rightSidebar';
+import Sidebar from './sidebar';
+import { baseStyles } from './styles/GlobalStyles';
+import { theme } from './theme';
 
 const Wrapper = styled('div')`
   display: flex;
   justify-content: space-between;
-  background: ${({ theme }) => theme.colors.background};
+  background: ${theme.colors.background};
 
   .sideBarUL li a {
-    color: ${({ theme }) => theme.colors.text};
+    color: ${theme.colors.text};
   }
 
   .sideBarUL .item > a:hover {
@@ -34,10 +36,10 @@ const Content = styled('main')`
   flex-grow: 1;
   margin: 0px 88px;
   padding-top: 3rem;
-  background: ${({ theme }) => theme.colors.background};
+  background: ${theme.colors.background};
 
   table tr {
-    background: ${({ theme }) => theme.colors.background};
+    background: ${theme.colors.background};
   }
 
   @media only screen and (max-width: 1023px) {
@@ -63,7 +65,9 @@ const RightSideBarWidth = styled('div')`
 `;
 
 const Layout = ({ children, location }) => (
-  <ThemeProvider location={location}>
+  <>
+    <Global styles={baseStyles} />
+    <Header />
     <MDXProvider components={mdxComponents}>
       <Wrapper>
         <LeftSideBarWidth className={'hiddenMobile'}>
@@ -83,7 +87,7 @@ const Layout = ({ children, location }) => (
         </RightSideBarWidth>
       </Wrapper>
     </MDXProvider>
-  </ThemeProvider>
+  </>
 );
 
 export default Layout;

@@ -1,13 +1,12 @@
-import React from 'react';
 import styled from '@emotion/styled';
-import { StaticQuery, graphql } from 'gatsby';
+import { graphql, StaticQuery } from 'gatsby';
+import React from 'react';
 import GitHubButton from 'react-github-btn';
-import Link from './link';
 import Loadable from 'react-loadable';
-
 import config from '../../config.js';
+import Link from './link';
 import LoadingProvider from './mdxComponents/loading';
-import { DarkModeSwitch } from './DarkModeSwitch';
+import Sidebar from './sidebar';
 
 const help = require('./images/help.svg');
 
@@ -22,8 +21,6 @@ if (isSearchEnabled && config.header.search.indexName) {
     hitComp: `PageHit`,
   });
 }
-
-import Sidebar from './sidebar';
 
 const LoadableComponent = Loadable({
   loader: () => import('./search/index'),
@@ -46,14 +43,14 @@ const StyledBgDiv = styled('div')`
   background-color: #f8f8f8;
   position: relative;
   display: none;
-  background: ${props => (props.isDarkThemeActive ? '#001932' : undefined)};
+  background: #000000;
 
   @media (max-width: 767px) {
     display: block;
   }
 `;
 
-const Header = ({ location, isDarkThemeActive, toggleActiveTheme }) => (
+const Header = ({ location }) => (
   <StaticQuery
     query={graphql`
       query headerTitleQuery {
@@ -79,10 +76,6 @@ const Header = ({ location, isDarkThemeActive, toggleActiveTheme }) => (
       const logoImg = require('./images/logo.svg');
 
       const twitter = require('./images/twitter.svg');
-
-      const discordBrandsBlock = require('./images/discord-brands-block.svg');
-
-      const twitterBrandsBlock = require('./images/twitter-brands-block.svg');
 
       const {
         site: {
@@ -181,16 +174,10 @@ const Header = ({ location, isDarkThemeActive, toggleActiveTheme }) => (
                     </GitHubButton>
                   </li>
                 ) : null}
-                <li>
-                  <DarkModeSwitch
-                    isDarkThemeActive={isDarkThemeActive}
-                    toggleActiveTheme={toggleActiveTheme}
-                  />
-                </li>
               </ul>
             </div>
           </nav>
-          <StyledBgDiv isDarkThemeActive={isDarkThemeActive}>
+          <StyledBgDiv>
             <div className={'navBarDefault removePadd'}>
               <span
                 onClick={myFunction}
