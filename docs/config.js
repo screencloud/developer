@@ -21,10 +21,10 @@ const config = {
     forcedNavOrder: [
       '/overview',
       '/get-started',
-      '/app-lifecycle',
       '/preloading',
       '/themes',
       '/add-to-app-store',
+      '/app-lifecycle',
       '/example-codebases',
     ],
     collapsedNav: [
