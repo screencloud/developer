@@ -8,7 +8,7 @@ Custom apps for the legacy Signage product are not supported.
 
 ## Build Your Own "Dad Jokes" App
 
-SCREENSHOT1
+![The end result](./images/get-started-quote-1.png)
 
 Sick of Hello World apps? Us too.
 
@@ -95,7 +95,7 @@ async function start() {
 }
 ```
 
-SCREENSHOT2
+![Stuck on Loading](./images/get-started-loading.png)
 
 Wait, what happened?
 
@@ -127,6 +127,8 @@ async function start() {
   ...
 }
 ```
+
+![App is up and running again](./images/get-started-quote-2.png)
 
 Boom! Back in business.
 
