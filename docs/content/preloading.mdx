@@ -1,0 +1,44 @@
+---
+title: 'Preloading'
+---
+
+Preloading makes your app feel snappy and fast on screen.
+
+It lets the Player load your app slightly before it is visible on screen, so you have time to fetch any data or media you need in advance.
+
+Then when the Player makes your App visible, it lets you know that it's time to kick-off.
+
+This way you can make the API calls and fetch assets, but users don't miss the "start" of your content. It can all sit waiting, and snap into action the second the app is visible.
+
+## How to Use
+
+Carrying on from the <Link to="/get-started">Get Started</Link> guide, our code looked like this:
+
+```javascript
+const sc = await connectScreenCloud(testData);
+const refreshTime = sc.getConfig().refreshTimeSeconds * 1000;
+
+setInterval(updateQuote, refreshTime);
+updateQuote();
+```
+
+This means we connect to ScreenCloud, then immediately start out `updateQuote` interval. If the Player preloads our app 20 seconds in advance, our users will miss the first few quotes.
+
+The `sc` object exposes a handy Promise for this. `sc.onAppStarted()` will resolve when your app is visible on screen, so we just move our `setInterval` call to wait for it.
+
+```javascript
+const sc = await connectScreenCloud(testData);
+const refreshTime = sc.getConfig().refreshTimeSeconds * 1000;
+
+// Fetch our initial data immediately.
+updateQuote();
+
+/**
+ * When app is started (i.e. visible on screen), start the timer to refresh quotes periodically.
+ */
+sc.onAppStarted().then(() => {
+  setInterval(updateQuote, refreshTime);
+});
+```
+
+Done! Now we fetch the first quote in advance so that we're ready the second the user is, but we only jump to the 2nd quote when we know users have had a chance to see the first.
