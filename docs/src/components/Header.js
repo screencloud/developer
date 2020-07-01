@@ -10,8 +10,6 @@ import Link from './link';
 import LoadingProvider from './mdxComponents/loading';
 import Sidebar from './sidebar';
 
-const help = require('../images/help.svg');
-
 const isSearchEnabled = config.header.search && config.header.search.enabled ? true : false;
 
 let searchIndices = [];
@@ -68,6 +66,7 @@ const Header = ({ location }) => (
       }
     `}
     render={data => {
+      const help = require('../images/help.svg');
       const logoImage = require('../images/screencloud.svg');
 
       const twitterLink = (
@@ -88,21 +87,33 @@ const Header = ({ location }) => (
         },
       } = data;
 
+      const [hasMounted, setHasMounted] = React.useState(false);
+
+      React.useEffect(() => {
+        setHasMounted(true);
+      }, []);
+
       return (
         <div className={'navBarWrapper'}>
           <nav className={'navBarDefault'}>
             <div className={'navBarHeader'}>
               <Link to={'/'} className={'navBarBrand'}>
-                <img
-                  className={'img-responsive displayInline'}
-                  src={logoImage}
-                  alt={'ScreenCloud Developer'}
-                />
+                {hasMounted ? (
+                  <img
+                    className={'img-responsive displayInline'}
+                    src={logoImage}
+                    alt={'ScreenCloud Developer'}
+                  />
+                ) : null }
               </Link>
             </div>
             <ul className="socialWrapper visibleMobileView">
-              <li>{twitterLink}</li>
-              <li>{facebookLink}</li>
+              {hasMounted ? (
+                <>
+                  <li>{twitterLink}</li>
+                  <li>{facebookLink}</li>
+                </>
+              ) : null }
             </ul>
             {isSearchEnabled ? (
               <div className={'searchWrapper hiddenMobile navBarUL'}>
@@ -145,13 +156,16 @@ const Header = ({ location }) => (
                 </li>
                 {githubUrl !== '' ? (
                   <li className={'githubBtn'}>
-                    <GitHubButton
-                      href={githubUrl}
-                      data-show-count="true"
-                      aria-label="Star on GitHub"
-                    >
-                      Star
-                    </GitHubButton>
+                    {hasMounted ? (
+                      <GitHubButton
+                        href={githubUrl}
+                        data-show-count="true"
+                        aria-label="Star on GitHub"
+                        style={{ height: '40px' }}
+                      >
+                        Star
+                      </GitHubButton>
+                    ) : null }
                   </li>
                 ) : null}
               </ul>
