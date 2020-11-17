@@ -81,11 +81,13 @@ firebase emulators:start --only functions
 ```
 3. navigate to http://localhost:5001/screencloud-15five/us-central1/highFives in browser
 
-You should now see list of your High Fives
+You should now see a list of your High Fives, similar to below:
+
+![Example 15five Api Data](./images/15five-api-data.png)
 
 ## Creating ScreenCloud web application to be shown on screen
 
-The app that shows the data on screen is a simple web applocation , ee will be creating the application using Javascript and React, 
+The app which shows the data on screen is a simple web applocation , we will be creating the application using Javascript and React, 
 so first things first we must create a React app. Enter the following in the command line:
 
 ```shell
@@ -132,8 +134,6 @@ From:
 
 To:
 ![15Five Slide Snippet](./images/15five-slide-snippet.png)
-
-
 
 ## Deploying ScreenCloud web application on Firebase
 
