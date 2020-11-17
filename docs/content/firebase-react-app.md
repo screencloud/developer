@@ -8,7 +8,7 @@ internally within ScreenCloud. The application uses 15Fives's api to show High F
 If you want to learn more about 15Five see [15Five](https://www.15five.com/)  
 
 The application we are going to create will show each High Five on screen for 10 seconds, it will move through the list of High Fives one after the other
-and will fetch data every 10 minutes to get new High Fives. This slideshow kind of app is very common use case for displaying data on screens.
+and will fetch data every 10 minutes to get new High Fives that have been given. This 'slideshow' kind of app is a very common use case for displaying data on screens.
 
 ![ScreenCloud Application Flow](./images/15five-screenshot.png)
 
@@ -22,33 +22,32 @@ and for the cloud function: [https://github.com/screencloud/developer/tree/maste
 
 ![ScreenCloud Application Flow](./images/sc-app-flow.png)
 
-The diagram above shows how the application is displayed on screen and how we get the 15Five data which is used in the app. The app shown on the screen is a simple web application
-rewritten using Javascript and ReactJs. This application is loaded on screen within our ScreenCloud player, you can think of this as a browser that loads the application
+The diagram above shows how the application is displayed on screen and how we get the 15Five data, which is used in the app. The app shown on the screen is a simple web application
+written using Javascript and ReactJs. This application is loaded on screen within our ScreenCloud player, you can think of this as a browser that loads the application
 within an iframe. The player passes configuration data set in Studio when creating the application instance and shows the app on screen. The web app itself
-fetches its data periodically from the third party api, which in the case is 15Five. From the diagram you can see that we dont call the api directly from the web app on screen
+fetches its data periodically from the third party api, which in the case is 15Five. From the diagram you can see that we do not call the api directly from the web app on screen
 instead we call a firebase cloud function which in turn calls the api endpoint for the data, we do this because with 3rd party api's you generally
-need to create an api key or access token which allows you to be able to use the api and for security reasons this should never be exposed on frontend. Firebase allows us to store this
-key in its configuration store securely and be used by the cloud function for each call.
+need to create an api key or access token which allows you to be able to use their api and for security reasons this should never be exposed on the frontend. Firebase allows us to store this
+key/value in its configuration store securely and be used by the cloud function for each call. We will show you how this is done later in the tutorial.
 
 ## Getting started with Firebase
 
 We will be hosting the web application using firebase and we will also be creating a firebase cloud function to fetch the data from the 15Five api. 
 
-Firstly we create an account and then set up a project for our application. We will call it screencloud-15five. We create the account and project here [Firebase](https://firebase.google.com/) 
+To get started we create a firebase account and then set up a project for our application. We will call it screencloud-15five. We create the account and project here [Firebase](https://firebase.google.com/) 
 
 Just follow the instructions to create the firebase account and create the project. Just create an empty project there is no need to add a web application or anything else through the firebase console,
 later in the tutorial we will show you how we add a web application and cloud function to the firebase project through the command line. 
 
-
 ## Creating Firebase cloud function
 
-We will start by creating a cloud function which will be used to fetch the data we require from the api. Do the following on command line
+We will start by creating a cloud function which will be used to fetch the data we require from the api. From the command line do the following on command line:
 
-1. create a folder for that will hold your cloud function code
+1. create a folder which will hold your cloud function code
 ```shell
 mkdir screencloud-15five-mw
 ```
-2. install the firebase-cli - this is used for all our firebase actions including creating and deploying cloud functions
+2. install the firebase-cli - this is used for all our firebase actions including creating, running locally and deploying cloud functions
 ```shell
 npm install -g firebase-tools
 ```
@@ -61,14 +60,14 @@ firebase login
 firebase init functions
 ```
 
-Once done you will see a functions folder now created containing all the code for the cloud function, there will be example hello world code for a simple cloud function found in functions/index.js
+Once done you will see a 'functions' folder now created containing all the code for the cloud function, there will be example hello world code for a simple cloud function found in functions/index.js
 The code we added to the index.js file for the cloud function can be found here [https://github.com/screencloud/developer/tree/master/examples/15five-firebase-cloud-function-example](https://github.com/screencloud/developer/tree/master/examples/15five-firebase-cloud-function-example)  
 Also copy over the dependencies from the package.json file to the package.json file of your own project.
 
 To run this locally you will need your own 15Five api key which can be retrieved by following these instructions on the 15Five site [https://success.15five.com/hc/en-us/articles/360002699631-API](https://success.15five.com/hc/en-us/articles/360002699631-API) 
 
 You will have to add your api key to the code replacing the TOKEN value with that of your own. For now just hardcode it here but later when we talk about deploying the function we will show you how to add the value to the Firebase configuration store meaning it will
-not be visible to anyone who doesnt have access to your Firebase project.
+not be visible to anyone who does not have access to your Firebase project.
 
 To run the function locally, while under the functions directory:
 
@@ -84,11 +83,10 @@ firebase emulators:start --only functions
 
 You should now see list of your High Fives
 
-
 ## Creating ScreenCloud web application to be shown on screen
 
-We will be create the application using Javascript and React, so first things first we must create a React app. 
-So enter the following in the command line:
+The app that shows the data on screen is a simple web applocation , ee will be creating the application using Javascript and React, 
+so first things first we must create a React app. Enter the following in the command line:
 
 ```shell
 npx create-react-app screencloud-15five
@@ -98,7 +96,7 @@ This will create the base code for your React App. Since we are creating a 'Slid
 on screens. We have put together an example application which with a few changes can help create your own bespoke 'Slide Show' style app using your own data. The code for this can be found here:
 [https://github.com/screencloud/developer/tree/master/examples/react-firebase-example](https://github.com/screencloud/developer/tree/master/examples/react-firebase-example)  
 
-copy over the src folder into your newly created application, as well as the dependencies found in the package.json to the package.json of your new project.
+Copy over the src folder into your newly created application, as well as the dependencies found in the package.json to the package.json of your new project.
 
 ```shell
 npm install
@@ -113,10 +111,10 @@ So now what changes do we have to make in this application to get it to work to 
 
 1. src/components/data-loader/DataLoader.js
 
-The DataLoader component is used to fetch the data from the middleware, by making a http request every 5 minutes
-So to make this fetch data for the 15Five high 5 data, all we have to do is change the FETCH_DATA_URL to the url of the cloud function which fetches the data from 15Five
-as changing the implementation of the mapModelToViewModel function which will take only the fields we need for view from response and map
-to a view model that we can use to display the high 5's. See below:
+The DataLoader component is used to fetch the data from the middleware, by making a http request every 5 minutes.
+To make this fetch data for the 15Five High 5 data, all we have to do is change the FETCH_DATA_URL to the url of the cloud function which fetches the data from the 15Five api
+and changing the implementation of the mapModelToViewModel function which will take only the fields we need for the actual app view from response and map
+to a view model which we can use to display the High 5s. See below:
 
 From:
 ![Example Code Data Loader Snippet](./images/example-data-loader-snippet.png)
@@ -126,7 +124,7 @@ To:
 
 2. src/components/slide-show/Slide.js
 
-The slide component is where we write the code for the UI and will be what is shown to the user's, the component takes in data in form we set in the 
+The slide component is where we write the code for the UI and will be what is shown to the users, the component takes in data in form we set in the 
 mapModelToViewModel function in the previous step. See below:
 
 From:
@@ -139,13 +137,25 @@ To:
 
 ## Deploying ScreenCloud web application on Firebase
 
+Now that we have the web application done we need to deploy it firebase to be hosted.
+
 To deploy the web app do the following:
 
+1. login to firebase cli
+```shell
 firebase login 
-Navigate to the root folder of the frontend codebase
-npm run build
-firebase deploy --only hosting
+```
+2. Navigate to the root folder of the frontend codebase
 
+3. Create a production build of the app
+```shell
+npm run build
+```
+
+4. Deploy the web app
+```shell
+firebase deploy --only hosting
+```
 
 
 ## Creating Firebase cloud function
@@ -156,6 +166,7 @@ To deploy the middleware (cloud function) do the following:
 ```shell
 firebase login 
 ```
+
 2. Navigate to the functions folder of the middleware codebase
 
 3. Install dependencies
@@ -174,7 +185,7 @@ You will also want to set the api token in firebase configuration store by doing
 firebase functions:config:set five.token="INSERT THE API TOKEN HERE"
 ```
 
-The api token is then referenced in the code by calling functions.config().five.token
+The api token then is referenced in the code by calling functions.config().five.token, which retrieves the token from the store.
 
 ## Conclusion
 
