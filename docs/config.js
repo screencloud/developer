@@ -26,6 +26,8 @@ const config = {
       '/add-to-app-store',
       '/app-lifecycle',
       '/example-codebases',
+      '/firebase-react-app',
+      '/example-user-apps',
     ],
     collapsedNav: [
       '/codeblock', // add trailing slash if enabled above
