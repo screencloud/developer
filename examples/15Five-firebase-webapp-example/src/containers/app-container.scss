@@ -1,0 +1,15 @@
+.app-container {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 100vh;
+
+  &_left {
+    background: #FF3100;
+    width: 30%;
+  }
+
+  &_right {
+    width: 70%;
+  }
+}
