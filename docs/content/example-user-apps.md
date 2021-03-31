@@ -1,5 +1,5 @@
 ---
-title: Example applications created by clients
+title: Apps created by clients
 ---
 
 At ScreenCloud our goal is to enable our users to create and control their content on one, or many, screens easily.
@@ -14,14 +14,14 @@ Below are a number of examples of applications which have been created and hoste
 integrate with 3rd party tools and applications being used within the various companies.
 
 
-## Staffbase integration application created by Choate Construction
+## Choate Construction - Staffbase App
 
 The Choate app connects the news feed from Choate Construction’s Staffbase mobile app with ScreenCloud. Display employee generated content seamlessly onto your screens, 
 driving engagement and boosting staff morale.
 
 ![Choate Construction Staffbase](./images/choate-staffbase-1.png)
 
-## Friday integration application created by Sweetwater
+## Sweetwater - Friday App
 
 The Sweetwater Sound app connects the Friday remote work tool with ScreenCloud. Display Kudos sent between employees seamlessly on your screens, 
 driving engagement and boosting staff morale.
@@ -30,7 +30,7 @@ driving engagement and boosting staff morale.
 
 ![Sweetwater Friday 2](./images/sweetwater-friday-2.JPG)
 
-## 15Five integration application created by a developer at ScreenCloud
+## ScreenCloud Dev - 15Five App
 
 The 15Five ScreenCloud internal app connects the 15Five tool with ScreenCloud. Display High Fives sent between employees seamlessly on your screens, 
 driving engagement and boosting staff morale.
