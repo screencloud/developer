@@ -14,6 +14,8 @@ In effect, we want to help you get on screen, then get back out of your way!
 
 **Studio** is the CMS where users manage all of their screens and the content on them.
 
+![Studio Overview](./images/overview-studio.png)
+
 An **app** is a webpage, integrated with ScreenCloud using our web SDK.
 
 Apps run on a **Player**. The Player is the ScreenCloud product you install on your TV/FireStick/Chromebit etc. It handles things like pairing to your ScreenCloud account, scheduling, and zones.
@@ -23,5 +25,7 @@ The **App Store** is the page inside Studio that lists all of the apps available
 Apps can be **Private** or **Public**. Private apps will only be available to your own organisation, or others you explicitly ask us to enable them for.
 
 Apps take **configuration** from the user. For example, to install the _Clock_ app a user would tell us which timezone they want to display. This config data is then given to the app when it runs on the Player so it knows what to show.
+
+![Apps Overview](./images/overview-apps.png)
 
 All good so far? Then let's get started on your first app!
