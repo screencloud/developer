@@ -73,7 +73,7 @@ export const ListItem = styled(({ className, active, level, ...props }) => {
     position: relative;
 
     &:hover {
-      background: ${theme.colors.black};
+      background: ${theme.colors.scYellow};
     }
 
     ${props =>
