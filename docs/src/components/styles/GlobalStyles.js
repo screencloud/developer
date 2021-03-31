@@ -2,7 +2,7 @@ import { injectGlobal } from 'emotion';
 import { theme } from '../theme';
 
 export const baseStyles = injectGlobal`
-  @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Lato:300,400,500,700&display=swap');
   @import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap');
   * {
     margin: 0;
@@ -39,7 +39,7 @@ export const baseStyles = injectGlobal`
   }
 
   body {
-    font-family: 'Roboto';
+    font-family: 'Lato';
   }
   .visibleMobile {
     display: none;
@@ -244,7 +244,7 @@ export const baseStyles = injectGlobal`
   }
 
   .logoContent {
-    font-family: 'Roboto';
+    font-family: 'Lato';
     margin-left: 16px;
     font-size: 28px;
     line-height: 1.5;
@@ -257,7 +257,7 @@ export const baseStyles = injectGlobal`
     padding: 0 !important;
   }
   .navBarDefault {
-    background-color: ${theme.colors.scGreyDarker};
+    background-color: ${theme.colors.black};
     border-radius: 0;
     border-top: 0;
     margin-bottom: 0;
@@ -293,7 +293,7 @@ export const baseStyles = injectGlobal`
     -webkit-overflow-scrolling: touch;
   }
   .navBarUL li a {
-    font-family: 'Roboto';
+    font-family: 'Lato';
     color: #fff !important;
     font-size: 16px;
     font-weight: 500;
@@ -367,12 +367,12 @@ export const baseStyles = injectGlobal`
   }
   /* Header section ends here */
   .sidebarTitle {
-    background-color: #f8f8f8;
+    color: ${theme.colors.white};
     padding: 18px 16px;
-    font-family: 'Poppins';
-    font-size: 18px;
+    font-family: 'Lato';
+    font-size: 32px;
     font-weight: 600;
-    color: ${theme.colors.scGreyDarker};
+    background-color: ${theme.colors.scGreyDarker};
     display: flex;
     align-items: center;
   }
@@ -386,7 +386,7 @@ export const baseStyles = injectGlobal`
   }
 
   .headerNav {
-    font-family: 'Roboto';
+    font-family: 'Lato';
     padding: 0px 24px;
     color: #001933;
     font-size: 16px;
@@ -409,6 +409,7 @@ export const baseStyles = injectGlobal`
 
   .sideBarUL {
     margin-top: 10px;
+    background-color: ${theme.colors.scGreyDarker};
   }
 
   .sideBarUL li {
@@ -417,8 +418,8 @@ export const baseStyles = injectGlobal`
   }
 
   .sideBarUL li a {
-    /* color: #fff; */
-    font-size: 14px;
+    color: ${theme.colors.foreground} !important;
+    font-size: 18px;
     font-weight: 500;
     line-height: 1.5;
     padding: 7px 24px 7px 16px;
@@ -440,8 +441,8 @@ export const baseStyles = injectGlobal`
   }
 
   .hideFrontLine .active > a {
-    background-color: ${theme.colors.scYellowLight};
-    color: ${theme.colors.text}
+    background-color: ${theme.colors.scYellow};
+    color: ${theme.colors.black} !important;
   }
   .firstLevel ul li .collapser svg path {
     fill: ${theme.colors.text} !important;
@@ -457,6 +458,8 @@ export const baseStyles = injectGlobal`
   .sideBarUL .item {
     list-style: none;
     padding: 0;
+    font-size: 18px;
+    font-weight: 700;
   }
 
   .sideBarUL .item > a {
@@ -466,13 +469,12 @@ export const baseStyles = injectGlobal`
     align-items: center;
     position: relative;
     width: 100%;
-    padding-right: 35px;
-    padding-left: 15px;
+    padding: 15px 35px 15px 15px;
   }
 
   .sideBarUL .item.active > a {
-    background-color: ${theme.colors.scYellowLight};
-    color: ${theme.colors.text}
+    background-color: ${theme.colors.scYellow};
+    color: ${theme.colors.black}
   }
 
   .showFrontLine .item > a:hover {
@@ -504,7 +506,7 @@ export const baseStyles = injectGlobal`
     border-style: solid none solid solid;
     border-width: 1px 0px 1px 1px;
     background-color: ${theme.colors.scYellow} !important;
-    color: #fff;
+    color: ${theme.colors.black};
   }
 
   .titleWrapper {
