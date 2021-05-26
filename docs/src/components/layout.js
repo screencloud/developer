@@ -19,8 +19,8 @@ const Wrapper = styled('div')`
   }
 
   .sideBarUL .item > a:hover {
-    background-color: ${theme.colors.scYellowLight};
-    color: #000 !important;
+    background-color: ${theme.colors.black};
+    color: #fff !important;
   }
 
   @media only screen and (max-width: 767px) {

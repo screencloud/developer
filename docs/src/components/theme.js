@@ -4,6 +4,7 @@ export const theme = {
   },
   colors: {
     background: '#fff',
+    foreground: '#adadad',
     heading: '#000',
     text: '#3B454E',
     preFormattedText: 'rgb(245, 247, 249)',
@@ -14,5 +15,7 @@ export const theme = {
     scYellow: '#fecf00',
     scYellowLight: '#FFEE95',
     scYellowLighter: 'rgba(254,207,0,0.2)',
+    black: '#000',
+    white: '#fff'
   },
 };

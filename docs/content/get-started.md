@@ -63,9 +63,9 @@ yarn add @screencloud/apps-sdk
 
 ## 4 - Connect to the Player
 
-The Player is the code that runs your app. It handles
+The Player is the code that runs your app.
 
-It does this by loading your app in an iFrame, so the first step for any app is to connect back to the Player to say "I'm ready, send me data!"
+It does this by loading your app in an `iframe`, so the first step for any app is to connect back to the Player to say "I'm ready, send me data!"
 
 We want this code to run right at the start of our app. Open `index.js`, then scroll to the bottom for a function called `start`.
 
