@@ -137,7 +137,14 @@ class ScreenCloud<TConfig = AppConfig> {
       console.warn(LOG_PREFIX + err);
       throw err;
     }
-    return this.initializePayload?.context;
+    return {
+      ...this.initializePayload?.context,
+      appId: this.initializePayload?.appId,
+      appInstanceId: this.initializePayload?.appInstanceId,
+      orgId: this.initializePayload?.orgId,
+      spaceId: this.initializePayload?.spaceId,
+      screenId: this.initializePayload?.screenId
+    };
   };
 
   /**

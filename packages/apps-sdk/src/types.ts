@@ -51,10 +51,26 @@ export interface AppConfig {
   ]: any /* eslint-disable-line @typescript-eslint/no-explicit-any */;
 }
 
-export interface AppContext {
+type region = 'eu' | 'us'
+
+interface PayloadAppContext {
   theme?: Theme;
   screenData?: ScreenData;
   userInteractionEnabled: boolean; // If true, user is in an environment where they have some control, e.g. using a mouse on the embedded player.
+  loggingLevel: number;
+  playerHeight: number;
+  playerWidth: number;
+  region: region;
+  timezone: string;
+  appViewerToken: string;
+}
+
+export interface AppContext extends PayloadAppContext {
+  appId: string;
+  appInstanceId: string;
+  orgId: string;
+  spaceId: string;
+  screenId?: string;
 }
 
 /**
@@ -70,7 +86,7 @@ export interface InitializeMessagePayload<TConfig> {
   appId: string;
   appInstanceId: string;
   config: TConfig;
-  context: AppContext;
+  context: PayloadAppContext;
   orgId: string;
   spaceId: string;
   screenId?: string; // Empty if not running on a screen, e.g. in preview mode.
