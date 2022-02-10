@@ -71,6 +71,10 @@ export interface AppContext extends PayloadAppContext {
   orgId: string;
   spaceId: string;
   screenId?: string;
+  device: DeviceConfig,
+  filesByAppInstanceId: { nodes: Array<PlayerFile> },
+  durationMs?: number,
+  durationElapsedMs?: number,
 }
 
 /**
@@ -90,4 +94,65 @@ export interface InitializeMessagePayload<TConfig> {
   orgId: string;
   spaceId: string;
   screenId?: string; // Empty if not running on a screen, e.g. in preview mode.
+  device: DeviceConfig,
+  filesByAppInstanceId: { nodes: Array<PlayerFile> },
+  durationMs?: number,
+  durationElapsedMs?: number,
 }
+
+export type Platform =
+  | "studio"
+  | "android"
+  | "firetv"
+  | "chrome"
+  | "ios"
+  | "embeddable"
+  | "msteams";
+
+export interface DeviceConfig {
+  platform?: Platform;
+  model?: string;
+  version?: string;
+}
+
+export type FileMediaType = "image" | "video" | "audio" | "document";
+
+interface PlayerFileBase {
+  availableAt: null | string;
+  expireAt: null | string;
+  height: number | undefined;
+  id: string;
+  name: string;
+  size: number;
+  width: number | undefined;
+  type: FileMediaType;
+  orgId: string;
+}
+
+export type Mimetype = string;
+
+export interface ImageFile extends PlayerFileBase {
+  type: "image";
+  urlKey: string;
+  mimetype: Mimetype;
+}
+
+export interface VideoFile extends PlayerFileBase {
+  type: "video";
+  urlKey: string;
+  mimetype: Mimetype;
+  thumbnail?: string;
+}
+
+export interface AudioFile extends PlayerFileBase {
+  type: "audio";
+  mimetype: Mimetype;
+  urlKey: string;
+}
+
+export interface DocumentFile extends PlayerFileBase {
+  type: "document";
+  images: ImageFile[];
+}
+
+export type PlayerFile = ImageFile | VideoFile | AudioFile | DocumentFile;

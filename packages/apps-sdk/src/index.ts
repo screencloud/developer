@@ -143,7 +143,11 @@ class ScreenCloud<TConfig = AppConfig> {
       appInstanceId: this.initializePayload?.appInstanceId,
       orgId: this.initializePayload?.orgId,
       spaceId: this.initializePayload?.spaceId,
-      screenId: this.initializePayload?.screenId
+      screenId: this.initializePayload?.screenId,
+      device: this.initializePayload?.device,
+      filesByAppInstanceId: this.initializePayload?.filesByAppInstanceId,
+      durationMs: this.initializePayload?.durationMs,
+      durationElapsedMs: this.initializePayload?.durationElapsedMs,
     };
   };
 
