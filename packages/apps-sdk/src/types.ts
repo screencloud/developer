@@ -51,7 +51,7 @@ export interface AppConfig {
   ]: any /* eslint-disable-line @typescript-eslint/no-explicit-any */;
 }
 
-type region = 'eu' | 'us'
+type region = "eu" | "us";
 
 interface PayloadAppContext {
   theme?: Theme;
@@ -71,10 +71,10 @@ export interface AppContext extends PayloadAppContext {
   orgId: string;
   spaceId: string;
   screenId?: string;
-  device: DeviceConfig,
-  filesByAppInstanceId: { nodes: Array<PlayerFile> },
-  durationMs?: number,
-  durationElapsedMs?: number,
+  device: DeviceConfig;
+  filesByAppInstanceId: { nodes: Array<PlayerFile> };
+  durationMs?: number;
+  durationElapsedMs?: number;
 }
 
 /**
@@ -94,10 +94,10 @@ export interface InitializeMessagePayload<TConfig> {
   orgId: string;
   spaceId: string;
   screenId?: string; // Empty if not running on a screen, e.g. in preview mode.
-  device: DeviceConfig,
-  filesByAppInstanceId: { nodes: Array<PlayerFile> },
-  durationMs?: number,
-  durationElapsedMs?: number,
+  device: DeviceConfig;
+  filesByAppInstanceId: { nodes: Array<PlayerFile> };
+  durationMs?: number;
+  durationElapsedMs?: number;
 }
 
 export type Platform =

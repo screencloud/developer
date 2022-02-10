@@ -25,8 +25,16 @@ export const SAMPLE_INITIALIZE_PAYLOAD: InitializeMessagePayload<AppConfig> = {
   },
   context: {
     userInteractionEnabled: false,
+    loggingLevel: 1,
+    playerHeight: 1920,
+    playerWidth: 1080,
+    region: "eu",
+    timezone: "Europe/London",
+    appViewerToken: "",
   },
   orgId: "org-333",
   spaceId: "space-444",
   screenId: "screen-555",
+  device: {},
+  filesByAppInstanceId: { nodes: [] },
 };
