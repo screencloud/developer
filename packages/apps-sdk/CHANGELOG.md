@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/screencloud/developer/compare/@screencloud/apps-sdk@1.1.0...@screencloud/apps-sdk@1.2.1) (2022-02-10)
+
+**Note:** Version bump only for package @screencloud/apps-sdk
+
+
+
+
+
 # [1.1.0](https://github.com/screencloud/developer/compare/@screencloud/apps-sdk@1.0.1...@screencloud/apps-sdk@1.1.0) (2020-04-27)
 
 
