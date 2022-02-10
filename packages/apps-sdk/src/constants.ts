@@ -26,8 +26,8 @@ export const SAMPLE_INITIALIZE_PAYLOAD: InitializeMessagePayload<AppConfig> = {
   context: {
     userInteractionEnabled: false,
     loggingLevel: 1,
-    playerHeight: 1920,
-    playerWidth: 1080,
+    playerHeight: 1080,
+    playerWidth: 1920,
     region: "eu",
     timezone: "Europe/London",
     appViewerToken: "",
