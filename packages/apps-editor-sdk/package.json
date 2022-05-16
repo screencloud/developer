@@ -1,0 +1,44 @@
+{
+  "name": "@screencloud/apps-editor-sdk",
+  "version": "1.0.0",
+  "description": "Vanilla JavaScript SDK for building ScreenCloud apps",
+  "keywords": [
+    "screencloud",
+    "apps",
+    "javascript",
+    "typescript"
+  ],
+  "author": "Michael Martin <michael@screencloud.io>",
+  "homepage": "https://screencloud.github.io/developer/",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/screencloud/developer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/screencloud/developer/issues"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc --watch",
+    "lint": "prettier --check --no-config 'src/**/*.{ts,tsx,js,jsx,html,css,sass,less,json,yml,md,graphql}' && eslint 'src/**/*.{ts,tsx,js,jsx}'",
+    "lint:fix": "prettier --write --no-config 'src/**/*.{ts,tsx,js,jsx,html,css,sass,less,json,yml,md,graphql}' && eslint --fix 'src/**/*.{ts,tsx,js,jsx}'"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.29.0",
+    "@typescript-eslint/parser": "^2.29.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "prettier": "^2.0.5",
+    "typescript": "^3.8.3"
+  },
+  "browserslist": "> 0.25%, not dead",
+  "publishConfig": {
+    "access": "public"
+  }
+}
