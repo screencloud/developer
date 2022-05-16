@@ -5,6 +5,7 @@ import {
   LOG_PREFIX,
   SAMPLE_INITIALIZE_PAYLOAD,
   START,
+  REQUEST_CONFIG_UPDATE,
 } from "./constants";
 import {
   AppMessage,
@@ -14,8 +15,16 @@ import {
   initializeMessage,
   PlayerMessage,
   startedMessage,
+  configUpdateAvailableMessage,
+  configUpdateMessage,
 } from "./messages";
-import { AppConfig, AppContext, InitializeMessagePayload } from "./types";
+import {
+  AppConfig,
+  AppContext,
+  InitializeMessagePayload,
+  RequestConfigType,
+  ConfigPayload,
+} from "./types";
 import { mergeInitializePayloads } from "./utils/objectUtils";
 import { parseMessage, sendMessage } from "./utils/postMessage";
 
@@ -42,6 +51,7 @@ class ScreenCloud<TConfig = AppConfig> {
 
   private onAppStartedPromise: Promise<boolean>;
   private resolveOnAppStarted?: (value: boolean) => void;
+  private getAppConfig?: (type: RequestConfigType) => Promise<ConfigPayload>;
 
   constructor() {
     window.addEventListener("message", this.onMessage, false);
@@ -143,7 +153,6 @@ class ScreenCloud<TConfig = AppConfig> {
       appInstanceId: this.initializePayload?.appInstanceId,
       orgId: this.initializePayload?.orgId,
       spaceId: this.initializePayload?.spaceId,
-      screenId: this.initializePayload?.screenId,
       device: this.initializePayload?.device,
       filesByAppInstanceId: this.initializePayload?.filesByAppInstanceId,
       durationMs: this.initializePayload?.durationMs,
@@ -195,6 +204,12 @@ class ScreenCloud<TConfig = AppConfig> {
       case START:
         this.handleStart();
         break;
+      case REQUEST_CONFIG_UPDATE:
+        // send config to parent
+        this.getAppConfig?.(message.payload).then(
+          this.handleRequestConfigUpdate
+        );
+        break;
     }
   };
 
@@ -238,6 +253,14 @@ class ScreenCloud<TConfig = AppConfig> {
   };
 
   /**
+   * Handle sending the message with the app config payload back to the parent.
+   */
+  private handleRequestConfigUpdate = (appConfig: ConfigPayload): void => {
+    console.log(LOG_PREFIX + "Emitting data", appConfig);
+    this.sendMessage(configUpdateMessage(appConfig));
+  };
+
+  /**
    * PostMessage to parent (player).
    */
   private sendMessage = (message: AppMessage): void => {
@@ -249,6 +272,22 @@ class ScreenCloud<TConfig = AppConfig> {
         sendMessage(message, "*");
       }
     }
+  };
+
+  /**
+   * Send a message to the parent to tell it that something has changed and enable the option to save.
+   */
+  public emitConfigUpdateAvailable = (): void => {
+    this.sendMessage(configUpdateAvailableMessage());
+  };
+
+  /**
+   * Allow the app to register a callback that can be called later to get the latest app config.
+   */
+  public onRequestConfigUpdate = (
+    getAppConfig: typeof this.getAppConfig
+  ): void => {
+    this.getAppConfig = getAppConfig;
   };
 }
 

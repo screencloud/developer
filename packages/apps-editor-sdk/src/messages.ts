@@ -1,16 +1,28 @@
+import { AppConfig } from "./../../apps-sdk/src/types";
 import {
   CONNECT,
   CONNECT_SUCCESS,
   INITIALIZED,
   START,
   STARTED,
+  REQUEST_CONFIG_UPDATE,
+  CONFIG_UPDATE_AVAILABLE,
 } from "./constants";
-import { InitializeMessagePayload } from "./types";
+import {
+  ConfigPayload,
+  InitializeMessagePayload,
+  RequestConfigType,
+} from "./types";
 
 /**
  * Messages created by the App, and sent to the Player.
  */
-export type AppMessage = ConnectMessage | InitializedMessage | StartedMessage;
+export type AppMessage =
+  | ConnectMessage
+  | InitializedMessage
+  | StartedMessage
+  | ConfigUpdateAvailableMessage
+  | ConfigUpdateMessage;
 
 /**
  * Messages created by the Player, and send to the app.
@@ -18,7 +30,8 @@ export type AppMessage = ConnectMessage | InitializedMessage | StartedMessage;
 export type PlayerMessage<T> =
   | ConnectSuccessMessage
   | InitializeMessage<T>
-  | StartMessage;
+  | StartMessage
+  | RequestConfigUpdateMessage;
 
 export interface ConnectMessage {
   type: typeof CONNECT;
@@ -50,6 +63,16 @@ export const startedMessage = (): StartedMessage => {
   };
 };
 
+export interface ConfigUpdateAvailableMessage {
+  type: typeof CONFIG_UPDATE_AVAILABLE;
+}
+
+export const configUpdateAvailableMessage = (): ConfigUpdateAvailableMessage => {
+  return {
+    type: CONFIG_UPDATE_AVAILABLE,
+  };
+};
+
 /**
  * Messages the Parent can send
  */
@@ -74,3 +97,22 @@ export const initializeMessage = <T>(
 export interface StartMessage {
   type: typeof START;
 }
+
+export interface RequestConfigUpdateMessage {
+  type: typeof REQUEST_CONFIG_UPDATE;
+  payload: RequestConfigType;
+}
+
+export interface ConfigUpdateMessage {
+  type: typeof REQUEST_CONFIG_UPDATE;
+  payload: ConfigPayload;
+}
+
+export const configUpdateMessage = (
+  appConfig: ConfigPayload
+): ConfigUpdateMessage => {
+  return {
+    type: REQUEST_CONFIG_UPDATE,
+    payload: appConfig,
+  };
+};

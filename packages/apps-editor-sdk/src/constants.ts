@@ -8,6 +8,8 @@ export const INITIALIZE = "initialize";
 export const INITIALIZED = "initialized";
 export const START = "start";
 export const STARTED = "started";
+export const REQUEST_CONFIG_UPDATE = "requestConfigUpdate";
+export const CONFIG_UPDATE_AVAILABLE = "configUpdateAvailable";
 
 // Message "type"s which prefix their string with ___
 export const LEGACY_PREFIXED_TYPES = [CONNECT, CONNECT_SUCCESS, DISCONNECT];
@@ -34,7 +36,6 @@ export const SAMPLE_INITIALIZE_PAYLOAD: InitializeMessagePayload<AppConfig> = {
   },
   orgId: "org-333",
   spaceId: "space-444",
-  screenId: "screen-555",
   device: {},
   filesByAppInstanceId: { nodes: [] },
 };
