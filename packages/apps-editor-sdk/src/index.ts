@@ -6,7 +6,6 @@ import {
   SAMPLE_INITIALIZE_PAYLOAD,
   START,
   REQUEST_CONFIG_UPDATE,
-  CONFIG_UPDATE_AVAILABLE,
 } from "./constants";
 import {
   AppMessage,
