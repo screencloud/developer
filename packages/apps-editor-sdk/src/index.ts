@@ -278,10 +278,6 @@ class ScreenCloud<TConfig = AppConfig> {
       // The initial CONNECT message can be sent to any origin.
       if (message.type === CONNECT) {
         sendMessage(message, "*");
-      } else if (message.type === CONFIG_UPDATE_AVAILABLE) {
-        sendMessage(message, "*");
-      } else if (message.type === REQUEST_CONFIG_UPDATE) {
-        sendMessage(message, "*", 1);
       }
     }
   };
