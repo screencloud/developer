@@ -29,6 +29,7 @@
     "lint:fix": "prettier --write --no-config 'src/**/*.{ts,tsx,js,jsx,html,css,sass,less,json,yml,md,graphql}' && eslint --fix 'src/**/*.{ts,tsx,js,jsx}'"
   },
   "devDependencies": {
+    "@types/node": "^17.0.33",
     "@typescript-eslint/eslint-plugin": "^2.29.0",
     "@typescript-eslint/parser": "^2.29.0",
     "eslint": "^6.8.0",

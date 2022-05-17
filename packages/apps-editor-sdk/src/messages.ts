@@ -11,7 +11,7 @@ import {
 import {
   ConfigPayload,
   InitializeMessagePayload,
-  RequestConfigType,
+  ConfigUpdateRequest,
 } from "./types";
 
 /**
@@ -100,7 +100,7 @@ export interface StartMessage {
 
 export interface RequestConfigUpdateMessage {
   type: typeof REQUEST_CONFIG_UPDATE;
-  payload: RequestConfigType;
+  payload: ConfigUpdateRequest;
 }
 
 export interface ConfigUpdateMessage {

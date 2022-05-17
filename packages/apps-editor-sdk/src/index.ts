@@ -6,6 +6,7 @@ import {
   SAMPLE_INITIALIZE_PAYLOAD,
   START,
   REQUEST_CONFIG_UPDATE,
+  CONFIG_UPDATE_AVAILABLE,
 } from "./constants";
 import {
   AppMessage,
@@ -22,8 +23,10 @@ import {
   AppConfig,
   AppContext,
   InitializeMessagePayload,
-  RequestConfigType,
   ConfigPayload,
+  OnRequestConfigUpdate,
+  EmitConfigUpdateAvailable,
+  OnRequestConfigUpdateCallback,
 } from "./types";
 import { mergeInitializePayloads } from "./utils/objectUtils";
 import { parseMessage, sendMessage } from "./utils/postMessage";
@@ -51,7 +54,7 @@ class ScreenCloud<TConfig = AppConfig> {
 
   private onAppStartedPromise: Promise<boolean>;
   private resolveOnAppStarted?: (value: boolean) => void;
-  private getAppConfig?: (type: RequestConfigType) => Promise<ConfigPayload>;
+  private getAppConfig?: OnRequestConfigUpdateCallback;
 
   constructor() {
     window.addEventListener("message", this.onMessage, false);
@@ -265,11 +268,20 @@ class ScreenCloud<TConfig = AppConfig> {
    */
   private sendMessage = (message: AppMessage): void => {
     if (this.parentOrigin) {
-      sendMessage(message, this.parentOrigin);
+      if (message.type === REQUEST_CONFIG_UPDATE) {
+        // ReferenceId is always 1 for requestConfigUpdate
+        sendMessage(message, this.parentOrigin, 1);
+      } else {
+        sendMessage(message, this.parentOrigin);
+      }
     } else {
       // The initial CONNECT message can be sent to any origin.
       if (message.type === CONNECT) {
         sendMessage(message, "*");
+      } else if (message.type === CONFIG_UPDATE_AVAILABLE) {
+        sendMessage(message, "*");
+      } else if (message.type === REQUEST_CONFIG_UPDATE) {
+        sendMessage(message, "*", 1);
       }
     }
   };
@@ -277,15 +289,15 @@ class ScreenCloud<TConfig = AppConfig> {
   /**
    * Send a message to the parent to tell it that something has changed and enable the option to save.
    */
-  public emitConfigUpdateAvailable = (): void => {
+  public emitConfigUpdateAvailable: EmitConfigUpdateAvailable = () => {
     this.sendMessage(configUpdateAvailableMessage());
   };
 
   /**
    * Allow the app to register a callback that can be called later to get the latest app config.
    */
-  public onRequestConfigUpdate = (
-    getAppConfig: typeof this.getAppConfig
+  public onRequestConfigUpdate: OnRequestConfigUpdate = (
+    getAppConfig
   ): void => {
     this.getAppConfig = getAppConfig;
   };

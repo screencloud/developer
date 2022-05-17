@@ -9,7 +9,9 @@ import { AppMessage, PlayerMessage } from "../messages";
  */
 export const sendMessage = (
   message: AppMessage,
-  targetOrigin: string
+  targetOrigin: string,
+  referenceId?: number,
+  requestId?: number
 ): void => {
   const parent = window.parent || window.opener;
 
@@ -30,6 +32,8 @@ export const sendMessage = (
   } else {
     processedMessage = JSON.stringify({
       data: message,
+      referenceId,
+      requestId,
     });
   }
 

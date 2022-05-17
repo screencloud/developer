@@ -1,10 +1,9 @@
 export interface ScreenCloud<TConfig> {
-  appStarted: boolean; // Is the app visible? (i.e. not preloading)
   context: AppContext;
   appId: string;
   config: TConfig;
-  emitConfigUpdateAvailable: Function;
-  onRequestConfigUpdate: Function;
+  emitConfigUpdateAvailable: EmitConfigUpdateAvailable;
+  onRequestConfigUpdate: OnRequestConfigUpdate;
   //   UNSAFE_onStart: Function;
   //   requestFile: Function;
   //   requestFiles: Function;
@@ -114,8 +113,20 @@ export interface DocumentFile extends PlayerFileBase {
 
 export type PlayerFile = ImageFile | VideoFile | AudioFile | DocumentFile;
 
-export type RequestConfigType = "save" | "preview";
+export interface ConfigUpdateRequest {
+  type: "preview" | "save";
+}
 
 export interface ConfigPayload {
   config: AppConfig;
 }
+
+export type EmitConfigUpdateAvailable = () => void;
+
+export type OnRequestConfigUpdateCallback = (
+  request: ConfigUpdateRequest
+) => Promise<ConfigPayload>;
+
+export type OnRequestConfigUpdate = (
+  param: OnRequestConfigUpdateCallback
+) => void;
