@@ -268,8 +268,8 @@ class ScreenCloud<TConfig = AppConfig> {
   private sendMessage = (message: AppMessage): void => {
     if (this.parentOrigin) {
       if (message.type === REQUEST_CONFIG_UPDATE) {
-        // ReferenceId is always 1 for requestConfigUpdate
-        sendMessage(message, this.parentOrigin, 1);
+        // ReferenceId is always 1 for requestConfigUpdate. RequestConfigUpdate uses referenceId instead of type
+        sendMessage(message.payload, this.parentOrigin, 1);
       } else {
         sendMessage(message, this.parentOrigin);
       }
