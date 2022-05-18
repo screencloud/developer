@@ -1,4 +1,3 @@
-import { AppConfig } from "./../../apps-sdk/src/types";
 import {
   CONNECT,
   CONNECT_SUCCESS,
