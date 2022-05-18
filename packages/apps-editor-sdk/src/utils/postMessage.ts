@@ -1,3 +1,5 @@
+import { AppConfig } from "./../types";
+import { REQUEST_CONFIG_UPDATE } from "./../constants";
 import { LEGACY_PREFIXED_TYPES, LOG_PREFIX } from "../constants";
 import { AppMessage, PlayerMessage } from "../messages";
 
@@ -8,7 +10,7 @@ import { AppMessage, PlayerMessage } from "../messages";
  * Send a postMessage to the player.
  */
 export const sendMessage = (
-  message: AppMessage,
+  message: AppMessage | AppConfig,
   targetOrigin: string,
   referenceId?: number,
   requestId?: number
