@@ -64,17 +64,19 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: "style.[chunkhash].css",
     }),
-    new CopyWebpackPlugin([
-      {
-        from: "./src/images",
-        to: "images",
-      },
-    ]),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: "./src/images", to: "images" },
+      ],
+
+}),
     new CleanWebpackPlugin(),
   ],
 
   devServer: {
-    clientLogLevel: "silent",
+    client: {
+      logging: 'info',
+    },
     port: 8000,
   },
 };
