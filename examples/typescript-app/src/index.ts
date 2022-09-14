@@ -33,6 +33,7 @@ async function fetchRandomQuote(): Promise<string> {
   } catch (err) {
     console.warn("Something went wrong loading your data.");
     console.warn(err);
+    return "Failed to fetch a quote.";
   }
 }
 
@@ -41,6 +42,10 @@ async function fetchRandomQuote(): Promise<string> {
  */
 async function updateQuote() {
   const quoteElement = document.querySelector(".quote");
+
+  if (!quoteElement) {
+    return;
+  }
 
   const quoteText = await fetchRandomQuote();
 
@@ -58,7 +63,7 @@ async function updateQuote() {
  * Starts up the app.
  */
 async function start() {
-  let testData: Partial<InitializeMessagePayload<AppConfig>>;
+  let testData: Partial<InitializeMessagePayload<AppConfig>> = {};
 
   if (process.env.NODE_ENV === "development") {
     testData = {
