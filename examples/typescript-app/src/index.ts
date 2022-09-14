@@ -41,6 +41,7 @@ async function fetchRandomQuote(): Promise<string> {
  */
 async function updateQuote() {
   const quoteElement = document.querySelector(".quote");
+
   const quoteText = await fetchRandomQuote();
 
   // Not foolproof, but try to deal with the odd overly-long quote too.
