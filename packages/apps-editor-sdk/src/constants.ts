@@ -33,6 +33,7 @@ export const SAMPLE_INITIALIZE_PAYLOAD: InitializeMessagePayload<AppConfig> = {
     region: "eu",
     timezone: "Europe/London",
     appViewerToken: "",
+    appManagementToken: "",
   },
   orgId: "org-333",
   spaceId: "space-444",
