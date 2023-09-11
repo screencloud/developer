@@ -29,7 +29,7 @@ interface PayloadAppContext {
   region: region;
   timezone: string;
   appViewerToken: string;
-  appManagementToken?: string;
+  appManagementToken: string;
 }
 
 export interface AppContext extends PayloadAppContext {
