@@ -1,5 +1,6 @@
 ---
 title: Webhooks App
+metaDescription: Effortlessly set up and send webhooks with our comprehensive guide.
 ---
 
 # Setting Up the App Instance
@@ -41,9 +42,9 @@ Ensure you send the content of your webhook in the JSON format within the reques
       "lastEditedTime": "2024-02-01T12:30:00Z",
       "messageUrl": "https://example.com/message/12345",
       "author": {
-        "displayName": "John Doe",
+        "displayName": "David Jones",
         "profileImage": {
-          "url": "https://example.com/profiles/johndoe.jpg"
+          "url": "https://example.com/profiles/davidjones.jpg"
         }
       },
       "content": {
@@ -51,7 +52,7 @@ Ensure you send the content of your webhook in the JSON format within the reques
           "content": "Sample Title"
         },
         "body": {
-          "content": "This is a sample body content for the message."
+          "content": "This is a sample body content for the hook."
         }
       },
       "attachments": [
@@ -81,6 +82,44 @@ Ensure you send the content of your webhook in the JSON format within the reques
 
 > IMPORTANT: You must supply a `title`, `content` and/or `image`.
 
+# Display Formats
+
+Below are examples showcasing various display formats your webhooks will adopt when they appear on screen. The layout may vary slightly based on the content of your webhook. These illustrations aim to provide an overview of potential layouts.
+
+<details>
+  <summary>Show full content screenshot</summary>
+
+![title only post](./images/hook-all.png)
+
+</details>
+
+<details>
+  <summary>Show title only screenshot</summary>
+
+![title only post](./images/hook-title-only.png)
+
+</details>
+
+<details>
+  <summary>Show body only screenshot</summary>
+
+![body only post](./images/hook-body-only.png)
+
+</details>
+
+<details>
+  <summary>Show image only screenshot</summary>
+
+![image only post](./images/hook-image-only.png)
+
+</details>
+
 # Error Responses
 
-TBC
+Every error response you get from a webhook `POST` will be in the format outlined below. Essentially, you'll be given a list of all errors detected in your `POST` request. Receiving any error means the request has failed, and your webhook wasn't processed. Address the errors and attempt the request once more.
+
+```json
+{
+  "messages": ["At least one of title, body, or attachment is required"]
+}
+```
