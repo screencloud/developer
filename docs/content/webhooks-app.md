@@ -123,3 +123,14 @@ Every error response you get from a webhook `POST` will be in the format outline
   "messages": ["At least one of title, body, or attachment is required"]
 }
 ```
+
+# Code Example
+
+The example below demonstrates how to send a webhook using cURL. Just swap out the placeholders (like the URL and API key) with your own information gathered from the initial setup step to trigger the webhook.
+
+```shell
+curl --location 'https://apps-api-feeds.{region}.screencloudapps.com/v1/hooks/{uniqueId}' \
+--header 'X-API-Key: {apiKey}' \
+--header 'Content-Type: application/json' \
+--data '{"items":[{"itemId":"12345","dateCreated":"2024-02-01T12:00:00Z","lastEditedTime":"2024-02-01T12:30:00Z","messageUrl":"https://example.com/message/12345","author":{"displayName":"David Jones","profileImage":{"url":"https://example.com/profiles/davidjones.jpg"}},"content":{"title":{"content":"Sample Title"},"body":{"content":"This is a sample body content for the hook."}},"attachments":[{"contentType":"image","url":"https://example.com/images/sample.jpg"}]}]}'
+```
