@@ -13,7 +13,7 @@ Here's what your unique webhook URL will look like:
 https://apps-api-feeds.{region}.screencloudapps.com/v1/hooks/{uniqueId}
 ```
 
-Your API key will be a 24-character alphanumeric string (to be determined), such as:
+Your API key will be a 24-character alphanumeric string, such as:
 
 ```
 S8IjvxXE1x6PcwvmClcVfH6r
@@ -23,10 +23,10 @@ S8IjvxXE1x6PcwvmClcVfH6r
 
 After obtaining your unique webhook URL and API key, you're all set to send your webhooks. You should `POST` all webhooks to your designated URL, including the API key within the `X-API-Key` header:
 
-```shell
-POST /v1/hooks/AnzLxehpCwCQFmggRhEm4xfuJh5xFvxV HTTP/1.1
+```
+POST /v1/hooks/816ce4d8-c0cc-476b-8121-33e600e0e33e HTTP/1.1
 Host: apps-api-feeds.eu.screencloudapps.com
-X-API-Key: {API_KEY}
+X-API-Key: S8IjvxXE1x6PcwvmClcVfH6r
 ```
 
 # Webhook Data Format
@@ -129,8 +129,8 @@ Every error response you get from a webhook `POST` will be in the format outline
 The example below demonstrates how to send a webhook using cURL. Just swap out the placeholders (like the URL and API key) with your own information gathered from the initial setup step to trigger the webhook.
 
 ```shell
-curl --location 'https://apps-api-feeds.{region}.screencloudapps.com/v1/hooks/{uniqueId}' \
---header 'X-API-Key: {apiKey}' \
+curl --location 'https://apps-api-feeds.eu.screencloudapps.com/v1/hooks/816ce4d8-c0cc-476b-8121-33e600e0e33e' \
+--header 'X-API-Key: S8IjvxXE1x6PcwvmClcVfH6r' \
 --header 'Content-Type: application/json' \
 --data '{"items":[{"itemId":"12345","dateCreated":"2024-02-01T12:00:00Z","lastEditedTime":"2024-02-01T12:30:00Z","messageUrl":"https://example.com/message/12345","author":{"displayName":"David Jones","profileImage":{"url":"https://example.com/profiles/davidjones.jpg"}},"content":{"title":{"content":"Sample Title"},"body":{"content":"This is a sample body content for the hook."}},"attachments":[{"contentType":"image","url":"https://example.com/images/sample.jpg"}]}]}'
 ```
