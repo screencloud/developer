@@ -65,7 +65,6 @@ export default class MDXRuntimeTest extends Component {
       });
 
     // meta tags
-    console.log('mdx', mdx);
     const metaTitle = `${mdx.frontmatter.metaTitle || mdx.fields.title}${
       config.siteMetadata.titleSuffix
     }`;

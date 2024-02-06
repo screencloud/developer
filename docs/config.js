@@ -28,6 +28,7 @@ const config = {
       '/example-codebases',
       '/firebase-react-app',
       '/example-user-apps',
+      '/webhooks-app',
     ],
     collapsedNav: [
       '/codeblock', // add trailing slash if enabled above

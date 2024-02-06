@@ -24,7 +24,6 @@ const SidebarLayout = ({ location }) => (
 
       if (allMdx.edges !== undefined && allMdx.edges.length > 0) {
         allMdx.edges.map(item => {
-          console.log(item);
           let innerItems;
 
           if (item !== undefined) {

@@ -25,7 +25,8 @@ const TreeNode = ({ className = '', setCollapsed, collapsed, url, title, items, 
 
   return (
     <li className={calculatedClassName}>
-      {title && (
+      {/* TODO: Remove the below url check, its just to hide the item for now */}
+      {title && url !== '/webhooks-app' && (
         <Link to={url}>
           {title}
           {!config.sidebar.frontLine && title && hasChildren ? (
