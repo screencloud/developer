@@ -5,7 +5,7 @@ metaDescription: Effortlessly set up and send webhooks with our comprehensive gu
 
 # Setting Up the App Instance
 
-Begin by installing the webhooks app from the Studio App store. Once you've named your instance, you'll get a unique webhook URL and an API key, both essential for sending webhook requests.
+Begin by installing the Webhooks app from the Studio App store. Create a new instance, after which you'll then name your webhook and click the Generate webhook button. This will return a unique webhook URL and an API key, both essential for sending webhook requests.
 
 Here's what your unique webhook URL will look like:
 
@@ -70,7 +70,7 @@ Ensure you send the content of your webhook in the JSON format within the reques
 
 | Name                      | Type       | Required | Description                                        |
 | ------------------------- | ---------- | -------- | -------------------------------------------------- |
-| `itemId`                  | `string`   | No       | You're own internal identifier.                    |
+| `itemId`                  | `string`   | No       | Your own internal identifier.                      |
 | `dateCreated`             | `string`   | No       | UTC date string item was created.                  |
 | `lastEditedTime`          | `string`   | No       | UTC date string item was last edited.              |
 | `messageUrl`              | `string`   | No       | Will generate a QR code to the message source URL. |
@@ -78,9 +78,10 @@ Ensure you send the content of your webhook in the JSON format within the reques
 | `author.profileImage.url` | `string`   | No       | Display an author profile image.                   |
 | `content.title.content`   | `string`   | No       | Title of the webhook post.                         |
 | `content.body.content`    | `string`   | No       | Main body content of the webhook post.             |
-| `attachments.url`         | `string[]` | No       | Accompanying image for thr webhook post.           |
+| `attachments.contentType` | `image`    | No       | Currently only supports `image`.                   |
+| `attachments.url`         | `string[]` | No       | Accompanying image for the webhook post.           |
 
-> IMPORTANT: You must supply a `title`, `content` and/or `image`.
+> It is required to provide a `title`, `body`, `image`, or any combination of these three fields.
 
 # Display Formats
 
