@@ -19,6 +19,8 @@ Your API key will be a 24-character alphanumeric string, such as:
 S8IjvxXE1x6PcwvmClcVfH6r
 ```
 
+**IMPORTANT:** Please make sure to record the API key, as you won't have the opportunity to view it again after navigating away from this page.
+
 # Sending a Webhook Request
 
 After obtaining your unique webhook URL and API key, you're all set to send your webhooks. You should `POST` all webhooks to your designated URL, including the API key within the `X-API-Key` header:
@@ -81,7 +83,7 @@ Ensure you send the content of your webhook in the JSON format within the reques
 | `attachments.contentType` | `image`    | No       | Currently only supports `image`.                   |
 | `attachments.url`         | `string[]` | No       | Accompanying image for the webhook post.           |
 
-> It is required to provide a `title`, `body`, `image`, or any combination of these three fields.
+> You must supply at least one of the following fields: `content.title.content`, `content.body.content`, or `attachments.url`. Combinations of these fields are also acceptable.
 
 # Display Formats
 
@@ -92,12 +94,65 @@ Below are examples showcasing various display formats your webhooks will adopt w
 
 ![title only post](./images/hook-all.png)
 
+The example below demonstrates the simplest data structure you would `POST` to achieve the above result.
+
+```json
+{
+  "items": [
+    {
+      "author": {
+        "displayName": "David Jones",
+        "profileImage": {
+          "url": "https://example.com/profiles/davidjones.jpg"
+        }
+      },
+      "content": {
+        "title": {
+          "content": "Welcome to our new London Office!"
+        },
+        "body": {
+          "content": "We are excited to announce the opening of our new office in London. The new office is located in the heart of the city and will be the new home for our growing team. We ar elooking forward to welcoming our clients and partners to our new office."
+        }
+      },
+      "attachments": [
+        {
+          "contentType": "image",
+          "url": "https://example.com/images/sample.jpg"
+        }
+      ]
+    }
+  ]
+}
+```
+
 </details>
 
 <details>
   <summary>Show title only screenshot</summary>
 
 ![title only post](./images/hook-title-only.png)
+
+The example below demonstrates the simplest data structure you would `POST` to achieve the above result.
+
+```json
+{
+  "items": [
+    {
+      "author": {
+        "displayName": "David Jones",
+        "profileImage": {
+          "url": "https://example.com/profiles/davidjones.jpg"
+        }
+      },
+      "content": {
+        "title": {
+          "content": "Huge thanks to Emma for her hard work on the new project."
+        }
+      }
+    }
+  ]
+}
+```
 
 </details>
 
@@ -106,12 +161,57 @@ Below are examples showcasing various display formats your webhooks will adopt w
 
 ![body only post](./images/hook-body-only.png)
 
+The example below demonstrates the simplest data structure you would `POST` to achieve the above result.
+
+```json
+{
+  "items": [
+    {
+      "author": {
+        "displayName": "David Jones",
+        "profileImage": {
+          "url": "https://example.com/profiles/davidjones.jpg"
+        }
+      },
+      "content": {
+        "body": {
+          "content": "Happy Anniversary to Richard. 2 years at the company today. Thanks for all your hard work!"
+        }
+      }
+    }
+  ]
+}
+```
+
 </details>
 
 <details>
   <summary>Show image only screenshot</summary>
 
 ![image only post](./images/hook-image-only.png)
+
+The example below demonstrates the simplest data structure you would `POST` to achieve the above result.
+
+```json
+{
+  "items": [
+    {
+      "author": {
+        "displayName": "David Jones",
+        "profileImage": {
+          "url": "https://example.com/profiles/davidjones.jpg"
+        }
+      },
+      "attachments": [
+        {
+          "contentType": "image",
+          "url": "https://example.com/images/sample.jpg"
+        }
+      ]
+    }
+  ]
+}
+```
 
 </details>
 
