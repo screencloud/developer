@@ -3,6 +3,10 @@ title: Webhooks App
 metaDescription: Effortlessly set up and send webhooks with our comprehensive guide.
 ---
 
+# Overview
+
+You can use the ScreenCloud webhook app to develop custom inputs that can be pushed to Studio and utilise our core onscreen design language, ensuring your content looks great on screen. This guide will help get you setup.
+
 # Setting Up the App Instance
 
 Begin by installing the Webhooks app from the Studio App store. Create a new instance, after which you'll then name your webhook and click the Generate webhook button. This will return a unique webhook URL and an API key, both essential for sending webhook requests.
