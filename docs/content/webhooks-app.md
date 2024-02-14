@@ -96,7 +96,7 @@ Below are examples showcasing various display formats your webhooks will adopt w
 <details>
   <summary>Show full content screenshot</summary>
 
-![title only post](./images/hook-all.png)
+![full content post](./images/hook-all.png)
 
 The example below demonstrates the simplest data structure you would `POST` to achieve the above result.
 
@@ -134,7 +134,7 @@ The example below demonstrates the simplest data structure you would `POST` to a
 <details>
   <summary>Show title only screenshot</summary>
 
-![title only post](./images/hook-title-only.png)
+![title only post](./images/hook-title-only-v2.png)
 
 The example below demonstrates the simplest data structure you would `POST` to achieve the above result.
 
@@ -142,12 +142,6 @@ The example below demonstrates the simplest data structure you would `POST` to a
 {
   "items": [
     {
-      "author": {
-        "displayName": "David Jones",
-        "profileImage": {
-          "url": "https://example.com/profiles/davidjones.jpg"
-        }
-      },
       "content": {
         "title": {
           "content": "Huge thanks to Emma for her hard work on the new project."
@@ -163,7 +157,7 @@ The example below demonstrates the simplest data structure you would `POST` to a
 <details>
   <summary>Show body only screenshot</summary>
 
-![body only post](./images/hook-body-only.png)
+![body only post](./images/hook-body-only-v2.png)
 
 The example below demonstrates the simplest data structure you would `POST` to achieve the above result.
 
@@ -171,12 +165,6 @@ The example below demonstrates the simplest data structure you would `POST` to a
 {
   "items": [
     {
-      "author": {
-        "displayName": "David Jones",
-        "profileImage": {
-          "url": "https://example.com/profiles/davidjones.jpg"
-        }
-      },
       "content": {
         "body": {
           "content": "Happy Anniversary to Richard. 2 years at the company today. Thanks for all your hard work!"
@@ -192,7 +180,7 @@ The example below demonstrates the simplest data structure you would `POST` to a
 <details>
   <summary>Show image only screenshot</summary>
 
-![image only post](./images/hook-image-only.png)
+![image only post](./images/hook-image-only-v2.png)
 
 The example below demonstrates the simplest data structure you would `POST` to achieve the above result.
 
@@ -200,18 +188,36 @@ The example below demonstrates the simplest data structure you would `POST` to a
 {
   "items": [
     {
-      "author": {
-        "displayName": "David Jones",
-        "profileImage": {
-          "url": "https://example.com/profiles/davidjones.jpg"
-        }
-      },
       "attachments": [
         {
           "contentType": "image",
           "url": "https://example.com/images/sample.jpg"
         }
       ]
+    }
+  ]
+}
+```
+
+</details>
+
+<details>
+  <summary>Show title and QR code screenshot</summary>
+
+![title and QR code post](./images/hook-title-qr.png)
+
+The example below demonstrates the simplest data structure you would `POST` to achieve the above result.
+
+```json
+{
+  "items": [
+    {
+      "messageUrl": "https://example.com/some-page/",
+      "content": {
+        "title": {
+          "content": "Huge thanks to Emma for her hard work on the new project."
+        }
+      }
     }
   ]
 }
