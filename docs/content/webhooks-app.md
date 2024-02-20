@@ -84,7 +84,7 @@ Ensure you send the content of your webhook in the JSON format within the reques
 | `author.profileImage.url` | `string`   | No       | Display an author profile image.                   |
 | `content.title.content`   | `string`   | No       | Title of the webhook post.                         |
 | `content.body.content`    | `string`   | No       | Main body content of the webhook post.             |
-| `attachments.contentType` | `image`    | No       | Currently only supports `image`.                   |
+| `attachments.contentType` | `image || link` | No       | Currently only supports `image` or `link`     |
 | `attachments.url`         | `string[]` | No       | Accompanying image for the webhook post.           |
 
 > You must supply at least one of the following fields: `content.title.content`, `content.body.content`, or `attachments.url`. Combinations of these fields are also acceptable.
@@ -218,6 +218,60 @@ The example below demonstrates the simplest data structure you would `POST` to a
           "content": "Huge thanks to Emma for her hard work on the new project."
         }
       }
+    }
+  ]
+}
+```
+
+</details>
+<details>
+  <summary>Show title and link screenshot</summary>
+
+![title and link post](./images/hook-title-link.png)
+A large call to action QR Code represents the link. The user can scan the QR Code and they will be taken to the link.
+The example below demonstrates the simplest data structure you would `POST` to achieve the above result.
+
+```json
+{
+  "items": [
+    {
+      "content": {
+        "title": {
+          "content": "View the latest Health and Safety Information"
+        }
+      },
+      "attachments": [
+        {
+          "contentType": "link",
+          "url": "https://example.com/health-and-safety"
+        }
+      ]
+    }
+  ]
+}
+```
+
+</details>
+<details>
+  <summary>Show link only screenshot</summary>
+
+![title and link post](./images/hook-link-only.png)
+A large call to action QR Code represents the link. The user can scan the QR Code and they will be taken to the link.
+The example below demonstrates the simplest data structure you would `POST` to achieve the above result.
+
+```json
+{
+  "items": [
+    {
+      "author": {
+        "displayName": "Mike Smith"
+      },
+      "attachments": [
+        {
+          "contentType": "link",
+          "url": "https://example.com/health-and-safety"
+        }
+      ]
     }
   ]
 }
