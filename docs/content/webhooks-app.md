@@ -291,7 +291,7 @@ Every error response you get from a webhook `POST` will be in the format outline
 
 ## Problematic Attachments
 
-When you include `attachments` with a specified `contentType` or `image`, we'll verify not just the URL's validity and existence, but also confirm that the content type matches an image. Should this verification fail, you'll be alerted that the attachment has been excluded from the post. The webhook post will proceed successfully; however, the invalid images will be omitted.
+When you include `attachments` with a specified `contentType` of `image`, we'll verify not just the URL's validity and existence, but also confirm that the content type matches an image. Should this verification fail, you'll be alerted that the attachment has been excluded from the post. The webhook post will proceed successfully; however, the invalid images will be omitted.
 
 Here's how such a response would appear:
 
