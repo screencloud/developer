@@ -74,18 +74,18 @@ Ensure you send the content of your webhook in the JSON format within the reques
 
 ## Webhook Params
 
-| Name                      | Type       | Required | Description                                        |
-| ------------------------- | ---------- | -------- | -------------------------------------------------- |
-| `itemId`                  | `string`   | No       | Your own internal identifier.                      |
-| `dateCreated`             | `string`   | No       | UTC date string item was created.                  |
-| `lastEditedTime`          | `string`   | No       | UTC date string item was last edited.              |
-| `messageUrl`              | `string`   | No       | Will generate a QR code to the message source URL. |
-| `author.displayName`      | `string`   | No       | Display the author name.                           |
-| `author.profileImage.url` | `string`   | No       | Display an author profile image.                   |
-| `content.title.content`   | `string`   | No       | Title of the webhook post.                         |
-| `content.body.content`    | `string`   | No       | Main body content of the webhook post.             |
-| `attachments.contentType` | `image || link` | No       | Currently only supports `image` or `link`     |
-| `attachments.url`         | `string[]` | No       | Accompanying image for the webhook post.           |
+| Name                      | Type            | Required | Description                                        |
+| ------------------------- | --------------- | -------- | -------------------------------------------------- |
+| `itemId`                  | `string`        | No       | Your own internal identifier.                      |
+| `dateCreated`             | `string`        | No       | UTC date string item was created.                  |
+| `lastEditedTime`          | `string`        | No       | UTC date string item was last edited.              |
+| `messageUrl`              | `string`        | No       | Will generate a QR code to the message source URL. |
+| `author.displayName`      | `string`        | No       | Display the author name.                           |
+| `author.profileImage.url` | `string`        | No       | Display an author profile image.                   |
+| `content.title.content`   | `string`        | No       | Title of the webhook post.                         |
+| `content.body.content`    | `string`        | No       | Main body content of the webhook post.             |
+| `attachments.contentType` | `image`, `link` | No       | Currently only supports `image` or `link`          |
+| `attachments.url`         | `string[]`      | No       | Accompanying image for the webhook post.           |
 
 > You must supply at least one of the following fields: `content.title.content`, `content.body.content`, or `attachments.url`. Combinations of these fields are also acceptable.
 
@@ -286,6 +286,29 @@ Every error response you get from a webhook `POST` will be in the format outline
 ```json
 {
   "messages": ["At least one of title, body, or attachment is required"]
+}
+```
+
+## Problematic Attachments
+
+When you include `attachments` with a specified `contentType` or `image`, we'll verify not just the URL's validity and existence, but also confirm that the content type matches an image. Should this verification fail, you'll be alerted that the attachment has been excluded from the post. The webhook post will proceed successfully; however, the invalid images will be omitted.
+
+Here's how such a response would appear:
+
+```json
+{
+  "success": true,
+  "data": {
+    "warning": {
+      "message": "We were unable to access the following image attachment urls. These images have been removed from your post item. Please check the urls and try again",
+      "data": [
+        {
+          "itemId": "item-0001",
+          "url": "https://example.com/invalid-image.png"
+        }
+      ]
+    }
+  }
 }
 ```
 
