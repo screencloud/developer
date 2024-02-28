@@ -25,7 +25,6 @@ const TreeNode = ({ className = '', setCollapsed, collapsed, url, title, items, 
 
   return (
     <li className={calculatedClassName}>
-      {/* TODO: Remove the below url check, its just to hide the item for now */}
       {title && (
         <Link to={url}>
           {title}
