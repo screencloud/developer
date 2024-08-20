@@ -83,11 +83,32 @@ Ensure you send the content of your webhook in the JSON format within the reques
 | `author.displayName`      | `string`        | No       | Display the author name.                           |
 | `author.profileImage.url` | `string`        | No       | Display an author profile image.                   |
 | `content.title.content`   | `string`        | No       | Title of the webhook post.                         |
-| `content.body.content`    | `string`        | No       | Main body content of the webhook post.             |
+| `content.body.content`    | `string`        | No       | Main body content of the webhook post              |
 | `attachments.contentType` | `image`, `link` | No       | Currently only supports `image` or `link`          |
 | `attachments.url`         | `string[]`      | No       | Accompanying image for the webhook post.           |
 
 > You must supply at least one of the following fields: `content.title.content`, `content.body.content`, or `attachments.url`. Combinations of these fields are also acceptable.
+
+# HTML content in the body of a post.
+The `content.body.content` can also include html in the `string`. For example `<p>This is a paragraph</p>`
+
+## Accepted HTML tags include: 
+
+| HTML Tag                                              | Description       |
+| ----------------------------------------------------- | ----------------- |
+| `<p>`                                                 | paragraph         |
+| `<strong> / <b>`                                      | bold              |
+| `<em> / <i>`                                          | italic            |
+| `<u>`                                                 | underline         |
+| `<s>`                                                 | strikethrough     |
+| `<blockquote>`                                        | quote             |
+| `<ol>`                                                | numbered list.    |
+| `<ul>`                                                | bullet list.      |
+| `<li>`                                                | list item         |
+| `<br>`                                                | line break        |
+| `<p><span class='bg-highlight'>Highlight</span</p>`   | highlight text    |
+
+> If the content added in the body includes HTML but has tags not included in the list above, these tags will be omitted and only the content using the tags listed above will appear on screen.
 
 # Display Formats
 
@@ -176,7 +197,52 @@ The example below demonstrates the simplest data structure you would `POST` to a
 ```
 
 </details>
+<details>
+  <summary>Show body (containing HTML) only screenshot</summary>
 
+![body only post](./images/hook-body-only-with-html.png)
+
+The example below demonstrates the simplest data structure you would `POST` to achieve the above result.
+
+```json
+{
+  "items": [
+    {
+      "content": {
+        "body": {
+          "content": "<p><strong>We are excited to announce the opening of our new office in </strong><strong class=\"bg-highlight\">London</strong><strong>.</strong></p><br/><p>Home to a <span>diverse range of talented team members from:</span></p><ul><li>Marketing</li><li>Customer Success</li><li>Sales and Operations</li></ul><br/><p>We are looking forward to welcoming our clients and partners to our new office.</p>"
+        }
+      }
+    }
+  ]
+}
+```
+</details>
+<details>
+  <summary>Show image and body (containing HTML) screenshot</summary>
+
+![image and body with HTML post](./images/hook-image-body-with-html.png)
+
+The example below demonstrates the simplest data structure you would `POST` to achieve the above result.
+
+```json
+{ 
+  "items": [
+    {
+    "content": {
+      "body": {
+        "content": "<p><strong>We are excited to announce the opening of our new office in</strong><strong class=\"bg-highlight\">London</strong><strong>.</strong></p><p>The new office is located in the heart of the city and will be the new home for our growing team.</p><p>Home to a<span>diverse range of talented team members from:</span></p><ul><li>Marketing</li><li>Customer Success</li><li>Sales and Operations</li></ul><p>We are looking forward to welcoming our clients and partners to our new office.</p>",
+      }
+    },
+    "attachments": [
+      {"contentType": "image", "url": "https://example.com/images/sample.jpg"}
+    ]
+  }
+  ]   
+}
+```
+
+</details>
 <details>
   <summary>Show image only screenshot</summary>
 
@@ -286,6 +352,50 @@ Every error response you get from a webhook `POST` will be in the format outline
 ```json
 {
   "messages": ["At least one of title, body, or attachment is required"]
+}
+```
+
+## Invalid HTML content
+
+When including HTML content in the body of a post, we'll verify the validity of the HTML. Should this verification fail, you'll be alerted that the HTML is invalid and the post will not be processed.
+
+Here's how such a response would appear:
+
+```json
+{
+  "success": false,
+  "data": {
+    "warning": {
+      "message": "We were unable to post the following items due to the issues listed below. Please review the text and try again",
+      "data": [
+       {
+          "itemId": "item-0003",
+          "message": "Invalid text content in body",
+        },
+      ]
+    }
+  }
+}
+```
+
+If there are several posts being sent and includes one post with invalid HTML, the other posts will be processed successfully but the post with invalid HTML will not be processed. 
+
+Here's how such a response would appear:
+
+```json
+{
+  "success": true,
+  "data": {
+    "warning": {
+      "message": "We were unable to post the following items due to the issues listed below. Please review the text and try again",
+      "data": [
+       {
+          "itemId": "item-0003",
+          "message": "Invalid text content in body",
+        },
+      ]
+    }
+  }
 }
 ```
 
