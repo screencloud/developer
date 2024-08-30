@@ -83,8 +83,8 @@ Ensure you send the content of your webhook in the JSON format within the reques
 | `author.displayName`      | `string`        | No       | Display the author name.                           |
 | `author.profileImage.url` | `string`        | No       | Display an author profile image.                   |
 | `content.title.content`   | `string`        | No       | Title of the webhook post.                         |
-| `content.body.content`    | `string`        | No       | Main body content of the webhook post              |
-| `attachments.contentType` | `image`, `link` | No       | Currently only supports `image` or `link`          |
+| `content.body.content`    | `string`        | No       | Main body content of the webhook post.              |
+| `attachments.contentType` | `image`, `link` | No       | Currently only supports `image` or `link`.          |
 | `attachments.url`         | `string[]`      | No       | Accompanying image for the webhook post.           |
 
 > You must supply at least one of the following fields: `content.title.content`, `content.body.content`, or `attachments.url`. Combinations of these fields are also acceptable.
