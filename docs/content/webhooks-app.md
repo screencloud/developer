@@ -5,13 +5,13 @@ metaDescription: Effortlessly set up and send webhooks with our comprehensive gu
 
 # Overview
 
-You can use the ScreenCloud webhook app to develop custom inputs that can be pushed to Studio and utilise our core onscreen design language, ensuring your content looks great on screen. This guide will help get you setup.
+The ScreenCloud Webhooks App allows you to send custom inputs to Studio, ensuring seamless integration with your on-screen design language. This guide will walk you through setting up and using the Webhooks App effectively.
 
 # Setting Up the App Instance
 
-Begin by installing the Webhooks app from the Studio App store. Create a new instance, after which you'll then name your webhook and click the Generate webhook button. This will return a unique webhook URL and an API key, both essential for sending webhook requests.
+To get started, install the Webhooks App from the Studio App Store. Once installed, create a new instance, provide a name for your webhook, and click the **Generate Webhook** button. This action generates a unique webhook URL and an API key, both of which are essential for sending webhook requests.
 
-Here's what your unique webhook URL will look like:
+Your unique webhook URL will follow this format:
 
 ```
 https://apps-api-feeds.{region}.screencloudapps.com/v1/hooks/{uniqueId}
@@ -23,21 +23,22 @@ Your API key will be a 24-character alphanumeric string, such as:
 S8IjvxXE1x6PcwvmClcVfH6r
 ```
 
-**IMPORTANT:** Please make sure to record the API key, as you won't have the opportunity to view it again after navigating away from this page.
+> **IMPORTANT:** Store your API key securely. You will not be able to view it again after leaving the page.
 
 # Sending a Webhook Request
 
-After obtaining your unique webhook URL and API key, you're all set to send your webhooks. You should `POST` all webhooks to your designated URL, including the API key within the `X-API-Key` header:
+Once you have your webhook URL and API key, you can send webhook requests using an HTTP `POST` request. Include the API key in the `X-API-Key` header:
 
-```
+```http
 POST /v1/hooks/816ce4d8-c0cc-476b-8121-33e600e0e33e HTTP/1.1
 Host: apps-api-feeds.eu.screencloudapps.com
 X-API-Key: S8IjvxXE1x6PcwvmClcVfH6r
+Content-Type: application/json
 ```
 
-# Webhook Data Format
+## Webhook Data Format
 
-Ensure you send the content of your webhook in the JSON format within the request body to the specified URL. The structure of your data payload is crucial and should adhere to the following schema:
+Webhook data should be sent in JSON format in the request body. The payload structure should follow this schema:
 
 ```json
 {
@@ -72,42 +73,46 @@ Ensure you send the content of your webhook in the JSON format within the reques
 }
 ```
 
-## Webhook Params
+## Webhook Parameters
 
 | Name                      | Type            | Required | Description                                        |
 | ------------------------- | --------------- | -------- | -------------------------------------------------- |
 | `itemId`                  | `string`        | No       | Your own internal identifier.                      |
-| `dateCreated`             | `string`        | No       | UTC date string item was created.                  |
-| `lastEditedTime`          | `string`        | No       | UTC date string item was last edited.              |
-| `messageUrl`              | `string`        | No       | Will generate a QR code to the message source URL. |
-| `author.displayName`      | `string`        | No       | Display the author name.                           |
-| `author.profileImage.url` | `string`        | No       | Display an author profile image.                   |
+| `dateCreated`             | `string`        | No       | UTC date string indicating when the item was created. |
+| `lastEditedTime`          | `string`        | No       | UTC date string indicating the last edit time.    |
+| `messageUrl`              | `string`        | No       | Generates a QR code linking to the message source. |
+| `author.displayName`      | `string`        | No       | Displays the author's name.                        |
+| `author.profileImage.url` | `string`        | No       | Displays the author's profile image.               |
 | `content.title.content`   | `string`        | No       | Title of the webhook post.                         |
-| `content.body.content`    | `string`        | No       | Main body content of the webhook post.              |
-| `attachments.contentType` | `image`, `link` | No       | Currently only supports `image` or `link`.          |
-| `attachments.url`         | `string[]`      | No       | Accompanying image for the webhook post.           |
+| `content.body.content`    | `string`        | No       | Main body content of the webhook post.            |
+| `attachments.contentType` | `image`, `link` | No       | Accepts `image` or `link` as valid content types. |
+| `attachments.url`         | `string[]`      | No       | Image or link accompanying the webhook post.      |
 
-> You must supply at least one of the following fields: `content.title.content`, `content.body.content`, or `attachments.url`. Combinations of these fields are also acceptable.
+> **Note:** You must provide at least one of the following fields: `content.title.content`, `content.body.content`, or `attachments.url`. Any combination of these fields is also acceptable.
 
-# HTML content in the body of a post.
-The `content.body.content` can also include html in the `string`. For example `<p>This is a paragraph</p>`
+# HTML Content in the Body
 
-## Accepted HTML tags include: 
+The `content.body.content` field supports basic HTML tags for formatting. For example:
 
-| HTML Tag                                              | Description       |
-| ----------------------------------------------------- | ----------------- |
-| `<p>`                                                 | paragraph         |
-| `<strong> / <b>`                                      | bold              |
-| `<em> / <i>`                                          | italic            |
-| `<u>`                                                 | underline         |
-| `<s>`                                                 | strikethrough     |
-| `<blockquote>`                                        | quote             |
-| `<ol>`                                                | numbered list.    |
-| `<ul>`                                                | bullet list.      |
-| `<li>`                                                | list item         |
-| `<br>`                                                | line break        |
-| `<p><span class='bg-highlight'>Highlight</span</p>`   | highlight text    |
+```html
+<p>This is a paragraph.</p>
+```
 
+### Supported HTML Tags
+
+| HTML Tag                                          | Description       |
+| ------------------------------------------------ | ----------------- |
+| `<p>`                                            | Paragraph         |
+| `<strong> / <b>`                                 | Bold              |
+| `<em> / <i>`                                     | Italic            |
+| `<u>`                                            | Underline         |
+| `<s>`                                            | Strikethrough     |
+| `<blockquote>`                                   | Quote             |
+| `<ol>`                                           | Ordered list      |
+| `<ul>`                                           | Unordered list    |
+| `<li>`                                           | List item         |
+| `<br>`                                           | Line break        |
+| `<p><span class='bg-highlight'>Highlight</span></p>` | Highlight text    |
 > If the content added in the body includes HTML but has tags not included in the list above, these tags will be omitted and only the content using the tags listed above will appear on screen.
 
 # Display Formats
@@ -432,3 +437,16 @@ curl --location 'https://apps-api-feeds.eu.screencloudapps.com/v1/hooks/816ce4d8
 --header 'Content-Type: application/json' \
 --data '{"items":[{"itemId":"12345","dateCreated":"2024-02-01T12:00:00Z","lastEditedTime":"2024-02-01T12:30:00Z","messageUrl":"https://example.com/message/12345","author":{"displayName":"David Jones","profileImage":{"url":"https://example.com/profiles/davidjones.jpg"}},"content":{"title":{"content":"Sample Title"},"body":{"content":"This is a sample body content for the hook."}},"attachments":[{"contentType":"image","url":"https://example.com/images/sample.jpg"}]}]}'
 ```
+
+# Testing Webhooks
+
+To test your webhook integrations before deploying them, use tools like [Beeceptor](https://beeceptor.com/) or [Webhook.site](https://webhook.site/). These services help you inspect webhook requests, debug payloads, and simulate API calls without modifying your production system.
+
+# Best Practices for Webhooks
+
+- **Secure Your API Key:** Never expose your API key in public repositories or front-end code.
+- **Validate Incoming Requests:** Ensure that webhook requests originate from ScreenCloud by verifying headers and payload signatures.
+- **Use Retry Logic:** Implement retry mechanisms to handle temporary failures in webhook delivery.
+- **Log Webhook Events:** Maintain logs for troubleshooting and debugging webhook requests.
+- **Optimize Payload Size:** Avoid sending unnecessary data to keep requests lightweight and efficient.
+- **Handle Webhook Failures Gracefully:** If your server is down, queue incoming webhooks for processing later.
