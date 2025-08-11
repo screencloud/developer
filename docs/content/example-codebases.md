@@ -4,7 +4,7 @@ title: 'Example Codebases'
 
 Our sample apps are all hosted in the [Github repo](https://github.com/screencloud/developer). They're free to use, either to learn from or to copy and paste as the starting point for your own apps.
 
-For any issues or questions, please [raise an issue](https://github.com/screencloud/developer/issues).
+For any issues or questions, please contact our [Professional Services team](proservices@screencloud.io).
 
 ## JavaScript Sample App
 
