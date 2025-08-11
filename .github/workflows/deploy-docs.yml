@@ -8,16 +8,17 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-22.04
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - name: Cache dependencies
-        uses: actions/cache@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          node-version: 14
+          cache: npm
+          cache-dependency-path: ./docs/package-lock.json
 
       - name: Build Gatsby
         working-directory: ./docs
