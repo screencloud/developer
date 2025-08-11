@@ -1,7 +1,8 @@
-import { injectGlobal } from 'emotion';
+import React from 'react';
+import { Global, css } from '@emotion/core';
 import { theme } from '../theme';
 
-export const baseStyles = injectGlobal`
+export const globalStyles = css`
   @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
   @import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap');
   * {
@@ -158,13 +159,13 @@ export const baseStyles = injectGlobal`
   }
   .searchInput {
     width: 100%;
-    background-color: rgba(28,211,198,.12) !important;
+    background-color: rgba(28, 211, 198, 0.12) !important;
     border-width: 0 !important;
-    color: #C2C2C2;
+    color: #c2c2c2;
     padding: 10px;
     border-radius: 5px;
     color: #fff;
-    opacity: .6;
+    opacity: 0.6;
     padding-left: 38px;
     max-width: 600px;
   }
@@ -316,7 +317,7 @@ export const baseStyles = injectGlobal`
     border: 0 !important;
     background-color: rgb(245, 247, 249); /* !important; */
   }
-  
+
   blockquote {
     color: rgb(116, 129, 141);
     margin: 0px 0px 24px;
@@ -340,7 +341,7 @@ export const baseStyles = injectGlobal`
   }
   .socialWrapper svg {
     width: 100%;
-    height: 100%
+    height: 100%;
   }
   .socialWrapper svg path {
     fill: #fff;
@@ -356,7 +357,7 @@ export const baseStyles = injectGlobal`
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: .8;
+    opacity: 0.8;
     cursor: pointer;
   }
   .twitterBtn img {
@@ -441,7 +442,7 @@ export const baseStyles = injectGlobal`
 
   .hideFrontLine .active > a {
     background-color: ${theme.colors.scYellowLight};
-    color: ${theme.colors.text}
+    color: ${theme.colors.text};
   }
   .firstLevel ul li .collapser svg path {
     fill: ${theme.colors.text} !important;
@@ -472,7 +473,7 @@ export const baseStyles = injectGlobal`
 
   .sideBarUL .item.active > a {
     background-color: ${theme.colors.scYellowLight};
-    color: ${theme.colors.text}
+    color: ${theme.colors.text};
   }
 
   .showFrontLine .item > a:hover {
@@ -888,3 +889,9 @@ export const baseStyles = injectGlobal`
     }
   }
 `;
+
+// React component for applying global styles
+export const GlobalStyles = () => <Global styles={globalStyles} />;
+
+// For backward compatibility, also export the styles directly
+export const baseStyles = globalStyles;

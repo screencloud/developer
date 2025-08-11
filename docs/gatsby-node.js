@@ -6,6 +6,22 @@ const startCase = require('lodash.startcase');
 
 const config = require('./config');
 
+// Polyfill for File if it's missing in Node.js environment
+if (typeof global.File === 'undefined') {
+  global.File = class File {
+    constructor(fileBits, fileName, options = {}) {
+      this.name = fileName;
+      this.type = options.type || '';
+      this.lastModified = options.lastModified || Date.now();
+    }
+  };
+}
+
+// Polyfill for injectGlobal if it's missing in SSR environment
+if (typeof global._injectGlobal === 'undefined') {
+  global._injectGlobal = () => {};
+}
+
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions;
 
@@ -73,6 +89,10 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
 
   if (node.internal.type === `Mdx`) {
     const parent = getNode(node.parent);
+
+    if (!parent || !parent.relativePath || !parent.ext) {
+      return;
+    }
 
     let value = parent.relativePath.replace(parent.ext, '');
 
