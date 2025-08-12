@@ -7,7 +7,7 @@ metaDescription: Emergency Alerts Self serve guide.
 # Overview
 
 The **Emergency Alerts** app enables organizations to instantly display urgent messages on their digital signage screens.  
-It works by integrating with mass notification systems such as **Omnilert**, **Rave**, **Singlewire**, and **Alertus**—or through a custom, self-serve configuration—to broadcast important updates during critical events.
+It works by integrating with mass notification systems such as **Omnilert**, **Rave**, **Singlewire**, **Alertus** and **Raptor**—or through a custom, self-serve configuration—to broadcast important updates during critical events.
 
 Key benefits:
 
@@ -26,75 +26,7 @@ This guide provides reference payloads and formatting requirements for using the
 ## Custom Payload Reference
 
 To use the “Custom” or self-serve option in Emergency Alerts, you’ll need to send CAP-compliant XML payloads to ScreenCloud.  
-Below are examples and required formatting details.
-
----
-
-### Payload for casting an alert to be active
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<alert xmlns="urn:oasis:names:tc:emergency:cap:1.2">
-  <identifier>{#INCIDENT_ID#}</identifier>
-  <sender>Raptor Technologies</sender>
-  <sent>{#format(TIMESTAMP, 'd:yyyy-MM-ddTHH:mm:sszzz')#}</sent>
-  <status>Actual</status>
-  <msgType>Actual</msgType>
-  <scope>Public</scope>
-  <info>
-    <category>Safety</category>
-    <event>Raptor Alert</event>
-    <urgency>Immediate</urgency>
-    <severity>Severe</severity>
-    <certainty>Likely</certainty>
-    <senderName>Raptor Technologies</senderName>
-    <headline>{#INCIDENT_TYPENAME#}</headline>
-    <description>{#INCIDENT_SUBTYPENAME#} at {#BUILDING_NAME#}</description>
-    <instruction>Locks, Lights, Out of Sight</instruction>
-    <area>
-      <areaDesc>{#BUILDING_NAME#}</areaDesc>
-    </area>
-  </info>
-</alert>
-```
-
-It is important to follow a correct format of the payload in order to get the alert to process properly.
-
-> **Tip:** Replace placeholder values (`{#INCIDENT_ID#}`, `{#BUILDING_NAME#}`, etc.) with actual incident data.
-
----
-
-### Payload for casting an alert to be cancelled
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<alert xmlns="urn:oasis:names:tc:emergency:cap:1.2">
-  <identifier>%INCIDENT_ID%</identifier>
-  <sender>Raptor</sender>
-  <sent>{#format(TIMESTAMP, 'd:yyyy-MM-ddTHH:mm:sszzz')#}</sent>
-  <references>Raptor,%INCIDENT_ID%,%INCIDENT_INITIATED_TIMESTAMP%</references>
-  <status>Actual</status>
-  <msgType>Cancel</msgType>
-  <scope>Public</scope>
-  <info>
-    <category>Safety</category>
-    <event>Cancel</event>
-    <urgency>Immediate</urgency>
-    <severity>Severe</severity>
-    <certainty>Likely</certainty>
-    <headline>%INCIDENT_TYPENAME%</headline>
-    <description>Cancel</description>
-    <instruction>Locks, Lights, Out of Sight</instruction>
-    <area>
-      <areaDesc>{#BUILDING_NAME#}</areaDesc>
-    </area>
-  </info>
-</alert>
-```
-
-> **Note:** As of **15 July 2025**, sending a “Cancel” payload only marks the alert as cancelled—it does **not** automatically stop casting the alert on screens. You must manually clear it in **Studio → Screens**.
-
----
+Below are required formatting details.
 
 ## CAP 1.2 XML Format Requirements
 
@@ -167,5 +99,73 @@ Each `<info>` element must contain:
 - **URLs:** Must be valid URIs.
 
 - **Private scope:** Requires an `<addresses>` element.
+
+---
+
+### Below are example payloads
+
+### Payload for casting an alert to be active
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<alert xmlns="urn:oasis:names:tc:emergency:cap:1.2">
+  <identifier>{#INCIDENT_ID#}</identifier>
+  <sender>Raptor Technologies</sender>
+  <sent>{#format(TIMESTAMP, 'd:yyyy-MM-ddTHH:mm:sszzz')#}</sent>
+  <status>Actual</status>
+  <msgType>Actual</msgType>
+  <scope>Public</scope>
+  <info>
+    <category>Safety</category>
+    <event>Raptor Alert</event>
+    <urgency>Immediate</urgency>
+    <severity>Severe</severity>
+    <certainty>Likely</certainty>
+    <senderName>Raptor Technologies</senderName>
+    <headline>{#INCIDENT_TYPENAME#}</headline>
+    <description>{#INCIDENT_SUBTYPENAME#} at {#BUILDING_NAME#}</description>
+    <instruction>Locks, Lights, Out of Sight</instruction>
+    <area>
+      <areaDesc>{#BUILDING_NAME#}</areaDesc>
+    </area>
+  </info>
+</alert>
+```
+
+It is important to follow a correct format of the payload in order to get the alert to process properly.
+
+> **Tip:** Replace placeholder values (`{#INCIDENT_ID#}`, `{#BUILDING_NAME#}`, etc.) with actual incident data.
+
+---
+
+### Payload for casting an alert to be cancelled
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<alert xmlns="urn:oasis:names:tc:emergency:cap:1.2">
+  <identifier>%INCIDENT_ID%</identifier>
+  <sender>Raptor</sender>
+  <sent>{#format(TIMESTAMP, 'd:yyyy-MM-ddTHH:mm:sszzz')#}</sent>
+  <references>Raptor,%INCIDENT_ID%,%INCIDENT_INITIATED_TIMESTAMP%</references>
+  <status>Actual</status>
+  <msgType>Cancel</msgType>
+  <scope>Public</scope>
+  <info>
+    <category>Safety</category>
+    <event>Cancel</event>
+    <urgency>Immediate</urgency>
+    <severity>Severe</severity>
+    <certainty>Likely</certainty>
+    <headline>%INCIDENT_TYPENAME%</headline>
+    <description>Cancel</description>
+    <instruction>Locks, Lights, Out of Sight</instruction>
+    <area>
+      <areaDesc>{#BUILDING_NAME#}</areaDesc>
+    </area>
+  </info>
+</alert>
+```
+
+> **Note:** As of **15 July 2025**, sending a “Cancel” payload only marks the alert as cancelled—it does **not** automatically stop casting the alert on screens. You must manually clear it in **Studio → Screens**.
 
 ---
