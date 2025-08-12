@@ -14,8 +14,8 @@ Head to the [Overview](https://screencloud.github.io/developer/overview) for a q
 
 This is still early days for our 3rd party app support. Some steps are more manual than we'd like, but we'll call them out clearly and wherever we can help, we're happy to.
 
-We'd really appreciate [your feedback](proservices@screencloud.io) on what's painful or confusing so we know where to focus our efforts next.
+We'd really appreciate [your feedback](mailto:proservices@screencloud.io) on what's painful or confusing so we know where to focus our efforts next.
 
 ## Questions & Help
 
-If you have any questions or need assistance, email our [Professional Services team](proservices@screencloud.io) — we’ll be happy to help.
+If you have any questions or need assistance, email our [Professional Services team](mailto:proservices@screencloud.io) — we’ll be happy to help.
