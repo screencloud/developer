@@ -2,7 +2,7 @@
 
 This is the entire site published at: [https://screencloud.github.io/developer/](https://screencloud.github.io/developer/)
 
-For questions, please contact our [Professional Services team](proservices@screencloud.io).
+For questions, please contact our [Professional Services team](mailto:proservices@screencloud.io).
 
 To contribute, you're welcome to fork the repo, modify the `/docs/` folder, then submit a PR back.
 

@@ -7,7 +7,7 @@ const config = {
   },
   header: {
     githubUrl: 'https://github.com/screencloud/developer',
-    helpUrl: 'https://github.com/screencloud/developer/issues',
+    helpUrl: 'mailto:proservices@screencloud.com',
     links: [{ text: '', link: '' }],
     search: {
       enabled: false,
