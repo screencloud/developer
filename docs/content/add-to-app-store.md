@@ -6,8 +6,6 @@ To run your app in Studio, you'll need to add it to the App Store.
 
 To do this, fill out either of the forms below with the details we need, and we'll add it for you asap.
 
-(In the future, we will make this self-service. Sorry for the manual step until then, we promise we'll turn it around as fast as we can for you!)
-
 ## Add an App for Development
 
 If you're starting to develop a new app, you don't need to worry about all the details like screenshots and app descriptions yet.
