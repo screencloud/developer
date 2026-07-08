@@ -41,8 +41,8 @@ In our case, the starting codebase is available here:
 You can copy this folder, then run:
 
 ```shell
-npm install
-npm start
+pnpm install
+pnpm start
 ```
 
 You can then load the site in your web browser on: [http://localhost:8000/](http://localhost:8000/)
@@ -52,13 +52,13 @@ You can then load the site in your web browser on: [http://localhost:8000/](http
 Now, let's add ScreenCloud to the mix.
 
 ```shell
-npm install @screencloud/apps-sdk
+pnpm add @screencloud/apps-sdk
 ```
 
-or
+or with npm:
 
 ```shell
-yarn add @screencloud/apps-sdk
+npm install @screencloud/apps-sdk
 ```
 
 ## 4 - Connect to the Player

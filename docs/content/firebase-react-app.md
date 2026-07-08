@@ -49,7 +49,7 @@ mkdir screencloud-15five-mw
 ```
 2. install the firebase-cli - this is used for all our firebase actions including creating, running locally and deploying cloud functions
 ```shell
-npm install -g firebase-tools
+pnpm add -g firebase-tools
 ```
 3. login to firebase 
 ```shell
@@ -73,7 +73,7 @@ To run the function locally, while under the functions directory:
 
 1. install dependencies 
 ```shell
-npm install
+pnpm install
 ```
 2. run the function
 ```shell
@@ -88,24 +88,24 @@ You should now see a list of your High Fives, similar to below:
 ## Creating ScreenCloud web application to be shown on screen
 
 The app which shows the data on screen is a simple web application , we will be creating the application using Javascript and React, 
-so first things first we must create a React app. Enter the following in the command line:
+so first things first we must create a React app with [Vite](https://vite.dev/). Enter the following in the command line:
 
 ```shell
-npx create-react-app screencloud-15five
+pnpm create vite screencloud-15five --template react
 ```
 
 This will create the base code for your React App. We are creating a 'Slide Show' style application, a very common type of app used to display information
 on screens. We have put together an example application which, with a few changes, can help create your own bespoke 'Slide Show' style app using your own data. The code for this can be found on:
 [https://github.com/screencloud/developer/tree/master/examples/react-firebase-example](https://github.com/screencloud/developer/tree/master/examples/react-firebase-example)  
 
-Copy over the src folder into your newly created application, as well as the dependencies found in the package.json to the package.json of your new project.
+Copy over the `src` folder, `index.html` and `vite.config.js` from the example into your newly created application, as well as the dependencies found in the package.json to the package.json of your new project.
 
 ```shell
-npm install
-npm start
+pnpm install
+pnpm start
 ```
 
-You can then load the site in your web browser on [http://localhost:8000/](http://localhost:8000/)
+You can then load the site in your web browser on [http://localhost:3000/](http://localhost:3000/)
 
 This application is a very simple joke app but you will see that the jokes appear on screen for 10 seconds at a time and move on to next like a slide show.
 
@@ -149,7 +149,7 @@ firebase login
 
 3. Create a production build of the app
 ```shell
-npm run build
+pnpm build
 ```
 
 4. Deploy the web app
@@ -171,7 +171,7 @@ firebase login
 
 3. Install dependencies
 ```shell
-npm install
+pnpm install
 ``` 
 
 4. Deploy functions

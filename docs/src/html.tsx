@@ -28,6 +28,17 @@ export default class HTML extends React.Component<HTMLProps> {
           {config.siteMetadata.favicon ? (
             <link rel="shortcut icon" type="image/svg" href={config.siteMetadata.favicon} />
           ) : null}
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+          />
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap"
+          />
+
           <noscript key="noscript"></noscript>
           {this.props.headComponents}
         </head>

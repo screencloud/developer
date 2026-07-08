@@ -2,9 +2,10 @@ import React from 'react';
 import { Global, css } from '@emotion/react';
 import { theme } from '../theme';
 
+// Fonts are loaded via <link> tags in src/html.tsx — a CSS @import here is
+// ignored because emotion injects it after other rules, where @import is
+// invalid.
 export const globalStyles = css`
-  @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
-  @import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap');
   * {
     margin: 0;
     padding: 0;

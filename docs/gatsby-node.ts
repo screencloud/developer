@@ -55,7 +55,11 @@ export const createPages: GatsbyNode['createPages'] = async ({ graphql, actions,
   });
 };
 
-export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({ actions }) => {
+export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({
+  actions,
+  stage,
+  getConfig,
+}) => {
   actions.setWebpackConfig({
     resolve: {
       modules: [path.resolve(__dirname, 'src'), 'node_modules'],
@@ -64,6 +68,20 @@ export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({ act
       },
     },
   });
+
+  // Gatsby's built-in dev-time ESLint uses eslint-config-react-app@6, whose
+  // plugins deep-import eslint internals that eslint 9 no longer exposes.
+  // This repo lints with its own flat config (eslint.config.mjs), so drop
+  // Gatsby's linter from the dev bundle.
+  if (stage === 'develop') {
+    const config = getConfig();
+
+    config.plugins = config.plugins.filter(
+      (plugin: { constructor: { name: string } }) =>
+        plugin.constructor.name !== 'ESLintWebpackPlugin',
+    );
+    actions.replaceWebpackConfig(config);
+  }
 };
 
 export const onCreateNode: GatsbyNode['onCreateNode'] = ({ node, getNode, actions }) => {
