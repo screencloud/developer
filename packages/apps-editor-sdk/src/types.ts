@@ -58,13 +58,7 @@ export interface InitializeMessagePayload<TConfig> {
 }
 
 export type Platform =
-  | "studio"
-  | "android"
-  | "firetv"
-  | "chrome"
-  | "ios"
-  | "embeddable"
-  | "msteams";
+  "studio" | "android" | "firetv" | "chrome" | "ios" | "embeddable" | "msteams";
 
 export interface DeviceConfig {
   platform?: Platform;
@@ -125,9 +119,9 @@ export interface ConfigPayload {
 export type EmitConfigUpdateAvailable = () => void;
 
 export type OnRequestConfigUpdateCallback = (
-  request: ConfigUpdateRequest
+  request: ConfigUpdateRequest,
 ) => Promise<ConfigPayload>;
 
 export type OnRequestConfigUpdate = (
-  param: OnRequestConfigUpdateCallback
+  param: OnRequestConfigUpdateCallback,
 ) => void;

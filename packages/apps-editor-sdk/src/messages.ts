@@ -66,11 +66,12 @@ export interface ConfigUpdateAvailableMessage {
   type: typeof CONFIG_UPDATE_AVAILABLE;
 }
 
-export const configUpdateAvailableMessage = (): ConfigUpdateAvailableMessage => {
-  return {
-    type: CONFIG_UPDATE_AVAILABLE,
+export const configUpdateAvailableMessage =
+  (): ConfigUpdateAvailableMessage => {
+    return {
+      type: CONFIG_UPDATE_AVAILABLE,
+    };
   };
-};
 
 /**
  * Messages the Parent can send
@@ -85,7 +86,7 @@ export interface InitializeMessage<T> {
 }
 
 export const initializeMessage = <T>(
-  payload: InitializeMessagePayload<T>
+  payload: InitializeMessagePayload<T>,
 ): InitializeMessage<T> => {
   return {
     type: "initialize",
@@ -108,7 +109,7 @@ export interface ConfigUpdateMessage {
 }
 
 export const configUpdateMessage = (
-  appConfig: ConfigPayload
+  appConfig: ConfigPayload,
 ): ConfigUpdateMessage => {
   return {
     type: REQUEST_CONFIG_UPDATE,

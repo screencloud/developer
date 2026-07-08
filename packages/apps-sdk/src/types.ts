@@ -2,7 +2,7 @@ export interface ScreenCloud<TConfig> {
   appStarted: boolean; // Is the app visible? (i.e. not preloading)
   context: AppContext;
   appId: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   config: TConfig;
   //   emitFinished: Function;
   //   emitPreloaded: Function;
@@ -122,13 +122,7 @@ export interface InitializeMessagePayload<TConfig> {
 }
 
 export type Platform =
-  | "studio"
-  | "android"
-  | "firetv"
-  | "chrome"
-  | "ios"
-  | "embeddable"
-  | "msteams";
+  "studio" | "android" | "firetv" | "chrome" | "ios" | "embeddable" | "msteams";
 
 export interface DeviceConfig {
   platform?: Platform;

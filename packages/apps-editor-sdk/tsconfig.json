@@ -1,15 +1,21 @@
 {
   "compilerOptions": {
+    // The published lib must stay ES5: this SDK runs inside signage-device
+    // webviews (legacy Android/FireTV players) that predate ES2017, and app
+    // bundlers do not transpile node_modules.
+    "ignoreDeprecations": "6.0",
     "declaration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "preserve",
     "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "outDir": "lib",
+    "rootDir": "./src",
     "strict": true,
-    "target": "es5"
+    "target": "es5",
+    "types": ["node"]
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/__tests__/*"]

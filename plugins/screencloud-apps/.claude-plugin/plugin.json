@@ -1,0 +1,12 @@
+{
+  "name": "screencloud-apps",
+  "description": "Build ScreenCloud digital-signage apps with the Apps SDK — scaffolding, Player lifecycle, config, preloading, themes, and App Store submission.",
+  "version": "1.0.0",
+  "author": {
+    "name": "ScreenCloud"
+  },
+  "homepage": "https://screencloud.github.io/developer/",
+  "repository": "https://github.com/screencloud/developer",
+  "license": "ISC",
+  "keywords": ["screencloud", "digital-signage", "apps-sdk"]
+}

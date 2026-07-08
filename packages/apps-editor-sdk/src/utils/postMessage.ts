@@ -1,5 +1,4 @@
 import { AppConfig } from "./../types";
-import { REQUEST_CONFIG_UPDATE } from "./../constants";
 import { LEGACY_PREFIXED_TYPES, LOG_PREFIX } from "../constants";
 import { AppMessage, PlayerMessage } from "../messages";
 
@@ -13,7 +12,7 @@ export const sendMessage = (
   message: AppMessage | AppConfig,
   targetOrigin: string,
   referenceId?: number,
-  requestId?: number
+  requestId?: number,
 ): void => {
   const parent = window.parent || window.opener;
 

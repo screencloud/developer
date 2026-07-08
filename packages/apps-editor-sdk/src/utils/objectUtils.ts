@@ -5,7 +5,7 @@ import { InitializeMessagePayload } from "../types";
  */
 export const mergeInitializePayloads = <T>(
   defaultPayload: InitializeMessagePayload<T>,
-  newPayload: Partial<InitializeMessagePayload<T>>
+  newPayload: Partial<InitializeMessagePayload<T>>,
 ): InitializeMessagePayload<T> => {
   return {
     ...defaultPayload,

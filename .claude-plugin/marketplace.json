@@ -1,0 +1,18 @@
+{
+  "name": "screencloud",
+  "owner": {
+    "name": "ScreenCloud",
+    "url": "https://screencloud.com"
+  },
+  "metadata": {
+    "description": "Plugins for building apps on ScreenCloud digital signage.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "screencloud-apps",
+      "source": "./plugins/screencloud-apps",
+      "description": "Build ScreenCloud digital-signage apps with the Apps SDK — scaffolding, Player lifecycle, config, preloading, themes, and App Store submission."
+    }
+  ]
+}
