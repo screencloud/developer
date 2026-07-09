@@ -16,9 +16,7 @@ export type AppMessage = ConnectMessage | InitializedMessage | StartedMessage;
  * Messages created by the Player, and send to the app.
  */
 export type PlayerMessage<T> =
-  | ConnectSuccessMessage
-  | InitializeMessage<T>
-  | StartMessage;
+  ConnectSuccessMessage | InitializeMessage<T> | StartMessage;
 
 export interface ConnectMessage {
   type: typeof CONNECT;
@@ -63,7 +61,7 @@ export interface InitializeMessage<T> {
 }
 
 export const initializeMessage = <T>(
-  payload: InitializeMessagePayload<T>
+  payload: InitializeMessagePayload<T>,
 ): InitializeMessage<T> => {
   return {
     type: "initialize",

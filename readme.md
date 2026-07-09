@@ -8,6 +8,17 @@ Published on: https://screencloud.github.io/developer/
 - [Example codebases](https://github.com/screencloud/developer/tree/master/examples) here in Github.
 - [Get Started](https://screencloud.github.io/developer/get-started) guide.
 
+## Build with AI
+
+Building with Claude Code? Install our plugin and it will scaffold ScreenCloud apps with the right SDK lifecycle and signage conventions:
+
+```
+/plugin marketplace add screencloud/developer
+/plugin install screencloud-apps@screencloud
+```
+
+See [Build with AI](https://screencloud.github.io/developer/build-with-ai) for details and for using the skill with other agents.
+
 ## Documentation
 
 Head to the [Overview](https://screencloud.github.io/developer/overview) for a quick intro to some key concepts, or go straight to [Get Started](https://screencloud.github.io/developer/get-started).

@@ -16,8 +16,8 @@ For any issues or questions, please contact our [Professional Services team](mai
 To use:
 
 ```
-npm install
-npm start
+pnpm install
+pnpm start
 ```
 
 ## TypeScript Sample App
@@ -31,6 +31,6 @@ npm start
 To use:
 
 ```
-npm install
-npm start
+pnpm install
+pnpm start
 ```

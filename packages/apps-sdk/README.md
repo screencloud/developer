@@ -2,9 +2,14 @@
 
 Develop your own apps for ScreenCloud.
 
-Documentation and sample code published here: [https://screencloud.github.io/developer/](https://screencloud.github.io/developer/)
+Documentation and sample code published here:
+[https://screencloud.github.io/developer/](https://screencloud.github.io/developer/)
 
 ## Quickstart
+
+```
+pnpm install @screencloud/apps-editor-sdk
+```
 
 ```
 npm install @screencloud/apps-sdk
@@ -19,10 +24,11 @@ yarn add @screencloud/apps-sdk
 Then in your app:
 
 ```javascript
-import { connectScreenCloud } from "@screencloud/apps-sdk";
+import { connectScreenCloud } from '@screencloud/apps-sdk';
 
 const sc = await connectScreenCloud();
 const appConfig = sc.getConfig();
 ```
 
-For more, check out the [Getting Started guide](https://screencloud.github.io/developer/get-started)
+For more, check out the
+[Getting Started guide](https://screencloud.github.io/developer/get-started)

@@ -2,7 +2,7 @@ export interface ScreenCloud<TConfig> {
   appStarted: boolean; // Is the app visible? (i.e. not preloading)
   context: AppContext;
   appId: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   config: TConfig;
   //   emitFinished: Function;
   //   emitPreloaded: Function;
@@ -53,6 +53,26 @@ export interface AppConfig {
 
 type region = "eu" | "us";
 
+/**
+ * Config the Player provides so apps can route media (images, videos,
+ * streams) through the Player's media proxy / cache instead of fetching
+ * remote URLs directly. Useful for caching, offline playback and CORS.
+ *
+ * The shape varies by Player version: newer Players send a
+ * `mediaProxyEndpoint` object, older ones send a single `mediacacheBaseUrl`.
+ * Check which variant you received before using it.
+ */
+export type MediaProxyConfig =
+  | {
+      mediaProxyEndpoint: {
+        baseUrl: string;
+        cacheImages: boolean;
+        cacheStreamingMedia: boolean;
+        cacheVideos: boolean;
+      };
+    }
+  | { mediacacheBaseUrl: string };
+
 interface PayloadAppContext {
   theme?: Theme;
   screenData?: ScreenData;
@@ -63,6 +83,7 @@ interface PayloadAppContext {
   region: region;
   timezone: string;
   appViewerToken: string;
+  mediaProxyConfig?: MediaProxyConfig; // Present when the Player exposes a media proxy/cache. Absent otherwise (e.g. some preview environments).
 }
 
 export interface AppContext extends PayloadAppContext {
@@ -101,13 +122,7 @@ export interface InitializeMessagePayload<TConfig> {
 }
 
 export type Platform =
-  | "studio"
-  | "android"
-  | "firetv"
-  | "chrome"
-  | "ios"
-  | "embeddable"
-  | "msteams";
+  "studio" | "android" | "firetv" | "chrome" | "ios" | "embeddable" | "msteams";
 
 export interface DeviceConfig {
   platform?: Platform;

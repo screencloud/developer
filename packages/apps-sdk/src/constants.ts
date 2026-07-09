@@ -31,6 +31,14 @@ export const SAMPLE_INITIALIZE_PAYLOAD: InitializeMessagePayload<AppConfig> = {
     region: "eu",
     timezone: "Europe/London",
     appViewerToken: "",
+    mediaProxyConfig: {
+      mediaProxyEndpoint: {
+        baseUrl: "https://media-proxy.test.screen.cloud",
+        cacheImages: true,
+        cacheStreamingMedia: true,
+        cacheVideos: true,
+      },
+    },
   },
   orgId: "org-333",
   spaceId: "space-444",

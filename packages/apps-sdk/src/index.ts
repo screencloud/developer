@@ -35,7 +35,9 @@ let sc: any; // Type will depend on user's given runtime config type, so need to
 class ScreenCloud<TConfig = AppConfig> {
   private parentOrigin?: string;
   private resolveInitialize?: (
-    value?: InitializeMessagePayload<TConfig>
+    value:
+      | InitializeMessagePayload<TConfig>
+      | PromiseLike<InitializeMessagePayload<TConfig>>,
   ) => void;
   private rejectInitialize?: (reason?: any) => void; // Not used yet. In theory, could time out after x. Otherwise any issue here likely means a Player problem.
   private initializePayload?: InitializeMessagePayload<TConfig>;
@@ -61,7 +63,7 @@ class ScreenCloud<TConfig = AppConfig> {
    * If the real initialize then comes later, warn user that they have shipped their test data to a real player.
    */
   public connect = async (
-    testData?: Partial<InitializeMessagePayload<TConfig>>
+    testData?: Partial<InitializeMessagePayload<TConfig>>,
   ) => {
     return new Promise<InitializeMessagePayload<TConfig>>((resolve, reject) => {
       this.resolveInitialize = resolve;
@@ -87,19 +89,19 @@ class ScreenCloud<TConfig = AppConfig> {
    * any data later received from the real player.
    */
   public initialize = (
-    payload?: Partial<InitializeMessagePayload<TConfig>>
+    payload?: Partial<InitializeMessagePayload<TConfig>>,
   ) => {
     if (!this.resolveInitialize) {
       console.warn(
         LOG_PREFIX +
-          "Error: You must call connect() to connect to the player, before you initialize() with test data."
+          "Error: You must call connect() to connect to the player, before you initialize() with test data.",
       );
       return;
     }
     const combinedPayload = mergeInitializePayloads<TConfig>(
       // Casting as sample config can't know the user's config type ahead of time
       SAMPLE_INITIALIZE_PAYLOAD as InitializeMessagePayload<TConfig>,
-      payload || {}
+      payload || {},
     );
 
     this.handleInitialize(initializeMessage(combinedPayload));
@@ -205,14 +207,15 @@ class ScreenCloud<TConfig = AppConfig> {
     if (this.initializePayload) {
       console.warn(
         LOG_PREFIX +
-          "It looks like you've deployed with your testData included. This is likely a bug. Data and config from the player are being ignored."
+          "It looks like you've deployed with your testData included. This is likely a bug. Data and config from the player are being ignored.",
       );
       return;
     }
 
     if (!this.resolveInitialize) {
       console.warn(
-        LOG_PREFIX + "Error: Received init payload before we were ready for it."
+        LOG_PREFIX +
+          "Error: Received init payload before we were ready for it.",
       );
       return;
     }
@@ -268,7 +271,7 @@ class ScreenCloud<TConfig = AppConfig> {
  * Instead, manually call `sc.initialize(testData)` and then `sc.start()` when you choose.
  */
 export const connectScreenCloud = async <TConfig = AppConfig>(
-  testData?: Partial<InitializeMessagePayload<TConfig>>
+  testData?: Partial<InitializeMessagePayload<TConfig>>,
 ): Promise<ScreenCloud<TConfig>> => {
   sc = new ScreenCloud<TConfig>();
   await sc.connect(testData);
@@ -287,7 +290,7 @@ export const getScreenCloud = <TConfig = AppConfig>(): ScreenCloud<TConfig> => {
   if (!sc) {
     console.warn(
       LOG_PREFIX +
-        "Tried to fetch the SC object before app was initialized. Call startApp() first (which will also return the SC object)."
+        "Tried to fetch the SC object before app was initialized. Call startApp() first (which will also return the SC object).",
     );
   }
 

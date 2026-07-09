@@ -65,7 +65,7 @@ async function updateQuote() {
 async function start() {
   let testData: Partial<InitializeMessagePayload<AppConfig>> = {};
 
-  if (process.env.NODE_ENV === "development") {
+  if (import.meta.env.DEV) {
     testData = {
       config: {
         refreshTimeSeconds: 10,

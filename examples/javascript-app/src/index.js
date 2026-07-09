@@ -48,7 +48,7 @@ async function updateQuote() {
 async function start() {
   let testData;
 
-  if (process.env.NODE_ENV === "development") {
+  if (import.meta.env.DEV) {
     testData = {
       config: {
         refreshTimeSeconds: 10,

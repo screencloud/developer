@@ -9,7 +9,7 @@ import { AppMessage, PlayerMessage } from "../messages";
  */
 export const sendMessage = (
   message: AppMessage,
-  targetOrigin: string
+  targetOrigin: string,
 ): void => {
   const parent = window.parent || window.opener;
 

@@ -13,23 +13,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: ".nvmrc"
-          cache: npm
-          cache-dependency-path: ./docs/package-lock.json
+          cache: pnpm
 
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libvips-dev
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --filter screencloud-developer-docs
 
       - name: Build Gatsby
-        working-directory: ./docs
-        run: |
-          npm ci
-          npm run build
+        run: pnpm --filter screencloud-developer-docs build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
