@@ -1,54 +1,81 @@
-const functions = require('firebase-functions');
-const superagent = require('superagent');
+const { onRequest } = require('firebase-functions/v2/https');
+const { defineSecret } = require('firebase-functions/params');
 
-// API ACCESS TOKEN is stored in firebase config store for security reasons as you would'nt want this visible to public
-const TOKEN = functions.config().five.token;
+// The API access token is stored in Cloud Secret Manager for security reasons,
+// as you wouldn't want this visible to the public.
+// Set it once with: firebase functions:secrets:set FIVE_TOKEN
+const fiveToken = defineSecret('FIVE_TOKEN');
+
 const BASE_URL = 'https://my.15five.com/api/public';
 const HIGH_FIVE_URL = `${BASE_URL}/high-five/?created_on_start=`;
 
 const getDateMonthAgo = () => {
-    const d = new Date();
+  const d = new Date();
 
-    d.setMonth(d.getMonth() - 1);
+  d.setMonth(d.getMonth() - 1);
 
-    const month = d.getMonth() < 10 ? '0' + d.getMonth() : d.getMonth();
-    const date = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const date = String(d.getDate()).padStart(2, '0');
 
-    return `${d.getFullYear()}-${month}-${date} 00:00:00`
-}
+  return `${d.getFullYear()}-${month}-${date} 00:00:00`;
+};
 
-const createResponseObject = ({id, text, create_ts, creator_details, receivers}) => {
-    return {
-        id,
-        text,
-        creationTimestamp: create_ts,
-        creatorFullName: creator_details.full_name,
-        receiversList: receivers ? receivers.map(r => {
-            return {
-                fullName: r.full_name
-            }
-        }) : [],
-    };
+const createResponseObject = ({
+  id,
+  text,
+  create_ts,
+  creator_details,
+  receivers,
+}) => {
+  return {
+    id,
+    text,
+    creationTimestamp: create_ts,
+    creatorFullName: creator_details.full_name,
+    receiversList: receivers
+      ? receivers.map((r) => {
+          return {
+            fullName: r.full_name,
+          };
+        })
+      : [],
+  };
 };
 
 const responseMapper = (responseData) => {
-    return responseData.results.reduce((accumulator, currentValue) => {
-        if (currentValue.creator_details && currentValue.creator_details.full_name.toLowerCase() !== "15five") {
-            accumulator.push(createResponseObject(currentValue));
-        }
-        return accumulator;
-    }, []);
-}
+  return responseData.results.reduce((accumulator, currentValue) => {
+    if (
+      currentValue.creator_details &&
+      currentValue.creator_details.full_name.toLowerCase() !== '15five'
+    ) {
+      accumulator.push(createResponseObject(currentValue));
+    }
+    return accumulator;
+  }, []);
+};
 
-exports.highFives = functions.https.onRequest(async (request, response) => {
-    response.set('Access-Control-Allow-Origin', '*');
+exports.highFives = onRequest(
+  { cors: true, secrets: [fiveToken] },
+  async (request, response) => {
     console.log(getDateMonthAgo());
     try {
-        const res = await superagent.get(HIGH_FIVE_URL + getDateMonthAgo()).set('Authorization', `Bearer ${TOKEN}`);
+      const res = await fetch(HIGH_FIVE_URL + getDateMonthAgo(), {
+        headers: { Authorization: `Bearer ${fiveToken.value()}` },
+      });
 
-        console.log(res.body)
-        return response.status(200).send({data: responseMapper(res.body)});
-    } catch(error) {
-        return response.status(500).send('Sorry there was an issue fetching power ups')
+      if (!res.ok) {
+        throw new Error(`15Five API responded with ${res.status}`);
+      }
+
+      const body = await res.json();
+
+      console.log(body);
+      return response.status(200).send({ data: responseMapper(body) });
+    } catch (error) {
+      console.error(error);
+      return response
+        .status(500)
+        .send('Sorry there was an issue fetching power ups');
     }
-});
+  },
+);

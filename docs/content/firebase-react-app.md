@@ -28,7 +28,7 @@ within an iframe. The player passes configuration data set in Studio when creati
 fetches its data periodically from the third party api, which in this case is 15Five. From the diagram, you can see that we do not call the api directly from the web app on screen,
 instead we call a firebase cloud function which in turn calls the api endpoint for the data. We do this because third party api's generally require
 an api key or access token which allows you to be able to use their api and for security reasons this should never be exposed on the frontend. Firebase allows us to store this
-key/value in its configuration store securely and to be used by the cloud function for each call. We will show you how this is done later in the tutorial.
+value securely in Cloud Secret Manager, to be used by the cloud function for each call. We will show you how this is done later in the tutorial.
 
 ## Getting started with Firebase
 
@@ -66,7 +66,7 @@ Also copy over the dependencies from the package.json file to the package.json f
 
 To run this locally you will need your own 15Five api key which can be retrieved by following these instructions on the 15Five site [https://success.15five.com/hc/en-us/articles/360002699631-API](https://success.15five.com/hc/en-us/articles/360002699631-API) 
 
-You will have to add your api key to the code replacing the TOKEN value with that of your own. For now just hardcode it, but later when we talk about deploying the function we will show you how to add the value to the Firebase configuration store meaning it will
+You will have to add your api key to the code, replacing the `fiveToken.value()` call with your own token. For now just hardcode it, but later when we talk about deploying the function we will show you how to store the value in Cloud Secret Manager, meaning it will
 not be visible to anyone who does not have access to your Firebase project.
 
 To run the function locally, while under the functions directory:
@@ -179,13 +179,13 @@ pnpm install
 firebase deploy --only function
 ```
 
-You will also want to set the api token in firebase configuration store by doing following:
+You will also want to store the api token securely in Cloud Secret Manager by doing the following (you will be prompted for the token's value):
 
 ```shell
-firebase functions:config:set five.token="INSERT THE API TOKEN HERE"
+firebase functions:secrets:set FIVE_TOKEN
 ```
 
-The api token then is referenced in the code by calling functions.config().five.token, which retrieves the token from the store.
+The token is then referenced in the code with `defineSecret('FIVE_TOKEN')`, and read inside the function with `fiveToken.value()` — the function declares the secrets it uses in its `onRequest` options, and Firebase makes them available only at runtime.
 
 ## Conclusion
 

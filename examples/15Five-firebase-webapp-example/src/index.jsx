@@ -7,7 +7,7 @@ import { ScPlayerInterface } from './components/player/ScPlayerInterface';
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ScPlayerInterface>
-      {data => {
+      {(data) => {
         return (
           <React.Fragment>
             <DataLoader appStarted={data.appStarted} config={data.config} />
@@ -15,5 +15,5 @@ createRoot(document.getElementById('root')).render(
         );
       }}
     </ScPlayerInterface>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

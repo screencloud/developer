@@ -1,5 +1,5 @@
 {
-  "name": "functions",
+  "name": "15five-highfives-function",
   "description": "Cloud Functions for Firebase",
   "scripts": {
     "lint": "eslint .",
@@ -10,17 +10,18 @@
     "logs": "firebase functions:log"
   },
   "engines": {
-    "node": "12"
+    "node": "22"
   },
   "main": "index.js",
   "dependencies": {
-    "firebase-admin": "^9.2.0",
-    "firebase-functions": "^3.11.0"
+    "firebase-functions": "^6.0.0"
   },
   "devDependencies": {
-    "eslint": "^5.12.0",
-    "eslint-plugin-promise": "^4.0.1",
-    "firebase-functions-test": "^0.2.0"
+    "@eslint/js": "^9.39.0",
+    "eslint": "^9.39.0",
+    "eslint-plugin-promise": "^7.2.0",
+    "firebase-functions-test": "^3.3.0",
+    "globals": "^17.7.0"
   },
   "private": true
 }

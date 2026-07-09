@@ -6,6 +6,7 @@ packages:
   - "examples/starting-from-webapp"
   - "examples/react-firebase-example"
   - "examples/15Five-firebase-webapp-example"
+  - "examples/15five-firebase-cloud-function-example/functions"
 
 onlyBuiltDependencies:
   - "@parcel/watcher"
